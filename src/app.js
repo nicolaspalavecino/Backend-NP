@@ -2,7 +2,7 @@ import express from 'express'
 import ProductManager from './ProductManager.js'
 
 const app = express()
-const PORT = 9090
+const PORT = 8080
 
 let productManager = new ProductManager()
 
