@@ -1,16 +1,39 @@
-import ProductManager  from "./ProductManager.js"
-const productManager = new ProductManager()
+import express from 'express'
+import routerProducts from './routes/products.router.js'
+// import ProductManager from './ProductManager.js'
 
-let checkProductManager = async () => {
-    await productManager.addProduct('Libro 1', 'Drama', 200, 'Sin imagen', 'abc123', 25)
-    await productManager.addProduct('Libro 2', 'Terror', 200, 'Sin imagen', 'abc124', 25)
-    await productManager.addProduct('Libro 3', 'Aventura', 200, 'Sin imagen', 'abc125', 25)
-    await productManager.addProduct('Libro 4', 'Biografía', 200, 'Sin imagen', 'abc126', 25)
-    await productManager.addProduct('Libro 5', 'Ciencia ficción', 200, 'Sin imagen', 'abc127', 25)
-    await productManager.addProduct('Libro 6', 'Romance', 200, 'Sin imagen', 'abc128', 25)
-    await productManager.addProduct('Libro 7', 'Mitología', 200, 'Sin imagen', 'abc129', 25)
-    await productManager.addProduct('Libro 8', 'Historia', 200, 'Sin imagen', 'abc114', 25)
-    await productManager.addProduct('Libro 9', 'Ciencia', 200, 'Sin imagen', 'abc120', 25)
-    await productManager.addProduct('Libro 10', 'Psicología', 200, 'Sin imagen', 'abc147', 25)
-}
-checkProductManager()
+const app = express()
+const PORT = 8080
+
+// let productManager = new ProductManager()
+
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+app.use('/api/products', routerProducts)
+
+app.listen (PORT, () => {
+  console.log(`Server run on port: ${PORT}`)
+})
+
+// 1) Llamado desde el navegador a los primeros X cantidad de productos o al listado completo de productos:
+// app.get('/products', async (req, res) => {
+//   let result = await productManager.getProducts()
+//   let limit = parseInt(req.query.limit)??null
+//   if (limit) {
+//     let newArray = result.slice(0, limit)
+//     res.send(newArray)
+//   } else {
+//     res.send(result)
+//   }
+// })
+
+// 2) Llamado desde el navegador a un producto mediante id específico:
+// app.get('/products/:pid', async (req, res) => {
+//   let foundProduct = await productManager.getProductById(parseInt(req.params.pid))
+//   if(foundProduct) {
+//     res.send(foundProduct)
+//   } else {
+//     res.send({status: 'error', message: 'Product with this id cannot be found'})
+//   }
+// })

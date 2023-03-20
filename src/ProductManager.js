@@ -22,25 +22,45 @@ class ProductManager {
     }
   }
 
-  addProduct = async (title, description, price, thumbnail, code, stock) => {
+  verifyProperties = async (product) => {
+    if (!product.title || !product.category || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock || !product.status) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  addProduct = async (product) => {
     try {
       await this.validateFile()
-      const uniqueCode = this.products.find((product) => product.code == code)??0
-      if (title != '' && description != '' && price != 0 && price !='' && thumbnail!= '', code != '' && stock != 0 && stock != '') {
+      const uniqueCode = this.products.find((p) => p.code == product.code)??0
+      if (this.verifyProperties(product)) {
         if (!uniqueCode) {
           this.products.length > 0 ? this.id = this.products.reduce((acc, curr) => curr.id > acc ? curr.id : acc, 0) + 1 : 0
-          const newProduct = {title: title, description: description, price: price, thumbnail: thumbnail, code: code, stock: stock, id: this.id }
+          const newProduct = {
+            title: product.title, 
+            description: product.description, 
+            category: product.category, 
+            price: product.price, 
+            thumbnail: product.thumbnail, 
+            code: product.code, 
+            stock: product.stock, 
+            status: product.status, 
+            id: this.id 
+          }
           this.products = [...this.products, newProduct]
-          console.log(`'${title}' has been added to products list.`)
+          await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
+          return newProduct
         } else {
-          console.log(`The code: ${code} already exists. Please, try a new one.`)
+          // console.log(`The code: ${code} already exists. Please, try a new one.`)
+          return `The code: ${product.code} already exists. Please, try a new one.`
         }
       } else {
-        console.log('Please, assign all required properties')
+        // console.log('Please, assign all required properties')
+        return 'Please, assign all required properties'
       }
-      await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
     } catch (error) {
-      throw Error(`An error ocurred creating the new product: ${JSON.stringify(newProduct)}, error detail: ${error}`)
+      throw Error(`An error ocurred creating the new product: ${product}, error detail: ${error}`)
     }
   }
 
@@ -64,18 +84,28 @@ class ProductManager {
     }
   }
 
-  updateProduct = async (id, property, value) => {
+  updateProduct = async (id, properties, newValues) => {
     try {
       await this.validateFile()
       const foundProduct = this.products.find((product) => product.id == id)??null
       if (foundProduct) {
-        foundProduct[property] = value
-        console.log('The product with id: ' + id + ' has been successfully modified.')
-        console.log(foundProduct)
+        let validProperty = true
+        properties.forEach(x => {
+          if(!(Object.keys(foundProduct).includes(x))) {
+            validProperty = false
+          }
+        })
+        if(!validProperty) {
+          return 'Please, check for correct entries of properties keys or names'
+        }
+        properties.forEach(p => {
+          foundProduct[p] = newValues[properties.indexOf(p)]    
+        })
+        await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
+        return foundProduct
       } else {
-        console.error('The product with id: ' + id + ' does not exist. Please, try again.')
+        return `The product with id: ${id} does not exist. Please, try again.`
       }
-      await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
     } catch {
       throw Error(`An error has ocurred by obtaining a product by id. Validate the existence of: ${JSON.stringify(this.dirPath)}, error detail: ${error}`)
     }

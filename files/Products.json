@@ -1,0 +1,79 @@
+[
+  {
+    "title": "Un libro sobre drogas",
+    "description": "Las drogas analizadas desde un punto de vista científico, social y político.",
+    "category": "Ciencia",
+    "price": 3500,
+    "thumbnail": "aaa",
+    "code": 1001,
+    "stock": 45,
+    "status": true,
+    "id": 0
+  },
+  {
+    "title": "Juego de Tronos",
+    "description": "Cuenta la lucha por un trono, el trono de hierro, forjado con las espadas de los enemigos vencidos.",
+    "category": "Fantasía",
+    "price": 6500,
+    "thumbnail": "aaa",
+    "code": 2001,
+    "stock": 24,
+    "status": true,
+    "id": 1
+  },
+  {
+    "title": "Maze Runner",
+    "description": "Un jóven despierta en una comunidad de niños atrapados en un laberinto.",
+    "category": "Fantasía",
+    "price": 4000,
+    "thumbnail": "aaa",
+    "code": 2002,
+    "stock": 28,
+    "status": true,
+    "id": 2
+  },
+  {
+    "title": "Pastelería (Volumen 1)",
+    "description": "Un libro con las mejores recetas de pastelería por Damián Betular",
+    "category": "Cocina",
+    "price": 4950,
+    "thumbnail": "aaa",
+    "code": 3001,
+    "stock": 26,
+    "status": true,
+    "id": 3
+  },
+  {
+    "title": "Cementerio de animales",
+    "description": "Una trajedia familiar, un gato y una ruta.",
+    "category": "Terror",
+    "price": 3300,
+    "thumbnail": "aaa",
+    "code": 4001,
+    "stock": 25,
+    "status": true,
+    "id": 4
+  },
+  {
+    "title": "Los juegos del hambre",
+    "description": "Un capitolio dominante, 12 maltratados distritos y una única heroína",
+    "category": "Fantasía",
+    "price": 3700,
+    "thumbnail": "aaa",
+    "code": 2003,
+    "stock": 87,
+    "status": true,
+    "id": 5
+  },
+  {
+    "title": "Operación masacre",
+    "description": "Rodolfo Walsh emprende una investigación en épocas de Dictadura Argentina y lo aborda en este libro",
+    "category": "Novela periodística",
+    "price": 3250,
+    "thumbnail": "aaa",
+    "code": 5001,
+    "stock": 13,
+    "status": true,
+    "id": 6
+  }
+]
