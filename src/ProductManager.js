@@ -52,11 +52,9 @@ class ProductManager {
           await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
           return newProduct
         } else {
-          // console.log(`The code: ${code} already exists. Please, try a new one.`)
           return `The code: ${product.code} already exists. Please, try a new one.`
         }
       } else {
-        // console.log('Please, assign all required properties')
         return 'Please, assign all required properties'
       }
     } catch (error) {
@@ -78,8 +76,11 @@ class ProductManager {
     try {
       await this.validateFile()
       const productById = this.products.find((product) => product.id == id)??null
-      return productById
-    } catch {
+      if (productById) {
+        return productById
+      } 
+      return `The product with id: ${id} does not exist. Please, try again.`
+    } catch (error) {
       throw Error(`An error has ocurred by obtaining a product by id. Validate the existence of: ${JSON.stringify(this.dirPath)}, error detail: ${error}`)
     }
   }
@@ -103,9 +104,8 @@ class ProductManager {
         })
         await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
         return foundProduct
-      } else {
-        return `The product with id: ${id} does not exist. Please, try again.`
       }
+      return `The product with id: ${id} does not exist. Please, try again.`
     } catch {
       throw Error(`An error has ocurred by obtaining a product by id. Validate the existence of: ${JSON.stringify(this.dirPath)}, error detail: ${error}`)
     }
@@ -117,11 +117,10 @@ class ProductManager {
       const foundProduct = this.products.find((product) => product.id == id)??null
       if (foundProduct) {
         this.products.splice(foundProduct.id, 1)
-        console.log('The product with id: ' + id + ' has been successfully eliminated.')
-      } else {
-        console.error('The product with id: ' + id + ' does not exist. Please, try again.')
+        await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
+        return foundProduct
       }
-      await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
+      return `The product with id: ${id} does not exist. Please, try again.`
     } catch {
       throw Error(`An error has ocurred by obtaining a product by id. Validate the existence of: ${JSON.stringify(this.dirPath)}, error detail: ${error}`)
     }

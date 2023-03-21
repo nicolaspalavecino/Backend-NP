@@ -18,11 +18,11 @@ routerProducts.get('/', async (req, res) => {
 
 // 2) Llamado desde el navegador a un producto mediante id específico:
 routerProducts.get('/:pid', async (req, res) => {
-  let foundProduct = await productManager.getProductById(parseInt(req.params.pid))
-  if(foundProduct) {
-    res.send(foundProduct)
+  let result = await productManager.getProductById(parseInt(req.params.pid))
+  if(!result.status) {
+    res.send(result)
   } else {
-    res.send({status: 'error', message: 'Product with this id cannot be found'})
+    res.send(result)
   }
 })
 
@@ -49,11 +49,23 @@ routerProducts.put('/:pid', async (req, res) => {
   if (!update.status) {
     res.send(update)
   } else {
-    res.send(`Product with ID: ${productId} was successfully updated`)
+    res.send({status: 'Success', message: `Product with ID: ${productId} was successfully updated`})
   }
 })
 
 // 5) Eliminar productos:
+routerProducts.delete('/:pid', async (req, res) => {
+  let productId = parseInt(req.params.pid)
+
+  let deletedProduct = await productManager.deleteProduct(productId)
+
+  if (!deletedProduct.status) {
+    res.send(deletedProduct)
+  } else {
+    res.send({status: 'Success', message: `Product with ID: ${productId} was successfully deleted`})
+  }
+
+})
 
 
 export default routerProducts

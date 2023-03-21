@@ -22,17 +22,6 @@
     "id": 1
   },
   {
-    "title": "Maze Runner",
-    "description": "Un jóven despierta en una comunidad de niños atrapados en un laberinto.",
-    "category": "Fantasía",
-    "price": 4000,
-    "thumbnail": "aaa",
-    "code": 2002,
-    "stock": 28,
-    "status": true,
-    "id": 2
-  },
-  {
     "title": "Pastelería (Volumen 1)",
     "description": "Un libro con las mejores recetas de pastelería por Damián Betular",
     "category": "Cocina",
@@ -67,7 +56,7 @@
   },
   {
     "title": "Operación masacre",
-    "description": "Rodolfo Walsh emprende una investigación en épocas de Dictadura Argentina y lo aborda en este libro",
+    "description": "En 1956, un intento de golpe cívico-militar contra la dictadura autodenominada Revolución Libertadora fracasa, y en represalia, en un terreno descampado de José León Suárez (provincia de Buenos Aires), son ilegalmente fusilados varios civiles sospechados de formar parte del alzamiento. Sin embargo, siete personas lograron sobrevivir y contar la historia.",
     "category": "Novela periodística",
     "price": 3250,
     "thumbnail": "aaa",
