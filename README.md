@@ -47,7 +47,7 @@ Adicionalmente existe el método **'checkProductsFile'** que verifica la existen
 ### **Carts Router**:
 
 #### - POST (raíz): 
-Inserta un cart dentro del archivo *Carts.json* que se encuentra en el directorio *files*. En caso de no existir este directorio y archivo, es creado a partir de este mismo request. El objeto 'cart' cuenta con dos propiedades, un ID y products que consiste en un array vacío donde eventualmente se cargan los productos. Aplica el método **'addCart' de Cartanager**. 
+Inserta un cart dentro del archivo *Carts.json* que se encuentra en el directorio *files*. En caso de no existir este directorio y archivo, es creado a partir de este mismo request. El objeto 'cart' cuenta con dos propiedades, un ID y products que consiste en un array vacío donde eventualmente se cargan los productos. Aplica el método **'addCart' de CartManager**. 
 
 #### - GET (:cid): 
 Devuelve el cart que se encuentre dentro del archivo *Carts.json* cuyo ID coincida con el valor enviado al servidor como ':cid'. En caso de no encontrarse ningún producto con dicho ID, devolverá un mensaje de advertencia. Aplica el método **'getCartById' de CartManager**.
