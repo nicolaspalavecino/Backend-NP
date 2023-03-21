@@ -30,7 +30,7 @@
     "code": 3001,
     "stock": 26,
     "status": true,
-    "id": 3
+    "id": 2
   },
   {
     "title": "Cementerio de animales",
@@ -41,7 +41,7 @@
     "code": 4001,
     "stock": 25,
     "status": true,
-    "id": 4
+    "id": 3
   },
   {
     "title": "Los juegos del hambre",
@@ -52,7 +52,7 @@
     "code": 2003,
     "stock": 87,
     "status": true,
-    "id": 5
+    "id": 4
   },
   {
     "title": "Operación masacre",
@@ -63,6 +63,6 @@
     "code": 5001,
     "stock": 13,
     "status": true,
-    "id": 6
+    "id": 5
   }
 ]

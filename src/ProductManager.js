@@ -116,7 +116,7 @@ class ProductManager {
       await this.validateFile()
       const foundProduct = this.products.find((product) => product.id == id)??null
       if (foundProduct) {
-        this.products.splice(foundProduct.id, 1)
+        this.products.splice(this.products.indexOf(foundProduct), 1)
         await fs.promises.writeFile(this.filePath, JSON.stringify(this.products))
         return foundProduct
       }

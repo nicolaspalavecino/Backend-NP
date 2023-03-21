@@ -83,7 +83,7 @@ class CartManager {
           } else {
             productInCart.quantity = productInCart.quantity+1
             await fs.promises.writeFile(this.filePath, JSON.stringify(this.carts))
-            return `Another unit of ${product.title} was added to the cart. Actual count: ${productInCart.quantity+1}`
+            return `Another unit of ${product.title} was added to the cart. Actual count: ${productInCart.quantity}`
           }
         }
         return `Please check if the cart with id: ${cartId} or the product with id: ${productId} exists`

@@ -45,7 +45,6 @@ routerProducts.put('/:pid', async (req, res) => {
   let newValues = Object.values(productUpdated)
 
   let update = await productManager.updateProduct(productId, newParams, newValues)
-
   if (!update.status) {
     res.send(update)
   } else {
@@ -58,14 +57,11 @@ routerProducts.delete('/:pid', async (req, res) => {
   let productId = parseInt(req.params.pid)
 
   let deletedProduct = await productManager.deleteProduct(productId)
-
   if (!deletedProduct.status) {
     res.send(deletedProduct)
   } else {
     res.send({status: 'Success', message: `Product with ID: ${productId} was successfully deleted`})
   }
-
 })
-
 
 export default routerProducts
