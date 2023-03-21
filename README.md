@@ -50,9 +50,12 @@ Adicionalmente existe el método **'checkProductsFile'** que verifica la existen
 Inserta un cart dentro del archivo *Carts.json* que se encuentra en el directorio *files*. En caso de no existir este directorio y archivo, es creado a partir de este mismo request. El objeto 'cart' cuenta con dos propiedades, un ID y products que consiste en un array vacío donde eventualmente se cargan los productos. Aplica el método **'addCart' de Cartanager**. 
 
 #### - GET (:cid): 
-Devuelve el cart que se encuentre dentro del archivo *Products.json* cuyo ID coincida con el valor enviado al servidor como ':pid'. En caso de no encontrarse ningún producto con dicho ID, devolverá un mensaje de advertencia. Aplica el método **'getCarttById' de CartManager**.
+Devuelve el cart que se encuentre dentro del archivo *Carts.json* cuyo ID coincida con el valor enviado al servidor como ':cid'. En caso de no encontrarse ningún producto con dicho ID, devolverá un mensaje de advertencia. Aplica el método **'getCartById' de CartManager**.
 
 #### - POST (:cid/products/:pid):
+Inserta un producto con el ID especificado (:pid) al cart con el ID indicado (:cid). En el caso de que no exista un producto o un cart con dichos IDs, devuelve un mensaje de advertencia. Aplica el método **'addProductToCart' de CartManager**.
 
+#### - DELETE (:cid/products/:pid):
+Elimina un producto con el ID especificado (:pid) deñ cart con el ID indicado (:cid). En el caso de que no exista un producto o un cart con dichos IDs, devuelve un mensaje de advertencia. Aplica el método **'deleteProductFromCart' de CartManager**.
 
 
