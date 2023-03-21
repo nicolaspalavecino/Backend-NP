@@ -92,8 +92,10 @@ class ProductManager {
       if (foundProduct) {
         let validProperty = true
         properties.forEach(x => {
-          if(!(Object.keys(foundProduct).includes(x))) {
+          let a = Object.keys(foundProduct).includes(x)
+          if(x == 'id' || !a) {
             validProperty = false
+            return
           }
         })
         if(!validProperty) {
