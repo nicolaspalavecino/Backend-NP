@@ -65,7 +65,6 @@ class ProductManager {
   getProducts = async () => {
     try {
       await this.validateFile()
-      console.log(this.products)
       return this.products
     } catch (error) {
       throw Error(`An error has ocurred by consulting the products of the file. Validate the existence of: ${JSON.stringify(this.dirPath)}, error detail: ${error}`)
