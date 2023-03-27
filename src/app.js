@@ -1,7 +1,7 @@
 import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
-import { __dirname, productsList } from './utils/utils.js'
+import { __dirname, productsList } from './utils.js'
 import { routerProducts, routerCarts, routerViews } from './routes/index.router.js'
 
 const app = express()

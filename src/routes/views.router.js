@@ -12,7 +12,6 @@ routerViews.get('/', async (req, res) => {
 
 // Listado de productos utilizando Handlebars + Websockets: 
 routerViews.get('/realtimeproducts', async (req, res) => {
-  // let result = await productManager.getProducts()
   res.render('realTimeProducts')
 })
 
