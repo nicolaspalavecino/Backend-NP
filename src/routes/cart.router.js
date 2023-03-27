@@ -1,6 +1,6 @@
 import { Router } from "express"
 const routerCarts = Router()
-import CartManager from "../CartManager.js"
+import CartManager from '../classes/CartManager.js'
 
 let cartManager = new CartManager()
 

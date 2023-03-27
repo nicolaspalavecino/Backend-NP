@@ -1,6 +1,6 @@
 import { Router } from "express"
 const routerViews = Router()
-import ProductManager from "../ProductManager.js"
+import ProductManager from "../classes/ProductManager.js" 
 
 let productManager = new ProductManager()
 
@@ -12,8 +12,8 @@ routerViews.get('/', async (req, res) => {
 
 // Listado de productos utilizando Handlebars + Websockets: 
 routerViews.get('/realtimeproducts', async (req, res) => {
-  let result = await productManager.getProducts()
-  res.render('realtimeproducts', { result })
+  // let result = await productManager.getProducts()
+  res.render('realTimeProducts')
 })
 
 export default routerViews 

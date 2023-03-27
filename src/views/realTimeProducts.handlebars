@@ -1,17 +1,6 @@
 <div>
     <h1>List of Books using Handlebars + Websockets:</h1>
-    <div>
-        {{#each result}}
-            <div>
-                <p>- {{this.title}}</p>
-                <ul>
-                    <li>$ {{this.price}}</li>
-                    <li>{{this.description}}</li>
-                    <li>Stock: {{this.stock}}</li>
-                </ul>
-            </div>
-        {{/each}}
-    </div>
+    <section id='products-container' />
 </div>
 
 <script src='/socket.io/socket.io.js'></script>
