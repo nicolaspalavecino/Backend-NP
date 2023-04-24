@@ -1,6 +1,6 @@
 import { Router } from "express"
 const routerViews = Router()
-import ProductManager from "../classes/ProductManager.js" 
+import ProductManager from "../dao/Dao/fileSystem_classes/ProductManager.js" 
 
 let productManager = new ProductManager()
 
