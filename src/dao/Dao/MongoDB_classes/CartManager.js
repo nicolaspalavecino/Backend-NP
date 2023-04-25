@@ -16,7 +16,7 @@ class CartManagerDB {
   // GET CART BY ID:
   getCartById = async (cartId) => {
     try {
-      let cartById = await cartModel.findOne({ _id: cartId })??null
+      let cartById = await cartModel.findOne({ _id: cartId }).lean()
       return cartById
     } catch (error) {
       throw Error(`An error ocurred creating the new cart. Error detail: ${error}`)
