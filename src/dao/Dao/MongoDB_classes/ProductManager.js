@@ -22,14 +22,14 @@ class ProductManagerDB {
       let result = productModel.paginate(productModel.find(conditions).sort(order), {page: page, limit: limit, lean: true})
       return result
     } catch (error) {
-      throw Error(`An error has ocurred by getting the products of BD. Error detail: ${error}`)
+      return `An error has ocurred by getting the products of BD. Error detail: ${error}`
     }
   }
   #defineStock = (stock) => {
     let s
     let n_s
-    if (stock == "true") {s=1; n_s=null}
-    else if (stock == "false") {s=null; n_s=1}
+    if (stock == 'true') {s=1; n_s=null}
+    else if (stock == 'false') {s=null; n_s=1}
   }
 
   // CREATE PRODUCT: 
@@ -38,7 +38,7 @@ class ProductManagerDB {
       let result = await productModel.create(newProduct)
       return result
     } catch (error) {
-      throw Error(`An error has occurred by creating a product. Error detail: ${error}`)
+      return `An error has occurred by creating a product. Error detail: ${error}`
     }
   }
 
@@ -51,7 +51,7 @@ class ProductManagerDB {
         return productById
       }
     } catch (error) {
-      throw Error(`An error has occurred by getting a product by ID. Error detail: ${error}`)
+      return `An error has occurred by getting a product by ID. Error detail: ${error}`
     }
   }
 
@@ -62,7 +62,7 @@ class ProductManagerDB {
       let updatedProduct = await productModel.findOne({ _id: id })??null
       return updatedProduct
     } catch (error) {
-      throw Error(`An error has occurred by updating a product. Error detail: ${error}`)
+      retrun `An error has occurred by updating a product. Error detail: ${error}`
     }
   }
 
@@ -72,7 +72,7 @@ class ProductManagerDB {
       let deletedProduct = await productModel.findByIdAndRemove(id)
       return deletedProduct
     } catch (error) {
-      throw Error(`An error has occurred by deleting a product. Error detail: ${error}`)
+      return `An error has occurred by deleting a product. Error detail: ${error}`
     }
   }
 

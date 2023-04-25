@@ -1,5 +1,6 @@
 import cartModel from "../../models/carts.models.js"
 import productModel from "../../models/products.models.js"
+import mongoose from "mongoose"
 
 class CartManagerDB {
 
@@ -16,35 +17,34 @@ class CartManagerDB {
   // GET CART BY ID:
   getCartById = async (cartId) => {
     try {
-      let cartById = await cartModel.findOne({ _id: cartId }).lean()
-      return cartById
+      let result = await cartModel.findById(cartId).populate('products')
+      return result.toObject()
     } catch (error) {
-      throw Error(`An error ocurred creating the new cart. Error detail: ${error}`)
+      return (`An error occurred while retrieving the cart. Error detail: ${error}`)
     }
   }
 
   // ADD PRODUCT TO CART:
   addProductToCart = async (cartId, productId) => {
     try {
-      let cart = await cartModel.findOne({ _id: cartId })??null
-      let product = await productModel.findOne({ _id: productId })??null
+      let cart = await cartModel.findOne({ _id: cartId })
+      let product = await productModel.findOne({ _id: productId })
       if(cart && product) {
-        let productInCart = cart.products.find(p => p._id == productId)??null
+        let productInCart = cart.products.find(p => p.product._id == productId)??null
         if(!productInCart) {
-          let newProduct = {_id: productId, quantity: 1}
-          cart.products.push(newProduct)                
-          await cartModel.findByIdAndUpdate({_id: cartId}, cart)
+          let newProduct = {product: productId, quantity: 1}
+          await cartModel.findByIdAndUpdate({_id: cartId}, { $push: {products: newProduct }})
           return `${product.title} was successfully added to the cart (id: ${cartId})`
         } else { 
           productInCart.quantity = productInCart.quantity+1
           console.log(productInCart)
-          await cartModel.findByIdAndUpdate({_id: cartId}, cart)
+          await cartModel.findByIdAndUpdate({_id: cartId}, { products: productInCart })
           return `Another unit of ${product.title} was added to the cart. Actual count: ${productInCart.quantity}`
         }
       }
       return `Please check if the cart (ID: ${cartId}) or product (ID: ${product} exists)`
     } catch (error) {
-      throw Error(`An error ocurred adding the product to the cart. Error detail: ${error}`)
+      return (`An error ocurred adding the product to the cart. Error detail: ${error}`)
     }
   }
 
@@ -54,7 +54,7 @@ class CartManagerDB {
       let cart = await cartModel.findOne({ _id: cartId })??null
       let product = await productModel.findOne({ _id: productId })??null
       if(cart && product) {
-        let productInCart = cart.products.find((p) => p._id == productId)??null
+        let productInCart = cart.products.find((p) => p.product._id == productId)??null
         if (productInCart) {
           productInCart.quantity = newQuantity
           await cartModel.findByIdAndUpdate({ _id: cartId }, { products: productInCart })
@@ -64,7 +64,7 @@ class CartManagerDB {
         }
       }
     } catch (error) {
-      throw Error(`An error ocurred updating the product's quantity. Error detail: ${error}`)
+      return (`An error ocurred updating the product's quantity. Error detail: ${error}`)
     }
   }
 
@@ -74,7 +74,7 @@ class CartManagerDB {
       let cart = await cartModel.findOne({ _id: cartId })??null
       let product = await productModel.findOne({ _id: productId })??null
       if(cart && product) {
-        let productInCart = cart.products.find((p) => p._id == productId)??null
+        let productInCart = cart.products.find((p) => p.product._id == productId)??null
         if (productInCart) {
           cart.products.splice(cart.products.indexOf(productInCart), 1)
           await cartModel.findByIdAndUpdate({ _id: cartId }, cart)

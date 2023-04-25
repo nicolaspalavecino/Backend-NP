@@ -3,6 +3,7 @@ const routerViews = Router()
 import ProductManager from "../dao/Dao/fileSystem_classes/ProductManager.js" 
 import { readLinkFilter } from "../utils.js"
 import ProductManagerDB from "../dao/Dao/MongoDB_classes/ProductManager.js"
+import CartManagerDB from "../dao/Dao/MongoDB_classes/CartManager.js"
 
 let productManager = new ProductManager()
 
@@ -28,16 +29,14 @@ routerViews.get('/products', async (req, res) => {
   res.render('products', products)
 })
 
-// router.get('/students',async (req,res)=>{
-//   let page = parseInt(req.query.page);
-//   if(!page) page=1;
-//   //Lean es crucial para mostrar en Handlebars, ya que evita la "hidratación" del documento de mongoose,
-//   //esto hace que a Handlebars llegue el documento como plain object y no como Document.
-//   let result = await studentsModel.paginate({},{page,limit:5,lean:true})
-//   result.prevLink = result.hasPrevPage?`http://localhost:9090/students?page=${result.prevPage}`:'';
-//   result.nextLink = result.hasNextPage?`http://localhost:9090/students?page=${result.nextPage}`:'';
-//   result.isValid= !(page<=0||page>result.totalPages)
-//   res.render('students',result)
-// })
+let cartManagerDB = new CartManagerDB()
+// Route to render a cart with products:
+routerViews.get('/carts/:cid', async (req, res) => {
+  let result = await cartManagerDB.getCartById(req.params.cid)
+  res.render('cart', result )
+  console.log(result)
+  console.log(result.products[0])
+})
+
 
 export default routerViews 

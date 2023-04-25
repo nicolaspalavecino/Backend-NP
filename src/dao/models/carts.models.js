@@ -1,7 +1,6 @@
 import mongoose, { mongo } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
 
-
 const cartCollection = 'carts'
 
 const cartSchema = new mongoose.Schema({

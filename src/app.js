@@ -25,16 +25,16 @@ const DB = 'mongodb+srv://nmpalav:palavecino@cluster0.eg4rgxx.mongodb.net/ecomme
 const connectMongoDB = async() => {
   try {
     await mongoose.connect(DB)
-    console.log('Conectado con éxito a MongoDB usando Mongoose')
+    console.log('Successfully connected to MongoDB using Mongoose')
   } catch (error) {
-    console.error('No se pudo conectar a la DB usando Mongoose:' + error)
+    console.error('Could not connect to MongoDB using Mongoose:' + error)
     process.exit()
   }
 }
 connectMongoDB()
 
 const httpServer = app.listen(PORT, () => {
-	console.log('Servidor escuchando por el puerto: ' + PORT);
+	console.log('Server listening on port: ' + PORT);
 })
 
 const socketServer = new Server(httpServer)

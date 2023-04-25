@@ -14,8 +14,10 @@ routerCarts.post('/', async (req, res) => {
 // GET CART BY ID:
 routerCarts.get('/:cid', async (req, res) => {
   let result = await cartManagerDB.getCartById(req.params.cid)
+  console.log(result)
   res.status(201).send(result)
 })
+
 
 // ADD PRODUCT TO CART:
 routerCarts.post('/:cid/products/:pid', async (req, res) => {
