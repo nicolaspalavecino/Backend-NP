@@ -4,20 +4,6 @@ import productModel from "../../models/products.models.js"
 class CartManagerDB {
 
   // ADD CART:
-  // addCart = async (newCart) => {
-  //   try {
-  //     const checkCode = await cartModel.find({ code: newCart.code })??null
-  //     if (checkCode.queue == []) {
-  //       !newCart.products ? newCart.products = [] : {}
-  //       let createdCart = await cartModel.create(newCart)
-  //       return createdCart
-  //     }
-  //     return `There is already an existing cart with the code: ${newCart.code}, try again`
-  //   } catch (error) {
-  //     throw Error(`An error ocurred creating the new cart. Error detail: ${error}`)
-  //   }
-  // }
-
   addCart = async (cart) => {
     try {
       let newCart = await cartModel.create(cart)
@@ -30,7 +16,7 @@ class CartManagerDB {
   // GET CART BY ID:
   getCartById = async (cartId) => {
     try {
-      let cartById = await cartModel.findOne({ _id: cartId })
+      let cartById = await cartModel.findOne({ _id: cartId })??null
       return cartById
     } catch (error) {
       throw Error(`An error ocurred creating the new cart. Error detail: ${error}`)
@@ -56,7 +42,7 @@ class CartManagerDB {
           return `Another unit of ${product.title} was added to the cart. Actual count: ${productInCart.quantity}`
         }
       }
-      return `Please check if the cart (ID: ${cartId}) or the product (ID: ${product} exists)`
+      return `Please check if the cart (ID: ${cartId}) or product (ID: ${product} exists)`
     } catch (error) {
       throw Error(`An error ocurred adding the product to the cart. Error detail: ${error}`)
     }
@@ -74,7 +60,7 @@ class CartManagerDB {
           await cartModel.findByIdAndUpdate({ _id: cartId }, { products: productInCart })
           return `The quantity of ${product.title} was modified. Actual count: ${productInCart.quantity}`
         } else { 
-          return `${product.title} was not found in the cart with Id: ${cartId})`
+          return `${product.title} was not found in the cart (ID: ${cartId})`
         }
       }
     } catch (error) {
@@ -94,7 +80,7 @@ class CartManagerDB {
           await cartModel.findByIdAndUpdate({ _id: cartId }, cart)
           return `${product.title} was successfully deleted from the cart (id: ${cartId})`
           }
-        return `Please check if the cart with id: ${cartId} or the product with id: ${productId} exists`
+        return `Please check if the cart (ID: ${cartId}) or the product (ID: ${productId}) exists`
       }
     } catch (error) {
       return (`An error ocurred deleting the product from cart. Error detail: ${error}`)
@@ -105,7 +91,7 @@ class CartManagerDB {
   deleteAllFromCart = async (cartId) => {
     try {
       await cartModel.findByIdAndUpdate({ _id: cartId }, { products: [] })
-      return `All products were successfully deleted from cart with id: ${cartId}`
+      return `All products were successfully deleted from cart (ID: ${cartId})`
     } catch (error) {
       return (`An error ocurred deleting all products from cart. Error detail: ${error}`)
     }
