@@ -1,7 +1,20 @@
 <div>
-    <h1>List of Books from MongoDB:</h1>
+    <h1>¡Bienvenid@ {{user.name}}!</h1>
+  <div>
+    <ul>
+      <li>EDAD: {{user.age}}</li>
+      <li>EMAIL: {{user.email}}</li>
+      <li>ROL: {{user.role}}</li>
+    </ul>
+    <button id="logoutBtn"> LOG OUT </button>
+    {{!-- <form method="GET" action='/api/sessions/logout'>
+      <button type='submit'>LOG OUT</a></button>
+    </form> --}}
+  </div>
+    
+    <h2>List of Books from MongoDB:</h2>
     <div>
-      {{#each docs}}
+      {{#each products.docs}}
           <div>
             <p>- {{this.title}}</p>
             <ul>
@@ -18,13 +31,16 @@
 </div>
 <br/>
 <div>
-  {{#if hasPrevPage}}
-    <a href={{this.prevLink}}><< Anterior</a>
+  {{#if products.hasPrevPage}}
+    <a href={{products.prevLink}}><< Anterior</a>
   {{/if}}
   &nbsp;
-  {{this.page}}
+  {{products.page}}
   &nbsp;
-    {{#if hasNextPage}}
-    <a href={{this.nextLink}}>Siguiente >></a>
+    {{#if products.hasNextPage}}
+    <a href={{products.nextLink}}>Siguiente >></a>
   {{/if}} 
 </div>
+
+<script src="/js/logout.js"></script>
+

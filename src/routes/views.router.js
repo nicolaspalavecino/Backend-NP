@@ -27,7 +27,8 @@ routerViews.get('/products', async (req, res) => {
   products.prevLink = products.hasPrevPage? `http://localhost:8080/products?${link_filter}page=${products.prevPage}`:'None'
   products.nextLink = products.hasNextPage? `http://localhost:8080/products?${link_filter}page=${products.nextPage}`:'None'
   products.status = products ? "success" : "error"
-  res.render('products', products)
+  let data = { products: products , user: req.session.user }
+  res.render('products', data)
 })
 
 let cartManagerDB = new CartManagerDB()
@@ -38,6 +39,15 @@ routerViews.get('/carts/:cid', async (req, res) => {
   console.log(result)
   console.log(result.products[0])
 })
+
+
+
+
+
+
+
+
+
 
 //Cookie management:
 routerViews.use(cookieParser('NPfirm'))

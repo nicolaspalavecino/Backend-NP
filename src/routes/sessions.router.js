@@ -42,33 +42,47 @@ routerSessions.post('/register', async (req, res) => {
 })
 
 // LOGIN:
-routerSessions.get('/login', async (req, res) => {
-    const { email, password } = req.body
-    const user = await userModel.findOne({email})
+routerSessions.post('/login', async (req, res) => {
+  const { email, password } = req.body
+  const user = await userModel.findOne({email})
 
-    if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"})
-    if(!validPassword(user,password)) {return res.status(401).send({status:"error", msg: "Incorrect credentials"})}
-    req.session.user = {
-        name: `${user.first_name} ${user.last_name}`,
-        email: user.email,
-        age: user.age
-    }
-    res.send({status: "success", payload: req.session.user, msg:"First login completed!"})
+  if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"})
+  if(!validPassword(user,password)) {return res.status(401).send({status:"error", msg: "Incorrect credentials"})}
+  req.session.user = {
+    name: `${user.first_name} ${user.last_name}`,
+    email: user.email,
+    age: user.age,
+    role: 'user'
+  }
+  res.send({status: "success", payload: req.session.user, msg:"First login completed!"})
 })
+
+// routerSessions.post('/login', async (req, res) => {
+//   const { email, password } = req.body
+//   const user = await userModel.findOne({email})
+//   if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"})
+//   if(!validPassword(user,password)) {return res.status(401).send({status:"error", msg: "Incorrect credentials"})}
+//   req.session.user = {
+//     name: `${user.first_name} ${user.last_name}`,
+//     email: user.email,
+//     age: user.age,
+//   }
+//   res.send({status: "success", payload: req.session.user, msg:"First login completed!"})
+// })
 
 // LOGOUT:
 routerSessions.get('/logout', async (req, res) => {
-    req.session.destroy(error => {
-        if(error) {
-            res.json({ error: 'Logout error', message: 'An error has occurred when logging out' })
-        }
-        res.send('The session was successfully ended!')
-    })
+  req.session.destroy(error => {
+    if(error) {
+      res.json({ error: 'Logout error', message: 'An error has occurred when logging out' })
+    }
+    res.send('The session was successfully ended!')
+  })
 })
 
 // PRIVATE:
 routerSessions.get('/private', authorization, (req, res) => {
-    res.send('If you are reading this it means you are blessed with the name Pepe')
+  res.send('If you are reading this it means you are blessed with the name Pepe')
 })
 
 export default routerSessions

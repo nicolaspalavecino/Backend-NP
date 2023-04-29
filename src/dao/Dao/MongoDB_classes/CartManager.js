@@ -63,6 +63,7 @@ class CartManagerDB {
           return `${product.title} was not found in the cart (ID: ${cartId})`
         }
       }
+      return `Please check if the cart (ID: ${cartId}) or product (ID: ${product} exists)`
     } catch (error) {
       return (`An error ocurred updating the product's quantity. Error detail: ${error}`)
     }
@@ -80,8 +81,9 @@ class CartManagerDB {
           await cartModel.findByIdAndUpdate({ _id: cartId }, cart)
           return `${product.title} was successfully deleted from the cart (id: ${cartId})`
           }
-        return `Please check if the cart (ID: ${cartId}) or the product (ID: ${productId}) exists`
+        return `${product.title} was not found in the cart (ID: ${cartId})`
       }
+      return `Please check if the cart (ID: ${cartId}) or the product (ID: ${productId}) exists`
     } catch (error) {
       return (`An error ocurred deleting the product from cart. Error detail: ${error}`)
     }

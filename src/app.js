@@ -17,18 +17,18 @@ app.set('views', __dirname + "/views/")
 app.set('view engine', 'handlebars')
 app.use(express.static(__dirname + '/public'))
 
-app.use('/api/products', routerProducts)
-app.use('/api/carts', routerCarts)
-app.use('/api/sessions', routerSessions)
-app.use('/users', routerUsers)
-app.use('/', routerViews)
-
 //Sessions:
 app.use(session({
   secret: 'secretNP',
   resave: true,
   saveUninitialized: true
 }))
+
+app.use('/api/products', routerProducts)
+app.use('/api/carts', routerCarts)
+app.use('/', routerViews)
+app.use('/api/sessions', routerSessions)
+app.use('/users', routerUsers)
 
 //Conexión con BD:
 const DB = 'mongodb+srv://nmpalav:palavecino@cluster0.eg4rgxx.mongodb.net/ecommerce'
