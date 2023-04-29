@@ -44,15 +44,24 @@ routerSessions.post('/register', async (req, res) => {
 // LOGIN:
 routerSessions.post('/login', async (req, res) => {
   const { email, password } = req.body
-  const user = await userModel.findOne({email})
+  if(req.body.email === 'adminCoder@coder.com' && req.body.password === 'adminCod3r123') {
+    req.session.user = {
+      name: 'Coderhouse',
+      email: 'adminCoder@coder.com',
+      age: 9,
+      role: 'admin'
+    }
+  } else {
+    const user = await userModel.findOne({email})
 
-  if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"})
-  if(!validPassword(user,password)) {return res.status(401).send({status:"error", msg: "Incorrect credentials"})}
-  req.session.user = {
-    name: `${user.first_name} ${user.last_name}`,
-    email: user.email,
-    age: user.age,
-    role: 'user'
+    if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"})
+    if(!validPassword(user,password)) {return res.status(401).send({status:"error", msg: "Incorrect credentials"})}
+    req.session.user = {
+      name: `${user.first_name} ${user.last_name}`,
+      email: user.email,
+      age: user.age,
+      role: 'user'
+    }
   }
   res.send({status: "success", payload: req.session.user, msg:"First login completed!"})
 })
