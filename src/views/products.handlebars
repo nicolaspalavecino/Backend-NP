@@ -1,5 +1,5 @@
 <div>
-    <h1>¡Bienvenid@ {{user.name}}!</h1>
+  <h1>¡Bienvenid@ {{user.name}}!</h1>
   <div>
     <ul>
       <li>EDAD: {{user.age}}</li>
@@ -7,27 +7,56 @@
       <li>ROL: {{user.role}}</li>
     </ul>
     <button id="logoutBtn"> LOG OUT </button>
-    {{!-- <form method="GET" action='/api/sessions/logout'>
-      <button type='submit'>LOG OUT</a></button>
-    </form> --}}
   </div>
-    
-    <h2>List of Books from MongoDB:</h2>
-    <div>
-      {{#each products.docs}}
-          <div>
-            <p>- {{this.title}}</p>
-            <ul>
-              <li>$ {{this.price}}</li>
-              <li>{{this.description}}</li>
-              <li>Stock: {{this.stock}}</li>
-            </ul>
-          </div>
-          <form method="POST" action='/api/carts/644719782d361234c0565bf5/products/{{this._id}}'>
-            <button type='submit'> + CART </button>
-          </form>
-      {{/each}}
+
+  {{#if user.isAdmin}}
+    <div style="background-color:aqua">
+      <h2>Agrega un nuevo producto:</h2>
+      <form id="productForm">
+        <label>Nombre del producto:</label>
+        <input name="title">
+        <br/>
+        <label>Categoría:</label>
+        <input name="category">
+        <br/>
+        <label>Descripción:</label>
+        <input name="description">
+        <br/>
+        <label>Precio:</label>
+        <input name="price" type="number">
+        <br/>
+        <label>Thumbnail:</label>
+        <input name="thumbnail">
+        <br/>
+        <label>Código:</label>
+        <input name="code" type="number">
+        <br/>
+        <label>Stock:</label>
+        <input name="stock" type="number">
+        <br/>
+        <label>Status:</label>
+        <input name="status" type="boolean" placeholder="Escribe 'true' en este campo!">
+        <input type="submit">
+      </form>
     </div>
+  {{/if}}
+
+  <h2>List of Books from MongoDB:</h2>
+  <div>
+    {{#each products.docs}}
+        <div>
+          <p>- {{this.title}}</p>
+          <ul>
+            <li>$ {{this.price}}</li>
+            <li>{{this.description}}</li>
+            <li>Stock: {{this.stock}}</li>
+          </ul>
+        </div>
+        <form method="POST" action='/api/carts/644719782d361234c0565bf5/products/{{this._id}}'>
+          <button type='submit'> + CART </button>
+        </form>
+    {{/each}}
+  </div>
 </div>
 <br/>
 <div>
@@ -43,4 +72,5 @@
 </div>
 
 <script src="/js/logout.js"></script>
+<script src="/js/uploadProduct.js"></script>
 

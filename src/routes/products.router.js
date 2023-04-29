@@ -26,7 +26,7 @@ routerProducts.post('/', async (req, res) => {
   if (!result.status) {
     res.status(501).send(result)
   } else {
-    res.send({status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
+    res.status(201).send({status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
   }
 })
 
