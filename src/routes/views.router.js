@@ -40,15 +40,6 @@ routerViews.get('/carts/:cid', async (req, res) => {
   console.log(result.products[0])
 })
 
-
-
-
-
-
-
-
-
-
 //Cookie management:
 routerViews.use(cookieParser('NPfirm'))
 
