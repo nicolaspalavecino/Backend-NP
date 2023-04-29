@@ -4,6 +4,7 @@ import ProductManager from "../dao/Dao/fileSystem_classes/ProductManager.js"
 import { readLinkFilter } from "../utils.js"
 import ProductManagerDB from "../dao/Dao/MongoDB_classes/ProductManager.js"
 import CartManagerDB from "../dao/Dao/MongoDB_classes/CartManager.js"
+import cookieParser from "cookie-parser"
 
 let productManager = new ProductManager()
 
@@ -38,5 +39,19 @@ routerViews.get('/carts/:cid', async (req, res) => {
   console.log(result.products[0])
 })
 
+//Cookie management:
+routerViews.use(cookieParser('NPfirm'))
+
+routerViews.get('/setCookie', (req, res) => {
+  res.cookie('CookieNP', 'This is a cookie', {maxAge: 60000, signed: true }).send('Cookie')
+})
+
+routerViews.get('/getCookie', (req, res) => {
+  res.send(req.signedCookies)
+})
+
+routerViews.get('/deleteCookie', (req, res) => {
+  res.clearCookie('CookieNP').send('Cookie was successfully deleted')
+})
 
 export default routerViews 

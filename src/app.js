@@ -2,8 +2,9 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import { __dirname, productsList } from './utils.js'
-import { routerProducts, routerCarts, routerViews } from './routes/index.router.js'
+import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers } from './routes/index.router.js'
 import mongoose from 'mongoose'
+import session from 'express-session'
 
 const app = express()
 const PORT = 8080
@@ -18,7 +19,16 @@ app.use(express.static(__dirname + '/public'))
 
 app.use('/api/products', routerProducts)
 app.use('/api/carts', routerCarts)
+app.use('/api/sessions', routerSessions)
+app.use('/users', routerUsers)
 app.use('/', routerViews)
+
+//Sessions:
+app.use(session({
+  secret: 'secretNP',
+  resave: true,
+  saveUninitialized: true
+}))
 
 //Conexión con BD:
 const DB = 'mongodb+srv://nmpalav:palavecino@cluster0.eg4rgxx.mongodb.net/ecommerce'
