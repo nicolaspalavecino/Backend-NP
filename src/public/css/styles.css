@@ -4,6 +4,34 @@
 font-family: 'Nunito', sans-serif;
 font-family: 'Rye', cursive; */
 
+nav {
+  background-color: black;
+  color: white;
+  padding: 10px 5px;
+  margin-bottom: 1%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-between;
+}
+
+/* Welcome */
+* {
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+}
+
+#logoutBtn, .link-login {
+  color: white;
+  background-color: rgb(23, 22, 22);
+  border-radius: 0.5rem;
+  padding: 1%;
+  text-decoration: none;
+}
+
+
+/* List of products: */
+
 section {
   background-color: rgb(174, 184, 184);
   display: flex;
@@ -23,7 +51,7 @@ section {
   padding: 10px;
   margin: 10px;
   width: 250px;
-  height: 280px;
+  height: 300px;
   border-radius: 0.5rem;
 }
 
@@ -47,6 +75,13 @@ h3 {
   object-fit: contain;
   height: 110px;
   border: 5px solid rgb(85, 94, 94);
+}
+
+.product-card button {
+  color: white;
+  background-color: rgb(23, 22, 22);
+  border-radius: 0.5rem;
+  width: 100%;
 }
 
 /* Login & Register styles: */
@@ -80,6 +115,8 @@ h3 {
 .user-form input {
   width: 100%;
   margin-bottom: 5%;
+  padding: 2% 0 2% 2%;
+  font-family: 'Nunito', sans-serif;
 }
 
 .user-form label {
