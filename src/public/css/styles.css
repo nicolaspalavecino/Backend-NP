@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Nunito:ital,wght@0,200;0,400;0,700;1,200;1,400;1,700&family=Rye&display=swap');
+
+/* font-family: 'Crimson Text', serif;
+font-family: 'Nunito', sans-serif;
+font-family: 'Rye', cursive; */
+
 section {
   background-color: rgb(174, 184, 184);
   display: flex;
@@ -41,4 +47,70 @@ h3 {
   object-fit: contain;
   height: 110px;
   border: 5px solid rgb(85, 94, 94);
+}
+
+/* Login & Register styles: */
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: white;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(65,107,147,1) 22%, rgba(53,55,133,1) 58%, rgba(25,26,74,1) 100%);
+  padding: 2%;
+  font-family: 'Nunito', sans-serif;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+.form-container a {
+  color: white;
+  font-weight: bolder;
+}
+
+.user-form input {
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+.user-form label {
+  font-weight: bold;
+}
+
+.send {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.send input {
+  color: white;
+  background-color: rgb(23, 22, 22);
+  margin-top: 5%;
+  width: 30%;
+  border-radius: 0.5rem;
+  padding: 2%;
+}
+
+/* Add products form */
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1% 1%;
+  margin: 1% 0;
+  font-family: 'Nunito', sans-serif;
+  background-color: rgb(216, 199, 199);
 }

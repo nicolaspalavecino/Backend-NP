@@ -10,9 +10,9 @@
   </div>
 
   {{#if user.isAdmin}}
-    <div style="background-color:aqua">
+    <div class="upload-container">
       <h2>Agrega un nuevo producto:</h2>
-      <form id="productForm">
+      <form id="productForm" class="user-form">
         <label>Nombre del producto:</label>
         <input name="title">
         <br/>
@@ -36,28 +36,32 @@
         <br/>
         <label>Status:</label>
         <input name="status" type="boolean" placeholder="Escribe 'true' en este campo!">
-        <input type="submit">
+        <div class="send">
+          <input type="submit">
+        </div>
       </form>
     </div>
   {{/if}}
 
   <h2>List of Books from MongoDB:</h2>
-  <div>
+  <section id='products-container'>
     {{#each products.docs}}
-        <div>
-          <p>- {{this.title}}</p>
+        <div id={{this.code}} class='product-card'>
+          <h3>{{this.title}}</h3>
+          <div class='product-img'>
+            <img src={{this.thumbnail}}/>
+          </div>
           <ul>
-            <li>$ {{this.price}}</li>
-            <li>{{this.description}}</li>
-            <li>Stock: {{this.stock}}</li>
+              <li>$ {{this.price}}</li>
+              <li>Stock: {{this.stock}}</li>
           </ul>
-        </div>
         <form method="POST" action='/api/carts/644719782d361234c0565bf5/products/{{this._id}}'>
           <button type='submit'> + CART </button>
         </form>
+        </div>
     {{/each}}
   </div>
-</div>
+</section>
 <br/>
 <div>
   {{#if products.hasPrevPage}}
