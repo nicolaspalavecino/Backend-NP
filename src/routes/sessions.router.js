@@ -19,22 +19,27 @@ routerSessions.get('/session', (req, res) => {
 routerSessions.post('/register', async (req, res) => {
   try {
     const {first_name, last_name, email, age, password} = req.body
-    console.log(("Registrando a:"));
-    console.log(req.body);
-
-    let exists = await userModel.findOne({email})
-    if (exists) {
-      return res.status(400).send({status: "error", msg: "Already existing user"})
+    if(!first_name || !last_name || !email || !age || !password) {
+      console.log('Please, complete all the fields!')
+      return res.status(401).send({status: "error", msg: "Please, complete all the fields"})
+    } else {
+      let exists = await userModel.findOne({email})
+      if (exists) {
+        console.log('An user with this email already exists')
+        return res.status(400).send({status: "error", msg: "Already existing user"})
+      }
+      let user = {
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        age: age,
+        password: createHash(password)
+      }
+      let result = await userModel.create(user)
+      console.log(("Registrando a:"));
+      console.log(req.body)
+      res.status(201).send({status: "success", msg: `User created successfully. ID: ${user.id}`, user: result})
     }
-    let user = {
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      age: age,
-      password: createHash(password)
-    }
-    let result = await userModel.create(user)
-    res.status(201).send({status: "success", msg: `User created successfully. ID: ${user.id}`, user: result})
   }
   catch (error) {
     return new Error (`An error occured while creating a new user. Check for ${error}`)
