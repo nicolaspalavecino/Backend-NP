@@ -10,7 +10,7 @@ const initializePassport = () => {
   
   // REGISTER STRATEGY: 
   passport.use('register', new localStrategy (
-    { passReqToCallback: true, usernameField: 'email' }, async(req, username, password, done) => {
+    { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
       const { first_name, last_name, email, age } = req.body
       try {
         if (!first_name || !last_name || !email || !age || !password) {
@@ -40,7 +40,7 @@ const initializePassport = () => {
   
   // LOGIN STRATEGY:
   passport.use('login', new localStrategy(
-    { passReqToCallback: true, usernameField: 'email' }, async(req, username, password, done) => {
+    { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
       try {
         let user = await userModel.findOne({ email: username })
         console.log(user)
@@ -66,7 +66,7 @@ const initializePassport = () => {
       clientSecret: '36d50ed28b9f42c395ec0519cbc526aaa2d425b0',
       callbackUrl: 'http://localhost:8080/api/sessions/githubcallback'
     },
-    async(accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       console.log('Profile obtenido del usuario:')
       console.log(profile)
       try {
@@ -78,10 +78,10 @@ const initializePassport = () => {
           console.warn('User does not exist with username: ' + profile._json.email)
           let newUser = {
             first_name: profile._json.name,
-            last_name: '',
+            last_name: '-',
             age: 18, 
             email: profile._json.email,
-            password: '',
+            password: '-',
             loggedBy: 'GitHub'
           }
           const result = await userModel.create(newUser)
@@ -97,7 +97,7 @@ const initializePassport = () => {
 
   //SERIALIZE AND DESERIALIZE FUNCTIONS:
   passport.serializeUser((user, done) => {
-    done(null, user._id)
+    done(null, user.id)
   })
 
   passport.deserializeUser(async (id, done) => {

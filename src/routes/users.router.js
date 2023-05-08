@@ -14,7 +14,7 @@ routerUsers.get('/register', (req, res) => {
 routerUsers.get('/', (req, res)=>{
   res.render('profile', {
     user: req.session.user
-  });
+  })
 })
 
 export default routerUsers
