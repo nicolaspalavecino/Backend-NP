@@ -2,9 +2,11 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import { __dirname, productsList } from './utils.js'
-import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers } from './routes/index.router.js'
+import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerGithub } from './routes/index.router.js'
 import mongoose from 'mongoose'
 import session from 'express-session'
+import initializePassport from './config/passport.config.js'
+import passport from 'passport'
 
 const app = express()
 const PORT = 8080
@@ -24,11 +26,18 @@ app.use(session({
   saveUninitialized: true
 }))
 
+//Passport:
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
+//Routes: 
 app.use('/api/products', routerProducts)
 app.use('/api/carts', routerCarts)
 app.use('/', routerViews)
 app.use('/api/sessions', routerSessions)
 app.use('/users', routerUsers)
+app.use('/github', routerGithub)
 
 //Conexión con BD:
 const DB = 'mongodb+srv://nmpalav:palavecino@cluster0.eg4rgxx.mongodb.net/ecommerce'
