@@ -1,8 +1,8 @@
-import cartModel from "../../models/carts.models.js"
-import productModel from "../../models/products.models.js"
+import cartModel from "./models/carts.models.js"
+import productModel from './models/products.models.js'
 import mongoose from "mongoose"
 
-class CartManagerDB {
+class CartService {
 
   // ADD CART:
   addCart = async (cart) => {
@@ -100,4 +100,4 @@ class CartManagerDB {
   }
 }
 
-export default CartManagerDB
+export default CartService

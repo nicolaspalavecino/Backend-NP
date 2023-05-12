@@ -1,7 +1,7 @@
 import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
-import { __dirname, productsList } from './utils.js'
+import { __dirname } from './utils.js'
 import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerGithub } from './routes/index.router.js'
 import mongoose from 'mongoose'
 import session from 'express-session'
@@ -56,8 +56,8 @@ const httpServer = app.listen(PORT, () => {
 	console.log('Server listening on port: ' + PORT);
 })
 
-const socketServer = new Server(httpServer)
-socketServer.on('connection', socket => {
-  console.log('New client online')
-  socket.emit('products', { productsList } )
-})
+// const socketServer = new Server(httpServer)
+// socketServer.on('connection', socket => {
+//   console.log('New client online')
+//   socket.emit('products', { productsList } )
+// })

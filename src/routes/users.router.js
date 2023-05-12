@@ -1,20 +1,20 @@
 
 import {Router} from 'express';
 
-const routerUsers = Router();
+const router = Router();
 
-routerUsers.get('/login', (req, res) => {
+router.get('/login', (req, res) => {
   res.render('login')
 })
 
-routerUsers.get('/register', (req, res) => {
+router.get('/register', (req, res) => {
   res.render('register')
 })
 
-routerUsers.get('/', (req, res)=>{
+router.get('/', (req, res)=>{
   res.render('profile', {
     user: req.session.user
   })
 })
 
-export default routerUsers
+export default router

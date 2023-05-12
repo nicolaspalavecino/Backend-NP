@@ -1,15 +1,10 @@
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import ProductManager from './dao/Dao/fileSystem_classes/ProductManager.js'
 import { Router } from "express"
 import bcrypt from 'bcrypt'
 
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
-
-// Lista de productos utilizando fileSystem:
-let productManager = new ProductManager()
-export let productsList = await productManager.getProducts()
 
 // Concatenación de FILTROS en links: 
 export const readLinkFilter = (filter) => {

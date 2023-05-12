@@ -1,6 +1,6 @@
-import productModel from '../../models/products.models.js'
+import productModel from './models/products.models.js'
 
-class ProductManagerDB {
+class ProductService {
 
   // GET PRODUCTS:
   getProducts = async (query) => {
@@ -78,4 +78,4 @@ class ProductManagerDB {
 
 }
 
-export default ProductManagerDB
+export default ProductService
