@@ -5,8 +5,9 @@ import { __dirname } from './utils.js'
 import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerGithub } from './routes/index.router.js'
 import mongoose from 'mongoose'
 import session from 'express-session'
-import initializePassport from './config/passport.config.js'
+import cookieParser from 'cookie-parser'
 import passport from 'passport'
+import initializePassport from './config/passport.config.js'
 
 const app = express()
 const PORT = 8080
@@ -18,6 +19,9 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + "/views/")
 app.set('view engine', 'handlebars')
 app.use(express.static(__dirname + '/public'))
+
+//Cookies:
+app.use(cookieParser('ProyectoBackendNPSecreto'))
 
 //Sessions:
 app.use(session({

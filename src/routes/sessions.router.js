@@ -1,6 +1,7 @@
 import { Router } from "express"
-import { authorization, createHash, validPassword } from "../utils.js"
+import { authorization, createHash, generateJWToken, validPassword } from "../utils.js"
 import passport from "passport"
+import userModel from "../services/models/users.models.js"
 
 const router = Router()
 
@@ -23,31 +24,43 @@ router.post('/register', passport.authenticate('register', { failureRedirect: '/
   }
 )
 
-// LOGIN:
-router.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/fail-login' }), 
-  async (req, res) => {
+// LOGIN using jwt:
+router.post('/login', async (req, res)=>{
+  const {email, password} = req.body
+  try {
+    const user = await userModel.findOne({ email: email })
     console.log('User found to login:')
-    const user = req.user
     console.log(user)
-    if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"}) 
-    req.session.user = {
-      name: `${user.first_name} ${user.last_name}`,
-      email: user.email,
-      age: user.age,
-      role: 'user',
-      isAdmin: false
+    if (!user) {
+        console.warn('User does not exist with username: ' + email)
+        return res.status(204).send({ error: 'Not found', message: 'User does not exist with username: ' + email })
     }
-    res.send({status: "success", payload: req.session.user, msg:"First login completed!"})
+    if (!validPassword(user, password)) {
+        console.warn('Invalid credentials for user: ' + email)
+        return res.status(401).send({ status: 'error', error: 'User and password do not match!' })
+    }
+    const tokenUser = {
+        name : `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        age: user.age,
+        role: user.role
+    }
+    const access_token = generateJWToken(tokenUser)
+    res.cookie('jwtCookieToken', access_token, { maxAge: 60000, httpOnly: false }) // 1 min
+    res.send({message: 'Login successful!', jwt: access_token })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ status:'error', error:'Internal application error'})
   }
-)
+})
 
 // LOGIN WITH GITHUB:
 router.get('/github', passport.authenticate('github', { scope:['user:email']}), async (req, res) => {})
 
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/github/error'}), 
   async (req, res) => {
-    const user = req.user;
-    req.session.user= {
+    const user = req.user
+    req.session.user = {
       name : `${user.first_name}`,
       email: user.email,
       age: user.age
@@ -76,8 +89,28 @@ router.get('/logout', async (req, res) => {
 })
 
 // PRIVATE:
-router.get('/private', authorization, (req, res) => {
-  res.send('If you are reading this it means you are blessed with the name Pepe')
-})
+// router.get('/private', authorization, (req, res) => {
+//   res.send('If you are reading this it means you are blessed with the name Pepe')
+// })
 
 export default router
+
+// LOGIN:
+// router.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/fail-login' }), 
+//   async (req, res) => {
+//     console.log('User found to login:')
+//     const user = req.user
+//     console.log(user)
+//     if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"}) 
+//     // req.session.user = {
+//     //   name: `${user.first_name} ${user.last_name}`,
+//     //   email: user.email,
+//     //   age: user.age,
+//     //   role: 'user',
+//     //   isAdmin: false
+//     // }
+//     const access_token = generateJWToken(user)
+//     // res.send({status: "success", payload: req.session.user, msg:"First login completed!"})
+//     res.send({access_token: access_token})
+//   }
+// )

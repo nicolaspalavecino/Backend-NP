@@ -13,7 +13,14 @@ form.addEventListener('submit', e => {
     }
   }).then(result => {
     if(result.status === 200) {
-      window.location.replace('/products')
+      result.json()
+      .then(json => {
+        console.log(json)
+        localStorage.setItem('authToken', json.access_token)
+        localStorage.setItem('USER_ID', json.id)
+        alert('Successfull login!')
+        window.location.replace('/users')
+      })
     } else if (result.status === 401) {
       alert("Invalid login")
     }
