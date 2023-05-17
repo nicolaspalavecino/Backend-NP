@@ -11,7 +11,7 @@ const ExtractJWT = jwtStrategy.ExtractJwt
 
 const initializePassport = () => {
   
-  // REGISTER STRATEGY: 
+  //REGISTER STRATEGY: 
   passport.use('register', new localStrategy (
     { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
       const { first_name, last_name, email, age } = req.body

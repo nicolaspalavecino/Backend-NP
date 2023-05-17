@@ -3,6 +3,7 @@ import { dirname } from 'path'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
+import { resolveSoa } from 'dns'
 
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
@@ -37,7 +38,7 @@ export const authToken = (req, res, next) => {
   let token = authHeader.split(' ')[1]
   jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
     if (error) return res.status(403).send({error: "Token invalid, Unauthorized!"})
-    req.user = credentials.user;
+    req.user = credentials.user
     next()
   })
 }
@@ -76,10 +77,10 @@ export const passportCall = (strategy) => {
 }
 
 // Authorization:
-export const authorization = (role) => {
+export const authorization = (roles) => {
   return async (req, res, next) => {
     if (!req.user) return res.status(401).send('Unauthorized: User not found in JWT')
-    if (req.user.role !== role) {
+    if (!roles.includes(req.user.role)) {
       return res.status(403).send('Forbidden: User has not permissions')
     }
     next()

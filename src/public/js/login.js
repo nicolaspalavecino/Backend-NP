@@ -15,11 +15,10 @@ form.addEventListener('submit', e => {
     if(result.status === 200) {
       result.json()
       .then(json => {
-        console.log(json)
         localStorage.setItem('authToken', json.access_token)
         localStorage.setItem('USER_ID', json.id)
         alert('Successfull login!')
-        window.location.replace('/users')
+        window.location.replace('/products')
       })
     } else if (result.status === 401) {
       alert("Invalid login")

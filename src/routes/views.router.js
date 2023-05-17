@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { readLinkFilter } from "../utils.js"
+import { authorization, passportCall, readLinkFilter } from "../utils.js"
 import ProductService from "../services/product.service.js"
 import CartService from "../services/cart.service.js"
 import cookieParser from "cookie-parser"
@@ -10,13 +10,13 @@ let productService = new ProductService ()
 let cartService = new CartService()
 
 // Route to render products with pagination:
-router.get('/products', async (req, res) => {
+router.get('/products', passportCall('login'), authorization(['user', 'admin']), async (req, res) => {
   let products = await productService.getProducts(req.query)
   let link_filter = readLinkFilter(req.query)
   products.prevLink = products.hasPrevPage? `http://localhost:8080/products?${link_filter}page=${products.prevPage}`:'None'
   products.nextLink = products.hasNextPage? `http://localhost:8080/products?${link_filter}page=${products.nextPage}`:'None'
   products.status = products ? "success" : "error"
-  let data = { products: products , user: req.session.user }
+  let data = { products: products , user: req.user }
   res.render('products', data)
 })
 

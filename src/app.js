@@ -8,12 +8,18 @@ import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
+import Handlebars from 'handlebars'
+import { isAdmin } from './helpers/handlebars.helpers.js'
+
 
 const app = express()
 const PORT = 8080
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+// Handlebars Helper for role login:
+Handlebars.registerHelper('isAdmin', isAdmin)
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + "/views/")

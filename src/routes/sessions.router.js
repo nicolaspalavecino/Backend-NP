@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { authorization, createHash, generateJWToken, validPassword } from "../utils.js"
 import passport from "passport"
+import cookieParser from "cookie-parser"
 import userModel from "../services/models/users.models.js"
 
 const router = Router()
@@ -32,18 +33,18 @@ router.post('/login', async (req, res)=>{
     console.log('User found to login:')
     console.log(user)
     if (!user) {
-        console.warn('User does not exist with username: ' + email)
-        return res.status(204).send({ error: 'Not found', message: 'User does not exist with username: ' + email })
+      console.warn('User does not exist with username: ' + email)
+      return res.status(204).send({ error: 'Not found', message: 'User does not exist with username: ' + email })
     }
     if (!validPassword(user, password)) {
-        console.warn('Invalid credentials for user: ' + email)
-        return res.status(401).send({ status: 'error', error: 'User and password do not match!' })
+      console.warn('Invalid credentials for user: ' + email)
+      return res.status(401).send({ status: 'error', error: 'User and password do not match!' })
     }
     const tokenUser = {
-        name : `${user.first_name} ${user.last_name}`,
-        email: user.email,
-        age: user.age,
-        role: user.role
+      name : `${user.first_name} ${user.last_name}`,
+      email: user.email,
+      age: user.age,
+      role: user.role
     }
     const access_token = generateJWToken(tokenUser)
     res.cookie('jwtCookieToken', access_token, { maxAge: 60000, httpOnly: false }) // 1 min
@@ -63,9 +64,10 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect: 
     req.session.user = {
       name : `${user.first_name}`,
       email: user.email,
-      age: user.age
+      age: user.age,
+      role: user.role
     }
-    req.session.admin = true;
+    req.session.admin = true
     res.redirect('/github')
   }
 )
@@ -79,13 +81,8 @@ router.get('/fail-login', (req, res) => {
 })
 
 // LOGOUT:
-router.get('/logout', async (req, res) => {
-  req.session.destroy(error => {
-    if(error) {
-      res.json({ error: 'Logout error', message: 'An error has occurred when logging out' })
-    }
-    res.send('The session was successfully ended!')
-  })
+router.get('/logout', (req, res) => {
+  res.clearCookie('jwtCookieToken').status(200).send('Session was successfully ended')
 })
 
 // PRIVATE:
@@ -114,3 +111,13 @@ export default router
 //     res.send({access_token: access_token})
 //   }
 // )
+
+// LOGOUT:
+// router.get('/logout', async (req, res) => {
+//   req.session.destroy(error => {
+//     if(error) {
+//       res.json({ error: 'Logout error', message: 'An error has occurred when logging out' })
+//     }
+//     res.send('The session was successfully ended!')
+//   })
+// })
