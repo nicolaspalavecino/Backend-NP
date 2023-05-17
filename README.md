@@ -1,61 +1,18 @@
-# Backend-NP - Preentrega 1
+# MENSAJE PARA RODRI - Reestructuración del proyecto
 
-## Products: '/api/products'
+## Organización
+Modifiqué varias cosas de cómo estaba estructurado el proyecto. Borré varias cosas que ya no estábamos usando para hacer un poco más fácil el manejo y lectura de todo porque ya se me estaba complicando, por ejemplo saqué lo de fileSystem. Los managers ahora están en la carpeta 'services' donde también está la carpeta de 'models' con los esquemas.
 
-### **ProductManager**: 
+## Reemplazo de SESSION por JWT (login y logout)
+Modifiqué las estrategias de login y logout para empezar a usar JWT en lugar de session. En el caso de login apliqué básicamente lo mismo que el profe durante las clases. Para el logout usé clearcookie() así elimina la cookie con el 'jwtCookieToken' y que me redirija al render de login.
 
-Clase constructora con los métodos:
-- getProducts
-- getProductById
-- addProduct
-- updateProduct
-- deleteProduct
+## Aplicación de roles para login
+Antes al loguearse, el usuario era redirigido a '/products' donde podía ver los productos y además sus datos de usuario. Toda esa lógica estaba aplicada para session, así que cambié todo para que funcione con jwt. En el caso del admin muestra el formulario para agregar productos.
 
-Además existe un método extra denominado **'validateFile'** donde se constata la existencia del directorio 'files' y el archivo 'Products.json' donde se cargarán los productos. En caso de que el archivo no existe lo crea y si ya existe, obtiene la información necesaria para ser aplicada a los métodos previos. Este método es ejecutado dentro de la misma clase constructora cada vez que se accede a alguno de los métodos listados. 
+## Helpers para handlebars
+Estuve viendo cómo usar helpers porque en su momento no lo había entendido. Armé una carpeta con la función de 'isAdmin' para que me muestre el formulario cuando corresponda.
 
-### **Products Router**:
-
-#### - POST (raíz): 
-Inserta un producto dentro del archivo *Products.json* que se encuentra en el directorio *files*. En caso de no existir este directorio y archivo, es creado a partir de este mismo request. Aplica el método **'addProduct' de ProductManager**.
-
-#### - GET (raíz): 
-Devuelve el contenido del archivo *Products.json*. Si este no existe, se crea a partir del mismo request. Aplica el método **'getProducts' de ProductManager**.
-
-#### - GET (:pid): 
-Devuelve el producto que se encuentre dentro del archivo *Products.json* cuyo ID coincida con el valor enviado al servidor como ':pid'. En caso de no encontrarse ningún producto con dicho ID, devolverá un mensaje de advertencia. Aplica el método **'getProductById' de ProductManager**.
-
-#### - PUT (:pid): 
-Permite modificar la información del producto cuyo ID coincida con el enviado al servidor como ':pid'. No es necesario enviar todo el producto con la información nueva, simplemente se puede enviar la información correspondiente a dicha propiedad o propiedades que se desee modificar, aplicando el formato OBJECT en Postman. Por ejemplo: { "title": "modified title" }. En caso de que se envíe una propiedad inexistente o se intente modificar el ID de un producto, un aviso será devuelto desde la aplicación. Aplica el método **'updateProduct' de ProductManager**.
-
-#### - DELETE (:pid): 
-Permite eliminar el producto cuyo ID coincida con el enviado al servidor como ':pid'. En caso de no encontrarse ningún producto con dicho ID, devolverá un mensaje de advertencia. Aplica el método **'deleteProduct' de ProductManager**.
-
-## Carts: '/api/carts'
-
-### **CartManager**: 
-
-Clase constructora con los métodos:
-- addCart
-- getCartById
-- addProductToCart
-- deleteProductFromCart
-
-Además existe un método extra denominado **'validateFile'** donde se constata la existencia del directorio 'files' y el archivo 'Carts.json' donde se cargarán los carts. En caso de que el archivo no existe lo crea y si ya existe, obtiene la información necesaria para ser aplicada a los métodos previos. Este método es ejecutado dentro de la misma clase constructora cada vez que se accede a alguno de los métodos listados.
-
-Adicionalmente existe el método **'checkProductsFile'** que verifica la existencia de un archivo *Products.json* al momento de ejecutar los métodos que agregan o quitan productos del cart. Suponiendo que no exista ningún producto, impide la ejecución de estos métodos.
-
-### **Carts Router**:
-
-#### - POST (raíz): 
-Inserta un cart dentro del archivo *Carts.json* que se encuentra en el directorio *files*. En caso de no existir este directorio y archivo, es creado a partir de este mismo request. El objeto 'cart' cuenta con dos propiedades, un ID y products que consiste en un array vacío donde eventualmente se cargan los productos. Aplica el método **'addCart' de CartManager**. 
-
-#### - GET (:cid): 
-Devuelve el cart que se encuentre dentro del archivo *Carts.json* cuyo ID coincida con el valor enviado al servidor como ':cid'. En caso de no encontrarse ningún producto con dicho ID, devolverá un mensaje de advertencia. Aplica el método **'getCartById' de CartManager**.
-
-#### - POST (:cid/products/:pid):
-Inserta un producto con el ID especificado (:pid) al cart con el ID indicado (:cid). En el caso de que no exista un producto o un cart con dichos IDs, devuelve un mensaje de advertencia. Aplica el método **'addProductToCart' de CartManager**.
-
-#### - DELETE (:cid/products/:pid):
-Elimina un producto con el ID especificado (:pid) deñ cart con el ID indicado (:cid). En el caso de que no exista un producto o un cart con dichos IDs, devuelve un mensaje de advertencia. Aplica el método **'deleteProductFromCart' de CartManager**.
-
-
+## CONSULTA ( ! )
+Creo que eso es todo lo que estuve haciendo. Con todos estos cambios me surgió un problema:
+### Login con Github
+Como el login de github trabaja con sessions y usa el mismo endpoint '/users' (el login común lo cambié a '/products' igual pero tiene lo mismo - passportCall y authorization). Dejé un comentario del problema en esa ruta y entiendo lo que pasa, pero estuve investigando para ver cómo podría aplicar jwt a toda la estrategia de login con github y la verdad que no entiendo mucho qué puedo hacer. Honestamente no se bien por donde empezar. Así que si podés orientarme un poco te agradecería. Se que podría armar un endpoint diferente que sea solo para cuando te logueas con github, pero supongo que no es lo ideal.
