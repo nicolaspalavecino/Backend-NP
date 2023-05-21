@@ -10,10 +10,11 @@ import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import Handlebars from 'handlebars'
 import { isAdmin } from './helpers/handlebars.helpers.js'
+import config from './config/config.js'
 
 
 const app = express()
-const PORT = 8080
+const PORT = config.port
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -50,10 +51,9 @@ app.use('/users', routerUsers)
 app.use('/github', routerGithub)
 
 //Conexión con BD:
-const DB = 'mongodb+srv://nmpalav:palavecino@cluster0.eg4rgxx.mongodb.net/ecommerce'
 const connectMongoDB = async() => {
   try {
-    await mongoose.connect(DB)
+    await mongoose.connect(config.db)
     console.log('Successfully connected to MongoDB using Mongoose')
   } catch (error) {
     console.error('Could not connect to MongoDB using Mongoose:' + error)
