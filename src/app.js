@@ -63,7 +63,7 @@ const connectMongoDB = async() => {
 connectMongoDB()
 
 const httpServer = app.listen(PORT, () => {
-	console.log('Server listening on port: ' + PORT);
+	console.log('Server listening on port: ' + PORT)
 })
 
 // const socketServer = new Server(httpServer)

@@ -3,6 +3,7 @@ import { dirname } from 'path'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
+import config from './config/config.js'
 
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
@@ -24,7 +25,7 @@ export const readLinkFilter = (filter) => {
 }
 
 // JWT functions:
-export const PRIVATE_KEY = 'NicolasMatiasPalavecinoKeyJWT'
+export const PRIVATE_KEY = config.privateKey
 export const generateJWToken = (user) => {
   return jwt.sign({user}, PRIVATE_KEY, {expiresIn: '24h'})
 }

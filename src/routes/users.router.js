@@ -12,9 +12,14 @@ router.get('/register', (req, res) => {
   res.render('register')
 })
 
-router.get('/', passportCall('login'), authorization(['user', 'admin']), (req, res) => {
-  res.render('profile', { user: req.user})
-}) // ERROR: Login GITHUB me redirige acá y como no tiene auth da usuario no encontrado!
+// router.get('/', passportCall('login'), authorization(['user', 'admin']), (req, res) => {
+//   res.render('profile', { user: req.user})
+// }) 
+// ERROR: Login GITHUB me redirige acá y como no tiene auth da usuario no encontrado!
+
+router.get('/', (req, res) => {
+  res.render('profile', { user: req.session.user})
+})
 
 router.get('/error', (req, res) => {
   res.render('error')

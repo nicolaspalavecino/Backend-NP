@@ -4,6 +4,7 @@ import GitHubStrategy from 'passport-github2'
 import jwtStrategy from 'passport-jwt'
 import UserService from '../services/user.service.js'
 import { createHash, validPassword, PRIVATE_KEY, cookieExtractor } from '../utils.js'
+import config from './config.js'
 
 const localStrategy = passportLocal.Strategy
 const JWTStrategy = jwtStrategy.Strategy
@@ -47,7 +48,7 @@ const initializePassport = () => {
   passport.use('login', new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-      secretOrKey: PRIVATE_KEY
+      secretOrKey: config.privateKey
     }, 
     async (jwt_payload, done) => {
       try {
@@ -62,9 +63,9 @@ const initializePassport = () => {
   //LOGIN WITH GITHUB STRATEGY:
   passport.use('github', new GitHubStrategy(
     {
-      clientID: 'Iv1.9d757b46824fdf62',
-      clientSecret: '36d50ed28b9f42c395ec0519cbc526aaa2d425b0',
-      callbackUrl: 'http://localhost:8080/api/sessions/githubcallback'
+      clientID: config.githubClientId,
+      clientSecret: config.githubClientSecret,
+      callbackUrl: config.githubCallbackUrl
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log('Profile obtenido del usuario:')
