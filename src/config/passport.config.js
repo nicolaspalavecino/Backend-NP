@@ -2,12 +2,14 @@ import passport from 'passport'
 import passportLocal from 'passport-local'
 import GitHubStrategy from 'passport-github2'
 import jwtStrategy from 'passport-jwt'
-import userModel from '../services/models/users.models.js'
+import UserService from '../services/user.service.js'
 import { createHash, validPassword, PRIVATE_KEY, cookieExtractor } from '../utils.js'
 
 const localStrategy = passportLocal.Strategy
 const JWTStrategy = jwtStrategy.Strategy
 const ExtractJWT = jwtStrategy.ExtractJwt
+
+let userService = new UserService()
 
 const initializePassport = () => {
   
@@ -20,19 +22,19 @@ const initializePassport = () => {
           console.log('Please, complete all the fields!')
           return done(null, false)
         } else {
-          let exists = await userModel.findOne({email})
+          let exists = await userService.getUser(email)
           if (exists) {
             console.log('An user with this email already exists')
             return done(null, false)
           }
-          let user = {
+          let newUser = {
             first_name,
             last_name,
             email,
             age,
             password: createHash(password)
           }
-          let result = await userModel.create(user)
+          let result = await userService.createUser(newUser)
           return done(null, result)
         }
       } catch (error) {
@@ -68,7 +70,7 @@ const initializePassport = () => {
       console.log('Profile obtenido del usuario:')
       console.log(profile)
       try {
-        const user = await userModel.findOne({ email: profile._json.email })
+        const user = await userService.getUser(profile._json.email)
         console.log('User was found to login with GITHUB (passport.config.js):')
         console.log(user)
         if (!user) {
@@ -81,7 +83,7 @@ const initializePassport = () => {
             password: '-',
             loggedBy: 'GitHub'
           }
-          const result = await userModel.create(newUser)
+          const result = await userService.createUser(newUser)
           return done(null, result)
         } else {
           console.log('user encontrado con GITHUB')
@@ -101,7 +103,7 @@ const initializePassport = () => {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      let user = await userModel.findById(id)
+      let user = await userService.getUser(id)
       done(null, user)
     } catch (error) {
       console.error('An error ocurred while deserealizing the user:' + error)

@@ -1,6 +1,6 @@
 import productModel from './models/products.models.js'
 
-class ProductService {
+export default class ProductService {
 
   // GET PRODUCTS:
   getProducts = async (query) => {
@@ -77,5 +77,3 @@ class ProductService {
   }
 
 }
-
-export default ProductService

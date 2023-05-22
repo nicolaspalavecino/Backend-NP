@@ -2,20 +2,10 @@ import { Router } from "express"
 import { authorization, createHash, generateJWToken, validPassword } from "../utils.js"
 import passport from "passport"
 import cookieParser from "cookie-parser"
-import userModel from "../services/models/users.models.js"
+import UserService from "../services/user.service.js"
 
 const router = Router()
-
-// SESSION:
-router.get('/session', (req, res) => {
-  if(req.session.counter) {
-    req.session.counter++
-    res.send(`This site was visited ${req.session.counter} times`)
-  } else {
-    req.session.counter = 1
-    res.send('Welcome human?')
-  }
-})
+let userService = new UserService()
 
 // REGISTER:
 router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/fail-register' }), 
@@ -29,7 +19,7 @@ router.post('/register', passport.authenticate('register', { failureRedirect: '/
 router.post('/login', async (req, res)=>{
   const {email, password} = req.body
   try {
-    const user = await userModel.findOne({ email: email })
+    const user = await userService.getUser(email)
     console.log('User found to login:')
     console.log(user)
     if (!user) {
@@ -85,11 +75,6 @@ router.get('/logout', (req, res) => {
   res.clearCookie('jwtCookieToken').status(200).send('Session was successfully ended')
 })
 
-// PRIVATE:
-// router.get('/private', authorization, (req, res) => {
-//   res.send('If you are reading this it means you are blessed with the name Pepe')
-// })
-
 export default router
 
 // LOGIN:
@@ -120,4 +105,21 @@ export default router
 //     }
 //     res.send('The session was successfully ended!')
 //   })
+// })
+
+
+// SESSION:
+// router.get('/session', (req, res) => {
+//   if(req.session.counter) {
+//     req.session.counter++
+//     res.send(`This site was visited ${req.session.counter} times`)
+//   } else {
+//     req.session.counter = 1
+//     res.send('Welcome human?')
+//   }
+// })
+
+// PRIVATE:
+// router.get('/private', authorization, (req, res) => {
+//   res.send('If you are reading this it means you are blessed with the name Pepe')
 // })

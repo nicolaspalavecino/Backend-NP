@@ -2,7 +2,7 @@ import cartModel from "./models/carts.models.js"
 import productModel from './models/products.models.js'
 import mongoose from "mongoose"
 
-class CartService {
+export default class CartService {
 
   // ADD CART:
   addCart = async (cart) => {
@@ -99,5 +99,3 @@ class CartService {
     }
   }
 }
-
-export default CartService
