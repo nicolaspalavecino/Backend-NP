@@ -1,20 +1,48 @@
 <div>
+  <nav>
+    <h1>Proyecto Backend NP</h1>
+      <div class='nav-buttons'>
+        <a href="/products" id="viewCart"> PRODUCTS </a>
+        <button id="logoutBtn"> LOG OUT </button>
+      </div>
+  </nav>
   <h1>Carrito de compras:</h1>
-  <h2>ID: {{_id}}</h2>
-  <div>
-    {{#each products}}
-        <div>
-          <p>- {{product.title}}</p>
-          <ul>
-            <li>ID: {{this.product._id}}</li>
-            <li>Cantidad: {{this.quantity}}</li>
-            <li>Precio: $ {{this.product.price}}</li>
-            <li>Descripción: {{this.product.description}}</li>
-          </ul>
-        </div>
-    {{/each}}
-  </div>
+  {{#if cart.products.length }}
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each cart.products}}
+          <tr>
+            <td>{{this.product.title}}</td>
+            <td>{{this.product.price}}</td>
+            <td>{{this.quantity}}</td>
+            <td>
+              <button 
+                onclick="deleteItem('{{../cart._id}}', '{{this.product._id}}')"> 
+                  DELETE PRODUCT 
+              </button>
+              <button 
+                onclick="plusItem('{{../cart._id}}', '{{this.product._id}}', '{{this.product.title}}')"> 
+                  + 
+              </button>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <button onclick="emptyCart('{{cart._id}}')"> EMPTY CART </button>
+    <button onclick="purchaseCart('{{cart._id}}')"> COMPRAR </button>
+  {{else}}
+    <p>NO HAY PRODUCTOS EN EL CARRITO</p>
+  {{/if}}
 </div>
 
-
-
+<script src="/js/carts.js"></script>
+<script src="/js/logout.js"></script>

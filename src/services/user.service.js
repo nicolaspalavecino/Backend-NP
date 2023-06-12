@@ -14,7 +14,7 @@ export default class UserService {
   getUser = async (email = null, id = null) => {
     try {
       if (email) {
-        let result = await userModel.findOne({ email: email})
+        let result = await userModel.findOne({ email: email })
         return result
       } else if (id) {
         let result = await userModel.findById(id)

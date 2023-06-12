@@ -15,6 +15,14 @@ nav {
   justify-content:space-between;
 }
 
+.nav-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+}
+
 /* Welcome */
 * {
   font-family: 'Nunito', sans-serif;
@@ -22,25 +30,30 @@ nav {
   text-decoration: none;
 }
 
-#logoutBtn, .link-login {
+#logoutBtn, .link-login, #viewCart {
   color: white;
   background-color: rgb(23, 22, 22);
   border-radius: 0.5rem;
-  padding: 1%;
+  padding: 5%;
+  width: 100px;
   text-decoration: none;
+  text-align: center;
 }
 
 
 /* List of products: */
 
 section {
-  background-color: rgb(174, 184, 184);
   display: flex;
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 3vw 0;
   gap: 2vw;
+}
+
+#products-container {
+  background-color: rgb(174, 184, 184);
 }
 
 .product-card {
@@ -82,7 +95,8 @@ h3 {
   color: white;
   background-color: rgb(23, 22, 22);
   border-radius: 0.5rem;
-  width: 100%;
+  margin-top: 10px;
+  width: 50%;
 }
 
 /* Login & Register styles: */
@@ -151,4 +165,12 @@ h3 {
   margin: 1% 0;
   font-family: 'Nunito', sans-serif;
   background-color: rgb(216, 199, 199);
+}
+
+/* Profile & current */
+
+.profile-container {
+  background-color: rgb(174, 184, 184);
+  border-radius: 0.5rem;
+  padding: 1%
 }

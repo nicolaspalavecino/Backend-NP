@@ -3,6 +3,7 @@ import { authorization, passportCall, readLinkFilter } from "../utils.js"
 import ProductService from "../services/product.service.js"
 import CartService from "../services/cart.service.js"
 import cookieParser from "cookie-parser"
+import UserService from "../services/user.service.js"
 
 const router = Router()
 
@@ -21,12 +22,20 @@ router.get('/products', passportCall('login'), authorization(['user', 'admin']),
 })
 
 // Route to render a cart with products:
-router.get('/carts/:cid', async (req, res) => {
-  let result = await cartService.getCartById(req.params.cid)
-  res.render('cart', result )
-  console.log(result)
-  console.log(result.products[0])
+router.get('/carts/:cid', passportCall('login'), authorization(['user', 'admin']), async (req, res) => {
+  let cart = await cartService.getCartById(req.params.cid)
+  let data = { cart: cart, user: req.user }
+  res.render('cart', data )
 })
+
+// Route to current user:
+router.get('/current', passportCall('login'), authorization(['user', 'admin']), async (req, res) => {
+  let data = { user: req.user }
+  res.render('profile', data)
+})
+
+
+
 
 //Cookie management:
 router.use(cookieParser('NPfirm'))

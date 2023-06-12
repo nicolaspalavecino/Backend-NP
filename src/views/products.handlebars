@@ -2,14 +2,17 @@
   <nav>
     <h1>Proyecto Backend NP</h1>
     {{#if user}}
-      <button id="logoutBtn"> LOG OUT </button>
+      <div class='nav-buttons'>
+        <a href="/carts/{{user.cartId}}" id="viewCart"> CART </a>
+        <button id="logoutBtn"> LOG OUT </button>
+      </div>
     {{else}}
       <a href="/users/login" class="link-login"> LOG IN </a>
     {{/if}}
   </nav>
 
   {{#if user}}
-    <h1>¡Bienvenid@ {{user.name}}!</h1>
+    <h1>USUARIO: {{user.name}}</h1>
     <div class="welcome-user">
       <ul>
         <li>EDAD: {{user.age}} años</li>
@@ -65,9 +68,10 @@
               <li>$ {{this.price}}</li>
               <li>Stock: {{this.stock}}</li>
           </ul>
-        <form method="POST" action='/api/carts/644719782d361234c0565bf5/products/{{this._id}}'>
-          <button type='submit'> + CART </button>
-        </form>
+          <button 
+            onclick="addItem('{{../user.cartId}}', '{{this._id}}', '{{this.title}}')"> 
+              ADD TO CART
+          </button>
         </div>
     {{/each}}
   </div>
@@ -85,6 +89,7 @@
   {{/if}} 
 </div>
 
+<script src="/js/carts.js"></script>
 <script src="/js/logout.js"></script>
 <script src="/js/uploadProduct.js"></script>
 

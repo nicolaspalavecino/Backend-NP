@@ -1,7 +1,18 @@
-
-<div>
-    <h1>Tu perfil (sin datos sensibles)</h1>
-    <p>{{user.first_name}}</p>
-    <p>{{user.email}}</p>
-    <p>{{user.age}}</p>
+<section>
+  <div class='profile-container'>
+    {{#if user}}
+      <h1>¡Bienvenid@ {{user.name}}!</h1>
+      <div class="welcome-user">
+        <ul>
+          <li>EDAD: {{user.age}} años</li>
+          <li>EMAIL: {{user.email}}</li>
+          <li>ROL: {{user.role}}</li>
+        </ul>
+      </div>
+      <a class='send' href="/products"> >> IR A TIENDA >> </a>
+      {{else}}
+        <h1> Por favor ingrese con su usuario! </h1>
+        <a href='/users/login'> LOG IN </a>
+    {{/if}}
+  </div>
 </div>

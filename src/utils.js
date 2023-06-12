@@ -56,7 +56,6 @@ export const cookieExtractor = req => {
   let token = null
   if (req && req.cookies) { 
     token = req.cookies['jwtCookieToken']
-    console.log(token)
   }
   return token
 }
@@ -64,7 +63,6 @@ export const cookieExtractor = req => {
 // PassportCall:
 export const passportCall = (strategy) => {
   return async (req, res, next) => {
-    console.log(strategy)
     passport.authenticate(strategy, function (err, user, info) {
       if (err) return next(err)
       if (!user) {

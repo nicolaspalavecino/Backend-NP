@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
 
 const cartCollection = 'carts'

@@ -3,6 +3,7 @@ import passportLocal from 'passport-local'
 import GitHubStrategy from 'passport-github2'
 import jwtStrategy from 'passport-jwt'
 import UserService from '../services/user.service.js'
+import CartService from '../services/cart.service.js'
 import { createHash, validPassword, PRIVATE_KEY, cookieExtractor } from '../utils.js'
 import config from './config.js'
 
@@ -11,6 +12,7 @@ const JWTStrategy = jwtStrategy.Strategy
 const ExtractJWT = jwtStrategy.ExtractJwt
 
 let userService = new UserService()
+let cartService = new CartService()
 
 const initializePassport = () => {
   
@@ -28,11 +30,13 @@ const initializePassport = () => {
             console.log('An user with this email already exists')
             return done(null, false)
           }
+          let newCart = await cartService.addCart()
           let newUser = {
             first_name,
             last_name,
             email,
             age,
+            cartId: newCart.id,
             password: createHash(password)
           }
           let result = await userService.createUser(newUser)
@@ -52,7 +56,6 @@ const initializePassport = () => {
     }, 
     async (jwt_payload, done) => {
       try {
-        console.log(jwt_payload)
         return done(null, jwt_payload.user)
       } catch (error) {
         return done(`An error occured. Check for ${error}`)

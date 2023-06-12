@@ -3,6 +3,7 @@ import { authorization, createHash, generateJWToken, validPassword } from "../ut
 import passport from "passport"
 import cookieParser from "cookie-parser"
 import UserService from "../services/user.service.js"
+import userDTO from "../services/DTO/users.dto.js"
 
 const router = Router()
 let userService = new UserService()
@@ -20,8 +21,6 @@ router.post('/login', async (req, res)=>{
   const {email, password} = req.body
   try {
     const user = await userService.getUser(email)
-    console.log('User found to login:')
-    console.log(user)
     if (!user) {
       console.warn('User does not exist with username: ' + email)
       return res.status(204).send({ error: 'Not found', message: 'User does not exist with username: ' + email })
@@ -30,14 +29,9 @@ router.post('/login', async (req, res)=>{
       console.warn('Invalid credentials for user: ' + email)
       return res.status(401).send({ status: 'error', error: 'User and password do not match!' })
     }
-    const tokenUser = {
-      name : `${user.first_name} ${user.last_name}`,
-      email: user.email,
-      age: user.age,
-      role: user.role
-    }
+    const tokenUser = new userDTO(user)
     const access_token = generateJWToken(tokenUser)
-    res.cookie('jwtCookieToken', access_token, { maxAge: 60000, httpOnly: false }) // 1 min
+    res.cookie('jwtCookieToken', access_token, { maxAge: 600000, httpOnly: false }) // 10 minutos
     res.send({message: 'Login successful!', jwt: access_token })
   } catch (error) {
     console.error(error)
