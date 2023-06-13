@@ -34,6 +34,12 @@ router.get('/current', passportCall('login'), authorization(['user', 'admin']), 
   res.render('profile', data)
 })
 
+// Route to messages:
+router.get('/messages/:uid', passportCall('login'), authorization(['user', 'admin']), async (req, res) => {
+  let data = { user: req.user }
+  res.render('chat', data)
+})
+
 
 
 

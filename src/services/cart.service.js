@@ -116,7 +116,9 @@ export default class CartService {
           let foundProduct = cart.products.find((c) => c.product.id == p)
           nonStockProducts.push(foundProduct)
         })
+        console.log(nonStockProducts)
         nonStockProducts.forEach((x) => {
+          console.log(cart.products.indexOf(x))
           cart.products.splice(cart.products.indexOf(x),1)
         })
         let ticket = this.#createOrder(cart, user)
@@ -129,6 +131,8 @@ export default class CartService {
             stock: p.product.stock - p.quantity
           })
         })
+        let nowCart = await cartModel.findOne({ _id: cartId })
+        console.log(nowCart)
         return ticket
       }
     } catch (error) {
@@ -171,9 +175,47 @@ export default class CartService {
         purchaser: user.email,
         products: cart.products
       }
-      console.log(newTicket)
       let ticket = await ticketModel.create(newTicket)
       return ticket
   }
 }
 
+// let nonStockProducts = []
+//                 //Defino un nuevo carrito para la compra
+//                 let StockCart = await cartModel.findOne({_id: cartID})
+
+//                 //Busco los productos enteros con los IDs que me traigo de checkStock
+//                 available.no_stock.forEach(x => {
+//                     let a = cart.products.find(p => p.product._id == x)
+//                     nonStockProducts.push(a)
+//                 })
+//                 //Quito los productos que no hay stock del carrito
+// nonStockProducts.forEach(p => {
+//                     StockCart.products.splice(StockCart.products.indexOf(p), 1)
+//                 })
+
+//                 //Genero el ticket
+//                 let newTicket = this.#createTicket(StockCart, user)
+                
+//                 let StockProducts = []
+//                 //Defino un nuevo carrito para actualizar la BD luego de la compra
+//                 let nonStockCart = await cartModel.findOne({_id: cartID})
+                
+//                 //Busco los product
+// //Busco los productos enteros con los IDs que NO me traigo de checkStock
+//                 available.no_stock.forEach(x => {
+//                     let a = cart.products.find(p => p.product._id != x)
+//                     StockProducts.push(a)
+//                 })
+                
+//                 //Quito los productos que hay stock del carrito
+//                 StockProducts.forEach(p => {
+//                     nonStockCart.products.splice(cart.products.indexOf(p), 1)
+//                 })
+// //Actualizo el carrito de la BD con los productos que no pude comprar (almacenados en nonStockCart)
+// await cartModel.findByIdAndUpdate({_id: cartID}, nonStockCart)
+
+// //Actualizo el stock de cada producto en la BD
+// StockCart.products.forEach(p => {
+//     PS.updateProduct(p.product._id, { stock: p.product.stock - p.quantity})
+// })

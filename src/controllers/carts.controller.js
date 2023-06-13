@@ -39,6 +39,5 @@ export const deleteAllFromCart = async (req, res) => {
 
 export const purchaseCart = async (req, res) => {
   let result = await cartService.purchaseCart(req.params.cid)
-  console.log(result)
   res.status(202).send(result)
 }

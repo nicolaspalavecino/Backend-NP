@@ -2,7 +2,7 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import { __dirname } from './utils.js'
-import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerGithub } from './routes/index.router.js'
+import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerGithub, routerMessages } from './routes/index.router.js'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
@@ -49,6 +49,7 @@ app.use('/', routerViews)
 app.use('/api/sessions', routerSessions)
 app.use('/users', routerUsers)
 app.use('/github', routerGithub)
+app.use('/api/messages', routerMessages)
 
 //Conexión con BD:
 const connectMongoDB = async() => {
@@ -66,8 +67,14 @@ const httpServer = app.listen(PORT, () => {
 	console.log('Server listening on port: ' + PORT)
 })
 
-// const socketServer = new Server(httpServer)
-// socketServer.on('connection', socket => {
-//   console.log('New client online')
-//   socket.emit('products', { productsList } )
-// })
+const socketServer = new Server(httpServer)
+let messages = []
+
+socketServer.on('connection', socket => {
+  console.log('New client online')
+  // socket.emit('products', { productsList } )
+  socket.on('message', data => {
+    messages.push(data)
+    socketServer.emit('messageLogs', messages)
+  })
+})

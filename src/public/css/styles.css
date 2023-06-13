@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Nunito:ital,wght@0,200;0,400;0,700;1,200;1,400;1,700&family=Rye&display=swap');
 
-/* font-family: 'Crimson Text', serif;
-font-family: 'Nunito', sans-serif;
-font-family: 'Rye', cursive; */
+* {
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  text-decoration: none;
+}
 
 nav {
   background-color: black;
@@ -23,14 +25,7 @@ nav {
   gap: 5%;
 }
 
-/* Welcome */
-* {
-  font-family: 'Nunito', sans-serif;
-  margin: 0;
-  text-decoration: none;
-}
-
-#logoutBtn, .link-login, #viewCart {
+#logoutBtn, .link-login, .nav-button {
   color: white;
   background-color: rgb(23, 22, 22);
   border-radius: 0.5rem;

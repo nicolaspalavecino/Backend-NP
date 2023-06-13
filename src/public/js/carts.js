@@ -68,13 +68,11 @@ const purchaseCart = (cartID) => {
       if(response.ok) {
         response.json()
         .then(ticket => {
-          console.log(ticket)
           alert(`Gracias por su compra! Su ticket con código: #${ticket.code} fue generado correctamente. Si escogiste productos sin stock permanecerán en tu carrito`)
           window.location.replace(`/carts/${cartID}`)
         })
       } else {
-        console.log(response)
-          console.error('Error while preparing the purchase')
+        console.error('Error while preparing the purchase')
       }
   })
 }

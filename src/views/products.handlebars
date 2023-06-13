@@ -2,10 +2,16 @@
   <nav>
     <h1>Proyecto Backend NP</h1>
     {{#if user}}
-      <div class='nav-buttons'>
-        <a href="/carts/{{user.cartId}}" id="viewCart"> CART </a>
-        <button id="logoutBtn"> LOG OUT </button>
-      </div>
+      {{#isAdmin user.role}}
+        <div class='nav-buttons'>
+          <button id="logoutBtn"> LOG OUT </button>
+        </div>
+      {{else}}
+        <div class='nav-buttons'>
+          <a href="/carts/{{../user.cartId}}" class="nav-button"> CART </a>
+          <button id="logoutBtn"> LOGOUT </button>
+        </div>
+      {{/isAdmin}}
     {{else}}
       <a href="/users/login" class="link-login"> LOG IN </a>
     {{/if}}
@@ -54,6 +60,17 @@
         </div>
       </form>
     </div>
+    {{else}}
+    <div class="chat-container">
+      <h2>Bienvenido al chat!</h2>
+        <form id="chat-form" title='{{../user.email}}'>
+          <input type="text" placeholder="Escriba su mensaje aquí" id="chat-box">
+          <input type="submit">
+        </form>
+        <div>
+          <p id="chat-logs"></p>
+        </div>
+    </div>
   {{/isAdmin}}
 
   <h2>List of Books from MongoDB:</h2>
@@ -89,7 +106,8 @@
   {{/if}} 
 </div>
 
+<script src='/socket.io/socket.io.js'></script>
 <script src="/js/carts.js"></script>
 <script src="/js/logout.js"></script>
 <script src="/js/uploadProduct.js"></script>
-
+<script src="/js/messages.js"></script>

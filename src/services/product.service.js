@@ -62,7 +62,7 @@ export default class ProductService {
       let updatedProduct = await productModel.findOne({ _id: id })??null
       return updatedProduct
     } catch (error) {
-      retrun `An error has occurred by updating a product. Error detail: ${error}`
+      return `An error has occurred by updating a product. Error detail: ${error}`
     }
   }
 
