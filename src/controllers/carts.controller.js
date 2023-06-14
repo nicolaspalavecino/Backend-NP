@@ -1,6 +1,8 @@
 import CartService from '../services/cart.service.js'
+import EmailService from '../services/email.service.js'
 
 const cartService = new CartService()
+const emailService = new EmailService()
 
 export const addCart = async (req, res) => {
   let result = await cartService.addCart(req.body)
@@ -39,5 +41,6 @@ export const deleteAllFromCart = async (req, res) => {
 
 export const purchaseCart = async (req, res) => {
   let result = await cartService.purchaseCart(req.params.cid)
+  await emailService.sendEmail(result) // LLAMO AL MÉTODO DE SERVICE PARA ENVIAR EL MAIL!
   res.status(202).send(result)
 }

@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer'
 import config from '../config/config.js'
 import { __dirname } from '../utils.js'
-import { purchaseCart } from './carts.controller.js'
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -60,6 +59,7 @@ export const sendEmail = (req, res) => {
       console.log('Message sent: ', info.messageId)
       res.send({ message: 'Success', payload: info })
     })
+    console.log(result)
   } catch (error) {
     console.error(error)
     res.status(500).send({ error: error, message: 'Email could not be sent to: ' + config.gmailAccount})
