@@ -34,17 +34,22 @@ export default class EmailService {
           </div>`,
         attachments: []
       }
-      let result = transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log(error)
-          res.status(400).send({ message: 'Error', payload: error })
+      transporter.sendMail(mailOptions, (error, info) => {
+        if(error) {
+          return {message: 'Error', payload: error}
         }
-        console.log('Message sent: ', info.messageId)
-        res.send({ message: 'Success', payload: info })
+        return {message: 'Success', payload: info}
       })
-      console.log(result)
+      // let result = transporter.sendMail(mailOptions, (error, info) => {
+      //   if (error) {
+      //     console.log(error)
+      //     res.status(400).send({ message: 'Error', payload: error })
+      //   }
+      //   console.log('Message sent: ', info.messageId)
+      //   res.send({ message: 'Success', payload: info })
+      // })
     } catch (error) {
-      res.status(500).send({ error: error, message: 'Email could not be sent to: ' + data.purchaser})
+      return  { message: 'Email could not be sent to: ' + data.purchaser, detail: error}
     }
   }
 }
