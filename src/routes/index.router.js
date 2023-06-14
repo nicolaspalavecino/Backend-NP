@@ -5,6 +5,7 @@ import routerUsers from './users.router.js'
 import routerSessions from './sessions.router.js'
 import routerGithub from './github-login.views.router.js'
 import routerMessages from './messages.router.js'
+import routerEmails from './email.router.js'
 
 export {
   routerProducts,
@@ -13,5 +14,6 @@ export {
   routerUsers,
   routerSessions,
   routerGithub,
-  routerMessages
+  routerMessages,
+  routerEmails
 }
