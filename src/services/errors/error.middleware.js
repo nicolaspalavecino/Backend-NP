@@ -6,6 +6,14 @@ export default (error, req, res, next) => {
       res.status(400).send({ status: 'Error', error: error.message })
       break
     
+    case EErrors.INVALID_CREDENTIALS:
+      res.status(401).send({ status: 'Error', error: error.message })
+      break
+    
+    case EErrors.NOT_FOUND:
+      res.status(404).send({ status: 'Error', error: error.message })
+      break
+    
     default:
       res.status(500).send({ status: 'Error', error: 'Unhandled error!'})
   }

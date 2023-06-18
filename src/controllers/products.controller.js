@@ -40,7 +40,6 @@ export const addProduct = async (req, res) => {
     let product = req.body
     console.log(req.body)
     if (!product.title || !product.category || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock || !product.status ) {
-      console.log(req.body)
       CustomError.createError({
         name: 'Product creation error',
         cause: createProductError(product),

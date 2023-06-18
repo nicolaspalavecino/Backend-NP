@@ -4,6 +4,8 @@ import passport from "passport"
 import cookieParser from "cookie-parser"
 import UserService from "../services/user.service.js"
 import userDTO from "../services/DTO/users.dto.js"
+import CustomError from "../services/errors/customError.js"
+import EErrors from "../services/errors/error-enum.js"
 
 const router = Router()
 let userService = new UserService()
@@ -22,12 +24,20 @@ router.post('/login', async (req, res)=>{
   try {
     const user = await userService.getUser(email)
     if (!user) {
-      console.warn('User does not exist with username: ' + email)
-      return res.status(204).send({ error: 'Not found', message: 'User does not exist with username: ' + email })
+      CustomError.createError({
+        name: 'User login error',
+        cause: 'User does not exist',
+        message: `User does not exist with username + ${email}. Please verify your email or register first if you don't have an account on this site.`,
+        code: EErrors.NOT_FOUND
+      })
     }
     if (!validPassword(user, password)) {
-      console.warn('Invalid credentials for user: ' + email)
-      return res.status(401).send({ status: 'error', error: 'User and password do not match!' })
+      CustomError.createError({
+        name: 'User login error',
+        cause: 'Invalid credentials',
+        message: `Username ${email} and password do not match! Please, try again.`,
+        code: EErrors.INVALID_CREDENTIALS
+      })
     }
     const tokenUser = new userDTO(user)
     const access_token = generateJWToken(tokenUser)
@@ -35,7 +45,7 @@ router.post('/login', async (req, res)=>{
     res.send({message: 'Login successful!', jwt: access_token })
   } catch (error) {
     console.error(error)
-    return res.status(500).send({ status:'error', error:'Internal application error'})
+    res.status(400).json({ status: 'Error', message: error.message })
   }
 })
 
@@ -116,4 +126,27 @@ export default router
 // PRIVATE:
 // router.get('/private', authorization, (req, res) => {
 //   res.send('If you are reading this it means you are blessed with the name Pepe')
+// })
+
+// LOGIN WITH jwt (sin customError)
+// router.post('/login', async (req, res)=>{
+//   const {email, password} = req.body
+//   try {
+//     const user = await userService.getUser(email)
+//     if (!user) {
+//       console.warn('User does not exist with username: ' + email)
+//       return res.status(404).send({ status: 'Error', message: 'User does not exist with username: ' + email })
+//     }
+//     if (!validPassword(user, password)) {
+//       console.warn('Invalid credentials for user: ' + email)
+//       return res.status(401).send({ status: 'Error', message: 'User and password do not match!' })
+//     }
+//     const tokenUser = new userDTO(user)
+//     const access_token = generateJWToken(tokenUser)
+//     res.cookie('jwtCookieToken', access_token, { maxAge: 600000, httpOnly: false }) // 10 minutos
+//     res.send({message: 'Login successful!', jwt: access_token })
+//   } catch (error) {
+//     console.error(error)
+//     return res.status(500).send({ status:'error', error:'Internal application error'})
+//   }
 // })
