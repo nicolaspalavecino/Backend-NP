@@ -1,18 +1,17 @@
-# MENSAJE PARA RODRI - Reestructuración del proyecto
+# OPTIMIZACIÓN - customError & Mocking
 
-## Organización
-Modifiqué varias cosas de cómo estaba estructurado el proyecto. Borré varias cosas que ya no estábamos usando para hacer un poco más fácil el manejo y lectura de todo porque ya se me estaba complicando, por ejemplo saqué lo de fileSystem. Los managers ahora están en la carpeta 'services' donde también está la carpeta de 'models' con los esquemas.
+## Custom Error
+Dentro de services creé una carpeta 'error' que contiene:
+- error-enum.js: Diccionario con los códigos de error
+- error.middleware.js: Middleware para manejar el error en el controller
+- customError.js: Clase para crear el error con las distintas propiedades
+- Carpera de messages: Contiene archivos js con mensajes que paso como 'cause' dentro del error creado.
+Este customError lo apliqué al formulario para crear productos, para eso hay que loguearse de la siguiente usuario:
+- email: adminCoder@coder.com
+- contraseña: adminCod3r123
+En ese caso renderiza la página con el formulario para agregar productos. 
+El customError lo apliqué al controller de addProduct dentro de products.controller.js (El código previo está comentado). En el caso de que alguno de los valores requeridos sea 'falsy' genera el error que se pasa a través del catch. Hice algunos cambios dentro del archivo 'uploadProduct.js' de public para que el usuario desde la app pueda ver el error. Ahí paso un mensaje específico en un alert y a través de la consola del navegador muestro el mensaje de 'cause' que en el controller lo paso como 'detail'. Así el usuario puede acceder a la consola y ver más info sobre el error generado. Por el momento sólo lo aplico a esto que es lo que se pedía en el testing.
 
-## Reemplazo de SESSION por JWT (login y logout)
-Modifiqué las estrategias de login y logout para empezar a usar JWT en lugar de session. En el caso de login apliqué básicamente lo mismo que el profe durante las clases. Para el logout usé clearcookie() así elimina la cookie con el 'jwtCookieToken' y que me redirija al render de login.
-
-## Aplicación de roles para login
-Antes al loguearse, el usuario era redirigido a '/products' donde podía ver los productos y además sus datos de usuario. Toda esa lógica estaba aplicada para session, así que cambié todo para que funcione con jwt. En el caso del admin muestra el formulario para agregar productos.
-
-## Helpers para handlebars
-Estuve viendo cómo usar helpers porque en su momento no lo había entendido. Armé una carpeta con la función de 'isAdmin' para que me muestre el formulario cuando corresponda.
-
-## CONSULTA ( ! )
-Creo que eso es todo lo que estuve haciendo. Con todos estos cambios me surgió un problema:
-### Login con Github
-Como el login de github trabaja con sessions y usa el mismo endpoint '/users' (el login común lo cambié a '/products' igual pero tiene lo mismo - passportCall y authorization). Dejé un comentario del problema en esa ruta y entiendo lo que pasa, pero estuve investigando para ver cómo podría aplicar jwt a toda la estrategia de login con github y la verdad que no entiendo mucho qué puedo hacer. Honestamente no se bien por donde empezar. Así que si podés orientarme un poco te agradecería. Se que podría armar un endpoint diferente que sea solo para cuando te logueas con github, pero supongo que no es lo ideal.
+## Mocking Products
+- Dentro de services creé una carpeta 'mock' que contiene un archivo 'products.mock.js'. En este archivo utilizo faker (versión "^7.6.0"). Tengo una función createMockItem donde especifico todos los parámetros del objeto que faker tiene que completar y una función generateProducts donde especifico la cantidad de productos que deben ser creados y pusheados a un array vacío.
+- Esta última función la llamo en el GET que creé dentro de 'mock.router.js' que utiliza el endpoint '/mockingproducts'. Devuelvo este array de productos en la respuesta con un .json() para facilitar la lectura. Son 100 productos como está especificado en la consigna de las diapos.

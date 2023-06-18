@@ -2,7 +2,7 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import { __dirname } from './utils.js'
-import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerGithub, routerMessages, routerEmails } from './routes/index.router.js'
+import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerMessages, routerEmails, routerMocks } from './routes/index.router.js'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
@@ -48,9 +48,9 @@ app.use('/api/carts', routerCarts)
 app.use('/', routerViews)
 app.use('/api/sessions', routerSessions)
 app.use('/users', routerUsers)
-app.use('/github', routerGithub)
 app.use('/api/messages', routerMessages)
 app.use('/api/emails', routerEmails)
+app.use('/mockingproducts', routerMocks)
 
 //Conexión con BD:
 const connectMongoDB = async() => {

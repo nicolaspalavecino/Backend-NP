@@ -12,12 +12,18 @@ form.addEventListener('submit', e => {
       'Content-type': 'application/json'
     }
   }).then(result => {
-    if(result.status === 201) {
+    if(result.ok) {
       result.json()
+      console.log(result)
       alert('Product was successfully created!')
       form.reset()
     } else {
-      alert('Product could not be created')
+      return result.json().then((error) => {
+        console.log(error.detail)
+        alert('Product could not be created: ' + error.message)
+      })
     }
-  }).then (json => console.log(json))
+  }).catch((error => {
+    alert('An error ocurred: ' + error.message)
+  }))
 })

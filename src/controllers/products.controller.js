@@ -1,5 +1,8 @@
 import ProductService from '../services/product.service.js'
 import { readLinkFilter } from '../utils.js'
+import CustomError from '../services/errors/customError.js'
+import { createProductError } from '../services/errors/messages/product-error.message.js'
+import EErrors from '../services/errors/error-enum.js'
 
 const productService = new ProductService()
 
@@ -16,12 +19,39 @@ export const getProducts = async (req, res) => {
   }
 }
 
+// export const addProduct = async (req, res) => {
+//   let result = await productService.addProduct(req.body)
+//   if (!result.status) {
+//     console.log('ENTRA AL ERROR')
+//     let error = CustomError.createError({
+//       name: 'Product creation error',
+//       cause: createProductError(req.body),
+//       message: 'An error has ocurred while creating a product, please check all the fields!',
+//       code: EErrors.INVALID_TYPE_ERROR
+//     })
+//     res.status(501).send(error)
+//   } else {
+//     res.status(201).send({status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
+//   }
+// }
+
 export const addProduct = async (req, res) => {
-  let result = await productService.addProduct(req.body)
-  if (!result.status) {
-    res.status(501).send(result)
-  } else {
-    res.status(201).send({status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
+  try {
+    let product = req.body
+    console.log(req.body)
+    if (!product.title || !product.category || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock || !product.status ) {
+      console.log(req.body)
+      CustomError.createError({
+        name: 'Product creation error',
+        cause: createProductError(product),
+        message: 'Please complete all the fields! Check console for more information about the required properties.',
+        code: EErrors.INVALID_TYPE_ERROR
+      })
+    }
+    let result = await productService.addProduct(product)
+    res.status(201).json({ status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
+  } catch (error) {
+    res.status(400).json({ status: 'Error', message: error.message, detail: error.cause })
   }
 }
 
