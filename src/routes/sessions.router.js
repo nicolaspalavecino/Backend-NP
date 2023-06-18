@@ -27,7 +27,7 @@ router.post('/login', async (req, res)=>{
       CustomError.createError({
         name: 'User login error',
         cause: 'User does not exist',
-        message: `User does not exist with username + ${email}. Please verify your email or register first if you don't have an account on this site.`,
+        message: `User does not exist with username '${email}'. Please verify your email or register first if you don't have an account on this site.`,
         code: EErrors.NOT_FOUND
       })
     }
