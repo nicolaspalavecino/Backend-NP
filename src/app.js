@@ -66,9 +66,11 @@ app.use('/mockingproducts', routerMocks)
 // }
 // connectMongoDB()
 
+// Loggers
+app.use(addLogger)
+
 app.get('/logger', (req, res) => {
-  req.logger.warning('Prueba de log level warning!')
-  res.send('Prueba de Logger!!!')
+  res.send('Testing for /logger endpoint. Check console!')
 })
 
 const httpServer = app.listen(PORT, () => {

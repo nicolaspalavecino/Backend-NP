@@ -15,7 +15,7 @@ const customLevelOptions = {
     http: 'white',
     info: 'blue',
     warning: 'yellow',
-    error: 'orange',
+    error: 'black',
     fatal: 'red'
   }
 }
@@ -25,7 +25,7 @@ const loggerDev = winston.createLogger({
   transports: [
     new winston.transports.Console(
       {
-        level: 'debug',
+        level: 'fatal',
         format: winston.format.combine(
           winston.format.colorize({ colors: customLevelOptions.colors }),
           winston.format.simple()
@@ -61,10 +61,11 @@ const loggerProd = winston.createLogger({
 })
 
 export const addLogger = (req, res, next) => {
-  if (config.enviroment === 'production') {
+  if (config.environment === 'production') {
     req.logger = loggerProd
   } else {
     req.logger = loggerDev
+    req.logger.info('MODO DEVELOPMENT')
   }
   req.logger.info(`${req.method} in ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
   next()
