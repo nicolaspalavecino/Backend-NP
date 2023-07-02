@@ -17,7 +17,9 @@ form.addEventListener('submit', e => {
       alert('User was successfully created!')
       window.location.replace('/users/login')
     } else {
-      alert('User could not be created')
+      return result.json().then((error) => {
+        alert(error.message)
+      })
     }
-  }).then (json => console.log(json))
+  })
 })

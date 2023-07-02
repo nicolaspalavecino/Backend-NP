@@ -23,12 +23,12 @@ const initializePassport = () => {
       try {
         if (!first_name || !last_name || !email || !age || !password) {
           console.log('Please, complete all the fields!')
-          return done(null, false)
+          return done(null, false, { message: 'Please, complete all the fields!'})
         } else {
           let exists = await userService.getUser(email)
           if (exists) {
             console.log('An user with this email already exists')
-            return done(null, false)
+            return done(null, false, { message: 'An user with this email already exists!'})
           }
           let newCart = await cartService.addCart()
           let newUser = {
@@ -43,7 +43,7 @@ const initializePassport = () => {
           return done(null, result)
         }
       } catch (error) {
-        return done(`An error occured while creating a new user. Check for ${error}`)
+        return done(error, false, { message: 'Error connecting to database'})
       }
     }
   ))

@@ -4,7 +4,7 @@ export const createProductError = (product) => {
     * title: type String, received: ${product.title}
     * category: type String, received: ${product.category}
     * description: type String, received: ${product.description}
-    * thumbnail: type Strinf, received: ${product.thumbnail}
+    * thumbnail: type String, received: ${product.thumbnail}
     * price: type Number, received: ${product.price}
     * code: type Number, received: ${product.code}
     * stock: type Number, received: ${product.stock}

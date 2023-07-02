@@ -3,7 +3,8 @@ const EErrors = {
   INVALID_TYPE_ERROR: 2,
   INVALID_CREDENTIALS: 3,
   NOT_FOUND: 4,
-  DATABASE_ERROR: 5
+  DUPLICATE_INFO: 5,
+  DATABASE_ERROR: 6
 }
 
 export default EErrors

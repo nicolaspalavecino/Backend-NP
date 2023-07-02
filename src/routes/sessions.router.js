@@ -10,7 +10,7 @@ import EErrors from "../services/errors/error-enum.js"
 const router = Router()
 let userService = new UserService()
 
-// REGISTER:
+//REGISTER:
 router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/fail-register' }), 
   async (req, res) => {
     console.log('New user successfylly created')
@@ -67,7 +67,7 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect: 
 )
 
 router.get('/fail-register', (req, res) => {
-  res.status(401).send({ error: "Failed to process register!" })
+  res.status(401).send({ status: 'Error', message: 'Failed to process register!' })
 })
 
 router.get('/fail-login', (req, res) => {

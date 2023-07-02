@@ -11,6 +11,8 @@ import initializePassport from './config/passport.config.js'
 import Handlebars from 'handlebars'
 import { isAdmin } from './helpers/handlebars.helpers.js'
 import config from './config/config.js'
+import { addLogger } from './config/logger.js'
+import MongoSingleton from './config/mongodb-singleton.js'
 
 
 const app = express()
@@ -53,21 +55,37 @@ app.use('/api/emails', routerEmails)
 app.use('/mockingproducts', routerMocks)
 
 //Conexión con BD:
-const connectMongoDB = async() => {
-  try {
-    await mongoose.connect(config.db)
-    console.log('Successfully connected to MongoDB using Mongoose')
-  } catch (error) {
-    console.error('Could not connect to MongoDB using Mongoose:' + error)
-    process.exit()
-  }
-}
-connectMongoDB()
+// const connectMongoDB = async() => {
+//   try {
+//     await mongoose.connect(config.db)
+//     console.log('Successfully connected to MongoDB using Mongoose')
+//   } catch (error) {
+//     console.error('Could not connect to MongoDB using Mongoose:' + error)
+//     process.exit()
+//   }
+// }
+// connectMongoDB()
+
+app.get('/logger', (req, res) => {
+  req.logger.warning('Prueba de log level warning!')
+  res.send('Prueba de Logger!!!')
+})
 
 const httpServer = app.listen(PORT, () => {
 	console.log('Server listening on port: ' + PORT)
 })
 
+// Conexión a BD según entorno:
+const mongoInstance = async () => {
+  try {
+    await MongoSingleton.getInstance()
+  } catch (error) {
+    console.error(error)
+  }
+}
+mongoInstance()
+
+// Socket
 const socketServer = new Server(httpServer)
 let messages = []
 
