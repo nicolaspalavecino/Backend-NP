@@ -46,7 +46,13 @@ app.use(passport.session())
 
 //Loggers:
 app.use(addLogger)
-app.get('/logger', (req, res) => {
+app.get('/loggerTest', (req, res) => {
+  req.logger.fatal('Testing FATAL level log')
+  req.logger.error('Testing ERROR level log')
+  req.logger.warning('Testing WARNING level log')
+  req.logger.info('Testing INFO level log')
+  req.logger.http('Testing HTTP level log')
+  req.logger.debug('Testing DEBUG level log')
   res.send('Testing for /logger endpoint. Check console!')
 })
 

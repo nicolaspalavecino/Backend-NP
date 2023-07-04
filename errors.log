@@ -1,2 +1,4 @@
 [31merror[39m: Failed to process register
 [31merror[39m: User does not exist with username ''. Please verify your email or register first if you don't have an account on this site.
+[30mfatal[39m: Testing FATAL level log
+[31merror[39m: Testing ERROR level log
