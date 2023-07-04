@@ -4,11 +4,13 @@ import { Command } from 'commander'
 const program = new Command()
 
 program 
-  .option('-d', 'Variable para debug', false)
-  .option('-p <port>', 'Puerto del servidor', 8080)
-  .option('--mode <mode>', 'Modo de trabajo', 'development')
+  .option('-d', 'Debug variable', false)
+  .option('-p, <port>', 'Port server', 8080)
+  .option('--mode <mode>', 'Work mode', 'development')
 program.parse()
 
+
+console.log('Program options: ', program.opts())
 console.log('Mode Option: ', program.opts().mode)
 
 const environment = program.opts().mode

@@ -13,7 +13,7 @@ let userService = new UserService()
 //REGISTER:
 router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/fail-register' }), 
   async (req, res) => {
-    console.log('New user successfylly created')
+    req.logger.info('New user successfylly created')
     res.status(201).send({status: "success", msg: 'User created successfully created'})
   }
 )
@@ -44,7 +44,7 @@ router.post('/login', async (req, res)=>{
     res.cookie('jwtCookieToken', access_token, { maxAge: 600000, httpOnly: false }) // 10 minutos
     res.send({message: 'Login successful!', jwt: access_token })
   } catch (error) {
-    console.error(error)
+    req.logger.error(error.message)
     res.status(400).json({ status: 'Error', message: error.message })
   }
 })
@@ -67,10 +67,12 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect: 
 )
 
 router.get('/fail-register', (req, res) => {
+  req.logger.error('Failed to process register')
   res.status(401).send({ status: 'Error', message: 'Failed to process register!' })
 })
 
 router.get('/fail-login', (req, res) => {
+  req.logger.error('Failed to process login')
   res.status(401).send({ error: "Failed to process login!" })
 })
 
@@ -80,73 +82,3 @@ router.get('/logout', (req, res) => {
 })
 
 export default router
-
-// LOGIN:
-// router.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/fail-login' }), 
-//   async (req, res) => {
-//     console.log('User found to login:')
-//     const user = req.user
-//     console.log(user)
-//     if(!user) return res.status(401).send({status: "error", msg: "Incorrect credentials"}) 
-//     // req.session.user = {
-//     //   name: `${user.first_name} ${user.last_name}`,
-//     //   email: user.email,
-//     //   age: user.age,
-//     //   role: 'user',
-//     //   isAdmin: false
-//     // }
-//     const access_token = generateJWToken(user)
-//     // res.send({status: "success", payload: req.session.user, msg:"First login completed!"})
-//     res.send({access_token: access_token})
-//   }
-// )
-
-// LOGOUT:
-// router.get('/logout', async (req, res) => {
-//   req.session.destroy(error => {
-//     if(error) {
-//       res.json({ error: 'Logout error', message: 'An error has occurred when logging out' })
-//     }
-//     res.send('The session was successfully ended!')
-//   })
-// })
-
-
-// SESSION:
-// router.get('/session', (req, res) => {
-//   if(req.session.counter) {
-//     req.session.counter++
-//     res.send(`This site was visited ${req.session.counter} times`)
-//   } else {
-//     req.session.counter = 1
-//     res.send('Welcome human?')
-//   }
-// })
-
-// PRIVATE:
-// router.get('/private', authorization, (req, res) => {
-//   res.send('If you are reading this it means you are blessed with the name Pepe')
-// })
-
-// LOGIN WITH jwt (sin customError)
-// router.post('/login', async (req, res)=>{
-//   const {email, password} = req.body
-//   try {
-//     const user = await userService.getUser(email)
-//     if (!user) {
-//       console.warn('User does not exist with username: ' + email)
-//       return res.status(404).send({ status: 'Error', message: 'User does not exist with username: ' + email })
-//     }
-//     if (!validPassword(user, password)) {
-//       console.warn('Invalid credentials for user: ' + email)
-//       return res.status(401).send({ status: 'Error', message: 'User and password do not match!' })
-//     }
-//     const tokenUser = new userDTO(user)
-//     const access_token = generateJWToken(tokenUser)
-//     res.cookie('jwtCookieToken', access_token, { maxAge: 600000, httpOnly: false }) // 10 minutos
-//     res.send({message: 'Login successful!', jwt: access_token })
-//   } catch (error) {
-//     console.error(error)
-//     return res.status(500).send({ status:'error', error:'Internal application error'})
-//   }
-// })

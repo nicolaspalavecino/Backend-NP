@@ -47,7 +47,6 @@ export default class ProductService {
     try {
       const productById = await productModel.findOne({ _id: id })??null
       if (productById) {
-        console.log(productById)
         return productById
       }
     } catch (error) {

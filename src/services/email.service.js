@@ -40,16 +40,8 @@ export default class EmailService {
         }
         return {message: 'Success', payload: info}
       })
-      // let result = transporter.sendMail(mailOptions, (error, info) => {
-      //   if (error) {
-      //     console.log(error)
-      //     res.status(400).send({ message: 'Error', payload: error })
-      //   }
-      //   console.log('Message sent: ', info.messageId)
-      //   res.send({ message: 'Success', payload: info })
-      // })
     } catch (error) {
-      return  { message: 'Email could not be sent to: ' + data.purchaser, detail: error}
+      return { message: 'Email could not be sent to: ' + data.purchaser, detail: error}
     }
   }
 }

@@ -19,26 +19,9 @@ export const getProducts = async (req, res) => {
   }
 }
 
-// export const addProduct = async (req, res) => {
-//   let result = await productService.addProduct(req.body)
-//   if (!result.status) {
-//     console.log('ENTRA AL ERROR')
-//     let error = CustomError.createError({
-//       name: 'Product creation error',
-//       cause: createProductError(req.body),
-//       message: 'An error has ocurred while creating a product, please check all the fields!',
-//       code: EErrors.INVALID_TYPE_ERROR
-//     })
-//     res.status(501).send(error)
-//   } else {
-//     res.status(201).send({status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
-//   }
-// }
-
 export const addProduct = async (req, res) => {
   try {
     let product = req.body
-    console.log(req.body)
     if (!product.title || !product.category || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock || !product.status ) {
       CustomError.createError({
         name: 'Product creation error',
@@ -48,8 +31,10 @@ export const addProduct = async (req, res) => {
       })
     }
     let result = await productService.addProduct(product)
+    req.logger.info(`Product successfully added to the list with name: ${result.title} and ID: ${result.id}`)
     res.status(201).json({ status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
   } catch (error) {
+    req.logger.error(error.message)
     res.status(400).json({ status: 'Error', message: error.message, detail: error.cause })
   }
 }
@@ -66,8 +51,7 @@ export const getProductById = async (req, res) => {
 export const updateProduct = async (req, res) => {
   let productId = req.params.pid
   let update = await productService.updateProduct(productId, req.body)
-  console.log('Producto actualizado:')
-  console.log(update)
+  req.logger.info('Producto actualizado: ' + update)
   if (!update.status) {
     res.status(501).send(update)
   } else {

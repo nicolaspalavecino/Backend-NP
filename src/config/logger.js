@@ -3,20 +3,20 @@ import config from './config.js'
 
 const customLevelOptions = {
   levels: {
-    debug: 0,
-    http: 1,
-    info: 2,
-    warning: 3,
-    error: 4,
-    fatal: 5
+    fatal: 0,
+    error: 1,
+    warning: 2,
+    info: 3,
+    http: 4,
+    debug: 5
   },
   colors: {
-    debug: 'green',
-    http: 'white',
-    info: 'blue',
+    fatal: 'black',
+    error: 'red',
     warning: 'yellow',
-    error: 'black',
-    fatal: 'red'
+    info: 'blue',
+    http: 'white',
+    debug: 'green'
   }
 }
 
@@ -25,7 +25,7 @@ const loggerDev = winston.createLogger({
   transports: [
     new winston.transports.Console(
       {
-        level: 'fatal',
+        level: 'debug',
         format: winston.format.combine(
           winston.format.colorize({ colors: customLevelOptions.colors }),
           winston.format.simple()
@@ -49,7 +49,7 @@ const loggerProd = winston.createLogger({
     ),
     new winston.transports.File(
       {
-        filename: './erros.log',
+        filename: './errors.log',
         level: 'error',
         format: winston.format.combine(
           winston.format.colorize({ colors: customLevelOptions.colors }),
@@ -65,7 +65,6 @@ export const addLogger = (req, res, next) => {
     req.logger = loggerProd
   } else {
     req.logger = loggerDev
-    req.logger.info('MODO DEVELOPMENT')
   }
   req.logger.info(`${req.method} in ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`)
   next()

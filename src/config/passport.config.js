@@ -22,12 +22,12 @@ const initializePassport = () => {
       const { first_name, last_name, email, age } = req.body
       try {
         if (!first_name || !last_name || !email || !age || !password) {
-          console.log('Please, complete all the fields!')
+          req.logger.warning('Please, complete all the fields!')
           return done(null, false, { message: 'Please, complete all the fields!'})
         } else {
           let exists = await userService.getUser(email)
           if (exists) {
-            console.log('An user with this email already exists')
+            req.logger.warning('An user with this email already exists')
             return done(null, false, { message: 'An user with this email already exists!'})
           }
           let newCart = await cartService.addCart()
@@ -71,7 +71,7 @@ const initializePassport = () => {
       callbackUrl: config.githubCallbackUrl
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log('Profile obtenido del usuario:')
+      console.log('Profile obtenido del usuario: ' + profile)
       console.log(profile)
       try {
         const user = await userService.getUser(profile._json.email)
@@ -116,24 +116,3 @@ const initializePassport = () => {
 }
 
 export default initializePassport
-
-  // LOGIN STRATEGY:
-  // passport.use('login', new localStrategy(
-  //   { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
-  //     try {
-  //       let user = await userModel.findOne({ email: username })
-  //       console.log(user)
-  //       if (!user) {
-  //         console.warn('User does not exist with user name: ' + username)
-  //         return done(null, false)
-  //       }
-  //       if (!validPassword(user, password)) {
-  //         console.warn('Invalid credentials for user: ' + username)
-  //         return done(null, false)
-  //       }
-  //       return done(null, user)
-  //     } catch (error) {
-  //       return done(error)
-  //     }
-  //   }
-  // ))

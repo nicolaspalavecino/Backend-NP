@@ -2,7 +2,7 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import { __dirname } from './utils.js'
-import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerMessages, routerEmails, routerMocks } from './routes/index.router.js'
+import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerMessages, routerMocks } from './routes/index.router.js'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
@@ -44,6 +44,12 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
+//Loggers:
+app.use(addLogger)
+app.get('/logger', (req, res) => {
+  res.send('Testing for /logger endpoint. Check console!')
+})
+
 //Routes: 
 app.use('/api/products', routerProducts)
 app.use('/api/carts', routerCarts)
@@ -51,27 +57,7 @@ app.use('/', routerViews)
 app.use('/api/sessions', routerSessions)
 app.use('/users', routerUsers)
 app.use('/api/messages', routerMessages)
-app.use('/api/emails', routerEmails)
 app.use('/mockingproducts', routerMocks)
-
-//Conexión con BD:
-// const connectMongoDB = async() => {
-//   try {
-//     await mongoose.connect(config.db)
-//     console.log('Successfully connected to MongoDB using Mongoose')
-//   } catch (error) {
-//     console.error('Could not connect to MongoDB using Mongoose:' + error)
-//     process.exit()
-//   }
-// }
-// connectMongoDB()
-
-// Loggers
-app.use(addLogger)
-
-app.get('/logger', (req, res) => {
-  res.send('Testing for /logger endpoint. Check console!')
-})
 
 const httpServer = app.listen(PORT, () => {
 	console.log('Server listening on port: ' + PORT)

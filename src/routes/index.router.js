@@ -4,7 +4,6 @@ import routerViews from './views.router.js'
 import routerUsers from './users.router.js'
 import routerSessions from './sessions.router.js'
 import routerMessages from './messages.router.js'
-import routerEmails from './email.router.js'
 import routerMocks from './mock.router.js'
 
 export {
@@ -14,6 +13,5 @@ export {
   routerUsers,
   routerSessions,
   routerMessages,
-  routerEmails,
   routerMocks
 }
