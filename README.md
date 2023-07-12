@@ -1,18 +1,18 @@
-# OPTIMIZACIÓN - customError & Mocking
+# Implementación de LOGGER
 
-## Custom Error
-Dentro de services creé una carpeta 'error' que contiene:
-- error-enum.js: Diccionario con los códigos de error
-- error.middleware.js: Middleware para manejar el error en el controller
-- customError.js: Clase para crear el error con las distintas propiedades
-- Carpeta de messages: Contiene un archivo js con mensajes que paso como 'cause' dentro del error creado.
+## Environment
+Agregué los entornos de 'DEVELOPMENT' y 'PRODUCTION' dentro de la carpeta config, junto con lo correspondiente a Singleton que hasta el momento no lo había aplicado.
 
-Este customError lo apliqué al formulario para crear productos según lo que se pedía en el testing. Para eso hay que loguearse usuario 'ADMIN', teniendo en cuenta que así la página principal se renderiza con el formulario para agregar productos:
-- email: adminCoder@coder.com
-- contraseña: adminCod3r123
+## Loggers
+Implementé loggers según lo que pedía la consigna. 
+- Development environment: loggers de fatal a debug (todos los niveles)
+- Production environment: loggers de fatal a info para que aparezca en la consola y de fatal a error para que se almacene en errors.log.
+Esto fue lo que entendí de la consigna y lo que supuse que era más lógico, pero no se si interpreté bien lo que pedía, estaba un poco confuso. 
 
-El customError lo utilizo en el controller de addProduct dentro de products.controller.js (El código previo está comentado). En el caso de que alguno de los valores requeridos sea 'falsy' genera el error que se pasa a través del catch. Hice algunos cambios dentro del archivo 'uploadProduct.js' de public para que el usuario desde la app pueda ver el error. Ahí paso un mensaje específico en un alert y a través de la consola del navegador muestro el mensaje de 'cause' que en el controller lo paso como 'detail'. Así el usuario puede acceder a la consola y ver más info sobre el error generado. Por el momento sólo lo aplico a esto y también lo agregué para el login del usuario.
+### loggerTest
+Dentro de app.js hay una ruta para el endpoint /loggerTest donde hay un req.logger para cada nivel con el fin de que al ejecutarse dicha ruta en la consola se muestre los loggers correspondientes teniendo en cuenta si estamos en un entorno de production o development.
 
-## Mocking Products
-- Dentro de services creé una carpeta 'mock' que contiene un archivo 'products.mock.js'. En este archivo utilizo faker (versión "^7.6.0"). Tengo una función createMockItem donde especifico todos los parámetros del objeto que faker tiene que completar y una función generateProducts donde especifico la cantidad de productos que deben ser creados y pusheados a un array vacío.
-- Esta última función la llamo en el GET que creé dentro de 'mock.router.js' que utiliza el endpoint '/mockingproducts'. Devuelvo este array de productos en la respuesta con un .json() para facilitar la lectura. Son 100 productos como está especificado en la consigna de las diapos.
+### Otras aplicaciones:
+No tenía muchos console.log(), así que lo apliqué solo para testear cómo funcionaba en:
+- products.controller.js para el agregado de productos
+- sessions.router.js para login y register.
