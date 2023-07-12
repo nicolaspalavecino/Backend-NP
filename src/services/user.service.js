@@ -1,3 +1,4 @@
+import e from 'express'
 import userModel from './models/users.models.js'
 
 export default class UserService {
@@ -22,6 +23,26 @@ export default class UserService {
       } 
     } catch (error) {
       `An error has occurred by consulting user database. Error detail: ${error}`
+    }
+  }
+
+  upgradeUser = async (email) => {
+    try {
+      await userModel.findOneAndUpdate({ email: email }, { role: 'premium' })
+      let updatedUser = await userModel.findOne({ email: email })
+      return updatedUser
+    } catch (error) {
+      return `An error has ocurred by consulting user database. Error detail: ${error}`
+    }
+  }
+
+  updatePassword = async (email, password) => {
+    try {
+      await userModel.findOneAndUpdate({ email: email }, { password: password })
+      let updatedUser = await userModel.findOne({ email: email })
+      return updatedUser
+    } catch (error) {
+      return `An error has ocurred by consulting user database. Error detail: ${error}`
     }
   }
 }

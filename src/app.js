@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import Handlebars from 'handlebars'
-import { isAdmin } from './helpers/handlebars.helpers.js'
+import { isAdmin, isBasic, isClient, isCreator, isOwner, isPremium } from './helpers/handlebars.helpers.js'
 import config from './config/config.js'
 import { addLogger } from './config/logger.js'
 import MongoSingleton from './config/mongodb-singleton.js'
@@ -22,7 +22,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Handlebars Helper for role login:
+Handlebars.registerHelper('isCreator', isCreator)
+Handlebars.registerHelper('isClient', isClient)
 Handlebars.registerHelper('isAdmin', isAdmin)
+Handlebars.registerHelper('isPremium', isPremium)
+Handlebars.registerHelper('isBasic', isBasic)
+Handlebars.registerHelper('isOwner', isOwner)
+
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + "/views/")

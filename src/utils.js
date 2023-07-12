@@ -27,7 +27,11 @@ export const readLinkFilter = (filter) => {
 // JWT functions:
 export const PRIVATE_KEY = config.privateKey
 export const generateJWToken = (user) => {
-  return jwt.sign({user}, PRIVATE_KEY, {expiresIn: '24h'})
+  return jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '24h' })
+}
+
+export const generateJWTokenLink = (email) => {
+  return jwt.sign({ email }, PRIVATE_KEY, { expiresIn: '1h'})
 }
 
 export const authToken = (req, res, next) => {

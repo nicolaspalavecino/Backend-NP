@@ -44,4 +44,28 @@ export default class EmailService {
       return { message: 'Email could not be sent to: ' + data.purchaser, detail: error}
     }
   }
+
+  sendRestorePassword = async (email, link) => {
+    try {
+      const mailOptions = {
+        from: 'Coder TEST' + config.gmailAccount,
+        to: email,
+        subject: 'Restauración de contraseña - PROYECTO BACKEND NP!',
+        html: 
+          `<div>
+            <p> Toque el siguiente botón para restaurar la contraseña de su cuenta: </p>
+            <button><a href='${ link }'> Restaurar contraseña </a></button>
+            <p> Si usted no solicitó esta acción, ignore este mensaje.</p>
+          </div>`,
+      }
+      transporter.sendMail(mailOptions, (error, info) => {
+        if(error) {
+          return {message: 'Error', payload: error}
+        }
+        return {message: 'Success', payload: info}
+      })
+    } catch (error) {
+      return { message: 'Email could not be sent to: ' + email, detail: error }
+    }
+  }
 }

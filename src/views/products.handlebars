@@ -2,18 +2,19 @@
   <nav>
     <h1>Proyecto Backend NP</h1>
     {{#if user}}
-      {{#isAdmin user.role}}
-        <div class='nav-buttons'>
-          <button id="logoutBtn"> LOG OUT </button>
-        </div>
-      {{else}}
-        <div class='nav-buttons'>
-          <a href="/carts/{{../user.cartId}}" class="nav-button"> CART </a>
-          <button id="logoutBtn"> LOGOUT </button>
-        </div>
-      {{/isAdmin}}
-    {{else}}
-      <a href="/users/login" class="link-login"> LOG IN </a>
+      <div class='nav-buttons'>
+      {{#isClient user.role}}
+        <button class="nav-button"><a href="/carts/{{../user.cartId}}" style="color: white"> CART </a></button>
+      {{/isClient}}
+      {{#isBasic user.role}}
+        <button
+            onclick="upgradeUser('{{../user.email}}')"
+            class="nav-button"> 
+          PREMIUM
+        </button>
+      {{/isBasic}}
+        <button id="logoutBtn"> LOGOUT </button>
+      </div>
     {{/if}}
   </nav>
 
@@ -25,10 +26,13 @@
         <li>EMAIL: {{user.email}}</li>
         <li>ROL: {{user.role}}</li>
       </ul>
+      {{#isClient user.role}}
+      <button onclick="sendRestorePassword('{{../user.email}}')"> Reestablecer Contraseña </button>
+      {{/isClient}}
     </div>
   {{/if}}
 
-  {{#isAdmin user.role}}
+  {{#isCreator user.role}}
     <div class="upload-container">
       <h2>Agrega un nuevo producto:</h2>
       <form id="productForm" class="user-form">
@@ -55,6 +59,9 @@
         <br/>
         <label>Status:</label>
         <input name="status" type="boolean" placeholder="Escribe 'true' en este campo">
+        {{#isPremium ../user.role}}
+          <input name="owner" type="text" value="{{../user.email}}" style="display: none">
+        {{/isPremium}}
         <div class="send">
           <input type="submit">
         </div>
@@ -71,7 +78,7 @@
           <p id="chat-logs"></p>
         </div>
     </div>
-  {{/isAdmin}}
+  {{/isCreator}}
 
   <h2>List of Books from MongoDB:</h2>
   <section id='products-container'>
@@ -85,10 +92,14 @@
               <li>$ {{this.price}}</li>
               <li>Stock: {{this.stock}}</li>
           </ul>
-          <button 
-            onclick="addItem('{{../user.cartId}}', '{{this._id}}', '{{this.title}}')"> 
+          {{#isOwner ../user.email this.owner}}
+            <p>MI PRODUCTO</p>
+          {{else}}
+            <button 
+              onclick="addItem('{{../../user.cartId}}', '{{../this._id}}', '{{../this.title}}')"> 
               ADD TO CART
-          </button>
+            </button>
+          {{/isOwner}}
         </div>
     {{/each}}
   </div>
@@ -111,3 +122,4 @@
 <script src="/js/logout.js"></script>
 <script src="/js/uploadProduct.js"></script>
 <script src="/js/messages.js"></script>
+<script src="/js/users.js"></script>

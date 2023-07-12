@@ -42,6 +42,11 @@ const productSchema = new mongoose.Schema({
   thumbnail: stringTypeSchemaRequired,
   code: numberTypeSchemaUniqueRequired,
   stock: numberTypeSchemaRequired,
+  owner: {
+    type: String,
+    required: true,
+    default: 'admin'
+  },
   status: booleanTypeSchemaRequired,
 })
 
