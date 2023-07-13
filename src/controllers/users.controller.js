@@ -1,6 +1,9 @@
 import UserService from "../services/user.service.js"
 import jwt from 'jsonwebtoken'
 import { PRIVATE_KEY, createHash, validPassword} from "../utils.js"
+import CustomError from "../services/errors/customError.js"
+import { createPasswordError, expiredLinkError } from "../services/errors/messages/password-error.message.js"
+import EErrors from "../services/errors/error-enum.js"
 
 const userService = new UserService()
 
@@ -19,25 +22,48 @@ export const restorePassword = async (req, res) => {
     let token = req.query.token
     console.log(token)
     if ( !token ) {
-      return res.status(401).send({ status: 'Error', message: 'Expired link. Please, generate a new restore password link!'})
+      CustomError.createError({
+        name: 'Expired link error',
+        cause: expiredLinkError(),
+        message: 'The link you are using is already expired. Please, try again and generate a new link',
+        code: EErrors.INVALID_CREDENTIALS
+      })
     }
     try {
       let decoded = jwt.verify(token, PRIVATE_KEY)
       let emailToken = decoded.email
       let { newPassword, repeatPassword } = req.body
+      if ( newPassword === '') {
+        CustomError.createError({
+          name: 'Password change error',
+          cause: createPasswordError(),
+          message: 'You must complete the password field!',
+          code: EErrors.INVALID_TYPE_ERROR
+        })
+      }
       if ( newPassword !== repeatPassword ) {
-        res.status(501).send({ status: 'Error', message: 'Password fields must match! Please, try again'})
+        CustomError.createError({
+          name: 'Password change error',
+          cause: createPasswordError(),
+          message: 'Password fields must match! Please, try again',
+          code: EErrors.INVALID_CREDENTIALS
+        })
       }
       let user = await userService.getUser(emailToken)
       if(validPassword(user, newPassword)) {
-        res.status(502).send({ status: 'Error', message: 'Password must must be different from the current one! Please, try another one!'})
+        CustomError.createError({
+          name: 'Password change error',
+          cause: createPasswordError(),
+          message: 'Password must must be different from the current one! Please, try another one!',
+          code: EErrors.INVALID_CREDENTIALS
+        })
       }
       await userService.updatePassword(emailToken, createHash(newPassword))
-      res.status(201).send({ status: 'Success', message: 'Password was successfully restored!'})
+      res.status(201).json({ status: 'Success', message: 'Password was successfully restored!'})
     } catch (error) {
-      res.status(401).send({ status: 'Error', message: 'Invalid authentication token!', detail: error})
+      res.status(400).json({ status: 'Error', message: error.message, detail: error.cause })
     }
   } catch (error) {
-    res.status(500).send({ status: 'Error', message: 'Password could not be updated', detail: error})
+    res.status(500).json({ status: 'Error', message: error.message, detail: error.cause })
   }
 }
