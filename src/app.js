@@ -13,6 +13,8 @@ import { isAdmin, isBasic, isClient, isCreator, isOwner, isPremium } from './hel
 import config from './config/config.js'
 import { addLogger } from './config/logger.js'
 import MongoSingleton from './config/mongodb-singleton.js'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUIExpress from 'swagger-ui-express'
 
 
 const app = express()
@@ -29,11 +31,25 @@ Handlebars.registerHelper('isPremium', isPremium)
 Handlebars.registerHelper('isBasic', isBasic)
 Handlebars.registerHelper('isOwner', isOwner)
 
-
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + "/views/")
 app.set('view engine', 'handlebars')
 app.use(express.static(__dirname + '/public'))
+
+// Swagger Configuration:
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API Documentation - Proyecto Backend NP',
+      description: 'API Documentation for Proyecto Backend NP - Swagger'
+    }
+  },
+  apis: [`./src/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUIExpress.serve, swaggerUIExpress.setup(specs))
 
 //Cookies:
 app.use(cookieParser('ProyectoBackendNPSecreto'))

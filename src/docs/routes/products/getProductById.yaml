@@ -1,0 +1,17 @@
+paths:
+  /api/products/{pid}:
+    get:
+      summary: Get a product with given id.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: Path parameter takes the product id.
+          required: true
+          type: string
+      responses:
+        "201":
+          description: Product was found.
+        "404":
+          description: Product not found Error.

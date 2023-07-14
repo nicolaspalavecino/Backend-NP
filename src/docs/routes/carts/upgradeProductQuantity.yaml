@@ -1,0 +1,33 @@
+  /api/carts/{cid}/products/{pid}:
+    put:
+      summary: Updates a product's quantity in cart.
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        description: path parameter takes the cart id
+        required: true
+        type: string
+      - name: pid
+        in: path
+        description: path parameter takes the product id
+        required: true
+        type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInCart'
+      responses:
+        "200":
+          description: The product's quantity in cart has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductInCart'
+        "402":
+          description: Product's quantity could not be updated.
+        "404":
+          description: Product not found Error
