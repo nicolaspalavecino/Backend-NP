@@ -1,11 +1,11 @@
 paths:
-  /api/products/{id}:
+  /api/products/{pid}:
     delete:
       summary: Delete a prodcut with given id.
       tags:
         - Products
       parametes:
-        - name: id
+        - name: pid
           in: path
           description: Path parameter takes the product id.
           required: true

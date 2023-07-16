@@ -10,4 +10,5 @@ Cuenta con los módulos de carts y products junto con un archivo de tags para po
 
 ### Schemas
 Contiene los esquemas correspondientes a los modelos de BD de cart y product. Además, existe un archivo .yaml denominado 'productInCart.yaml' que esquematiza la estructura del producto dentro del array correspondiente al modelo de cart.
+
 Adicionalmente, en los casos donde se utiliza req.body dentro de la ruta, se creó un esquema que corresponde a la información que se pasa mediante el body. Por ejemplo, las propiedades que el usuario debe definir para crear un producto mediante la ruta 'addProduct'.
