@@ -1,18 +1,13 @@
-# Implementación de LOGGER
+# Documentar API
 
-## Environment
-Agregué los entornos de 'DEVELOPMENT' y 'PRODUCTION' dentro de la carpeta config, junto con lo correspondiente a Singleton que hasta el momento no lo había aplicado.
+## Configuración de Swagger
+Dentro de app.js se realizó la configuración de Swagger para poder iniciar con la documentación. Se designnó la ruta: '/apidocs' para visualizar los documentos correspondientes al módulo de 'products' y 'carts'.
 
-## Loggers
-Implementé loggers según lo que pedía la consigna. 
-- Development environment: loggers de fatal a debug (todos los niveles)
-- Production environment: loggers de fatal a info para que aparezca en la consola y de fatal a error para que se almacene en errors.log.
-Esto fue lo que entendí de la consigna y lo que supuse que era más lógico, pero no se si interpreté bien lo que pedía, estaba un poco confuso. 
+## Carpeta DOCS
+Contiene todos los archivos .yaml que se muestran a través de Swagger.
+### Routes
+Cuenta con los módulos de carts y products junto con un archivo de tags para poder referenciar las rutas correspondientes a cada uno de los módulos. 
 
-### loggerTest
-Dentro de app.js hay una ruta para el endpoint /loggerTest donde hay un req.logger para cada nivel con el fin de que al ejecutarse dicha ruta en la consola se muestre los loggers correspondientes teniendo en cuenta si estamos en un entorno de production o development.
-
-### Otras aplicaciones:
-No tenía muchos console.log(), así que lo apliqué solo para testear cómo funcionaba en:
-- products.controller.js para el agregado de productos
-- sessions.router.js para login y register.
+### Schemas
+Contiene los esquemas correspondientes a los modelos de BD de cart y product. Además, existe un archivo .yaml denominado 'productInCart.yaml' que esquematiza la estructura del producto dentro del array correspondiente al modelo de cart.
+Adicionalmente, en los casos donde se utiliza req.body dentro de la ruta, se creó un esquema que corresponde a la información que se pasa mediante el body. Por ejemplo, las propiedades que el usuario debe definir para crear un producto mediante la ruta 'addProduct'.
