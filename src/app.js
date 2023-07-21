@@ -23,7 +23,7 @@ const PORT = config.port
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Handlebars Helper for role login:
+// Handlebars Helper for user roles:
 Handlebars.registerHelper('isCreator', isCreator)
 Handlebars.registerHelper('isClient', isClient)
 Handlebars.registerHelper('isAdmin', isAdmin)
@@ -107,7 +107,6 @@ let messages = []
 
 socketServer.on('connection', socket => {
   console.log('New client online')
-  // socket.emit('products', { productsList } )
   socket.on('message', data => {
     messages.push(data)
     socketServer.emit('messageLogs', messages)

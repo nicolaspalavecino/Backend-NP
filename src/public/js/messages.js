@@ -23,15 +23,7 @@ chatForm.addEventListener('submit', async e => {
     } else {
       console.error('Error while sending message!')
     }
-})
-
-  
-  // if(chatBox.value.trim().length > 0) {
-  //   const userEmail = chatForm.name
-  //   const user = await userService.getUser(userEmail)
-  //   socket.emit('message', { user: user.first_name, message: chatBox.value })
-  //   chatBox.value = ''
-  // }
+  })
 })
 
 socket.on('messageLogs', data => {

@@ -19,22 +19,25 @@
   </nav>
 
   {{#if user}}
-    <h1>USUARIO: {{user.name}}</h1>
-    <div class="welcome-user">
-      <ul>
-        <li>EDAD: {{user.age}} años</li>
-        <li>EMAIL: {{user.email}}</li>
-        <li>ROL: {{user.role}}</li>
-      </ul>
-      {{#isClient user.role}}
-      <button onclick="sendRestorePassword('{{../user.email}}')"> Reestablecer Contraseña </button>
-      {{/isClient}}
+    <div class='user-container'>
+      <h2>USUARIO: {{user.name}}</h2>
+      <div class="welcome-user">
+        <ul>
+          <li>EDAD: {{user.age}} años</li>
+          <li>EMAIL: {{user.email}}</li>
+          <li>ROL: {{user.role}}</li>
+        </ul>
+        {{#isClient user.role}}
+        <button onclick="sendRestorePassword('{{../user.email}}')"> Reestablecer Contraseña </button>
+        {{/isClient}}
+      </div>
     </div>
   {{/if}}
 
   {{#isCreator user.role}}
     <div class="upload-container">
       <h2>Agrega un nuevo producto:</h2>
+      <br/>
       <form id="productForm" class="user-form">
         <label>Nombre del producto:</label>
         <input name="title">
@@ -57,8 +60,6 @@
         <label>Stock:</label>
         <input name="stock" type="number">
         <br/>
-        <label>Status:</label>
-        <input name="status" type="boolean" placeholder="Escribe 'true' en este campo">
         {{#isPremium ../user.role}}
           <input name="owner" type="text" value="{{../user.email}}" style="display: none">
         {{/isPremium}}
@@ -67,7 +68,9 @@
         </div>
       </form>
     </div>
-    {{else}}
+  {{/isCreator}}
+
+  {{#isClient user.role}}
     <div class="chat-container">
       <h2>Bienvenido al chat!</h2>
         <form id="chat-form" title='{{../user.email}}'>
@@ -78,7 +81,7 @@
           <p id="chat-logs"></p>
         </div>
     </div>
-  {{/isCreator}}
+  {{/isClient}}
 
   <h2>List of Books from MongoDB:</h2>
   <section id='products-container'>

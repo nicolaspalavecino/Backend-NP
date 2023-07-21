@@ -2,7 +2,6 @@ import { Router } from "express"
 import { authorization, passportCall, readLinkFilter } from "../utils.js"
 import ProductService from "../services/product.service.js"
 import CartService from "../services/cart.service.js"
-import cookieParser from "cookie-parser"
 import UserService from "../services/user.service.js"
 
 const router = Router()
@@ -47,25 +46,6 @@ router.get('/messages/:uid', passportCall('login'), authorization(['user', 'prem
 // Route to restore password:
 router.get('/restorePassword', async (req, res) => {
   res.render('restorePassword')
-})
-
-
-
-
-
-//Cookie management:
-router.use(cookieParser('NPfirm'))
-
-router.get('/setCookie', (req, res) => {
-  res.cookie('CookieNP', 'This is a cookie', {maxAge: 60000, signed: true }).send('Cookie')
-})
-
-router.get('/getCookie', (req, res) => {
-  res.send(req.signedCookies)
-})
-
-router.get('/deleteCookie', (req, res) => {
-  res.clearCookie('CookieNP').send('Cookie was successfully deleted')
 })
 
 export default router 

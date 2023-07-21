@@ -35,7 +35,18 @@ nav {
   text-align: center;
 }
 
+/* User information: */
+.user-container {
+  background-color: rgb(232, 234, 234);
+  padding: 1% 2%;
+}
 
+.user-container button {
+  color: white;
+  background-color: rgb(23, 22, 22);
+  border-radius: 0.5rem;
+  margin-top: 10px;
+}
 
 /* List of products: */
 
