@@ -14,7 +14,7 @@ let userService = new UserService()
 router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/fail-register' }), 
   async (req, res) => {
     req.logger.info('New user successfylly created')
-    res.status(201).send({status: "success", msg: 'User created successfully created'})
+    res.status(201).send({status: "Success", msg: 'User created successfully created'})
   }
 )
 
@@ -42,7 +42,7 @@ router.post('/login', async (req, res)=>{
     const tokenUser = new userDTO(user)
     const access_token = generateJWToken(tokenUser)
     res.cookie('jwtCookieToken', access_token, { maxAge: 600000, httpOnly: false }) // 10 minutos
-    res.send({message: 'Login successful!', jwt: access_token })
+    res.status(201).send({ status: 'Success', message: 'Login successful!', jwt: access_token })
   } catch (error) {
     req.logger.error(error.message)
     res.status(400).json({ status: 'Error', message: error.message })
@@ -78,7 +78,7 @@ router.get('/fail-login', (req, res) => {
 
 // LOGOUT:
 router.get('/logout', (req, res) => {
-  res.clearCookie('jwtCookieToken').status(200).send('Session was successfully ended')
+  res.clearCookie('jwtCookieToken').status(200).send({ status: 'Success', message: 'Session was successfully ended'})
 })
 
 export default router

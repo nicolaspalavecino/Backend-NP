@@ -15,6 +15,7 @@ import { addLogger } from './config/logger.js'
 import MongoSingleton from './config/mongodb-singleton.js'
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUIExpress from 'swagger-ui-express'
+import cors from 'cors'
 
 
 const app = express()
@@ -50,6 +51,9 @@ const swaggerOptions = {
 
 const specs = swaggerJSDoc(swaggerOptions)
 app.use('/apidocs', swaggerUIExpress.serve, swaggerUIExpress.setup(specs))
+
+//Cors:
+app.use(cors())
 
 //Cookies:
 app.use(cookieParser('ProyectoBackendNPSecreto'))
