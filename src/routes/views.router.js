@@ -3,6 +3,7 @@ import { authorization, passportCall, readLinkFilter } from "../utils.js"
 import ProductService from "../services/product.service.js"
 import CartService from "../services/cart.service.js"
 import UserService from "../services/user.service.js"
+import { environment } from "../config/config.js"
 
 const router = Router()
 
@@ -21,7 +22,11 @@ router.get('/products', passportCall('login'), authorization(['user', 'premium',
   let user = await userService.getUser(req.user.email)
   req.user.role = user.role
   let data = { products: products , user: req.user }
-  res.render('products', data)
+  if (environment === 'testing') {
+    res.status(200).send({ status: 'Success', payload: data})
+  } else {
+    res.render('products', data)
+  }  
 })
 
 // Route to render a cart with products:

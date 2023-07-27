@@ -2,4 +2,5 @@ node_modules
 .env.default
 .env.development
 .env.production
+.env.testing
 notes.md

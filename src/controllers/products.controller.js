@@ -33,7 +33,7 @@ export const addProduct = async (req, res) => {
     }
     let result = await productService.addProduct(product)
     req.logger.info(`Product successfully added to the list with name: ${result.title} and ID: ${result.id}`)
-    res.status(201).json({ status: 'Success', message: `Product successfully added to the list with id: ${result.id}`})
+    res.status(201).json({ status: 'Success', message: `Product successfully added to the list with id: ${result.id}`, payload: result})
   } catch (error) {
     req.logger.error(error.message)
     res.status(400).json({ status: 'Error', message: error.message, detail: error.cause })
