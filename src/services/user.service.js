@@ -1,5 +1,6 @@
 import e from 'express'
 import userModel from './models/users.models.js'
+import { timeNow } from '../utils.js'
 
 export default class UserService {
 
@@ -40,6 +41,29 @@ export default class UserService {
     try {
       await userModel.findOneAndUpdate({ email: email }, { password: password })
       let updatedUser = await userModel.findOne({ email: email })
+      return updatedUser
+    } catch (error) {
+      return `An error has ocurred by consulting user database. Error detail: ${error}`
+    }
+  }
+
+  uploadDocuments = async (files, email) => {
+    try {
+      await userModel.findOneAndUpdate({ email: email }, { 
+        documents: files,
+        status: true
+      })
+      let updatedUser = await userModel.findOne({ email: email})
+      return updatedUser
+    } catch (error) {
+      return `An error has ocurred by consulting user database. Error detail: ${error}`
+    }
+  }
+
+  updateLastConection = async (email) => {
+    try {
+      await userModel.findOneAndUpdate({ email: email }, { last_conection: timeNow() })
+      let updatedUser = await userModel.findOnE({ email: email })
       return updatedUser
     } catch (error) {
       return `An error has ocurred by consulting user database. Error detail: ${error}`

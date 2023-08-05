@@ -57,4 +57,10 @@ router.get('/restorePassword', async (req, res) => {
   res.render('restorePassword')
 })
 
+// Route to upload premium documents:
+router.get('/premium', passportCall('login'), authorization(['user']), async (req, res) => {
+  let data = { user: req.user }
+  res.render('premium', data)
+})
+
 export default router 

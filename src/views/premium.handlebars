@@ -1,0 +1,40 @@
+<div>
+  <nav>
+    <h1>Proyecto Backend NP</h1>
+    {{#if user}}
+      <div class='nav-buttons'>
+        <button class="nav-button"><a href="/products" id="viewCart" style="color: white"> PRODUCTS </a></button>
+      {{#isClient user.role}}
+        <button class="nav-button"><a href="/carts/{{../user.cartId}}" style="color: white"> CART </a></button>
+      {{/isClient}}
+        <button id="logoutBtn"> LOGOUT </button>
+      </div>
+    {{/if}}
+  </nav>
+
+  {{#if user}}
+    <div class='user-container'>
+      <h2>{{user.name}} ¿Querés hacerte premium?</h2>
+      <div class="upload-container">
+        <h3> Cargá los siguientes comprobantes para cambiar de nivel de tu usuario a PREMIUM: </h3>
+        <form id="premiumForm" method="POST" class="user-form" enctype="multipart/form-data" name="{{user.email}}">
+          </br>
+          <label>Identificación del usuario:</label>
+          <input type='file' name="doc-identification" required="true">
+          <br/>
+          <label>Comprobante de domicilio:</label>
+          <input type='file' name="doc-address" required="true">
+          <br/>
+          <label>Comprobante del estado de cuenta:</label>
+          <input type='file' name="doc-account" required="true">
+          <br/>
+          <input type="submit">
+        </form>
+      </div>
+    </div>
+  {{/if}}
+
+</div>
+
+<script src="/js/logout.js"></script>
+<script src="/js/upgradePremium.js"></script>

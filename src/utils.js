@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import config from './config/config.js'
+import multer from 'multer'
 
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
@@ -88,3 +89,36 @@ export const authorization = (roles) => {
     next()
   }
 }
+
+// Get current date: 
+export const timeNow = () => {
+  let currentLocalDate = new Date()
+  currentLocalDate.setHours(currentLocalDate.getHours() - 3)
+  let dateNow = currentLocalDate.toISOString().slice(0, 19) + ' GMT-3'
+  return dateNow
+}
+
+// Multer configuration:
+const getDestination = (req, file, callback) => {
+  if (file.fieldname.startsWith('profile-pic')) {
+    callback(null, `${__dirname}/public/img/profiles`)
+  } else if (file.fieldname.startsWith('product-pic')) {
+    callback(null, `${__dirname}/public/img/products`)
+  } else {
+    callback(null, `${__dirname}/public/documents`)
+  }
+}
+
+const storage = multer.diskStorage({
+  destination: getDestination,
+  filename: function (req, file, callback) {
+    callback(null, `${Date.now()}-${file.originalname}`)
+  }
+})
+
+export const uploader = multer({
+  storage, onError: function (error, next) {
+    console.log(error)
+    next()
+  }
+})

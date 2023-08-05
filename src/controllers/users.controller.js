@@ -67,3 +67,18 @@ export const restorePassword = async (req, res) => {
     res.status(500).json({ status: 'Error', message: error.message, detail: error.cause })
   }
 }
+
+export const uploadDocuments = async (req, res) => {
+  try {
+      let email = req.params.email
+      let files = []
+      req.files.forEach( file => {
+        let doc = { name: file.originalname, reference: file.path }
+        files.push(doc)
+      })
+    let upload = await userService.uploadDocuments(files, email)
+    res.status(201).json({ status: 'Success', message: 'Documents were successfully uploaded!', payload: upload})
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: 'Documents could not be uploaded', detail: error})
+  }
+}

@@ -1,7 +1,7 @@
 
 import { Router } from 'express'
-import { authToken, passportCall, authorization } from '../utils.js'
-import { upgradeUser, restorePassword} from '../controllers/users.controller.js'
+import { authToken, passportCall, authorization, uploader } from '../utils.js'
+import { upgradeUser, restorePassword, uploadDocuments } from '../controllers/users.controller.js'
 import { sendRestorePassword } from '../controllers/emails.controller.js'
 
 const router = Router()
@@ -17,6 +17,8 @@ router.get('/register', (req, res) => {
 router.get('/', (req, res) => {
   res.render('profile', { user: req.session.user})
 })
+
+router.post('/:email/documents', uploader.any(), uploadDocuments)
 
 router.post('/premium/:email', upgradeUser)
 

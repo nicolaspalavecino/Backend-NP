@@ -39,9 +39,10 @@ router.post('/login', async (req, res)=>{
         code: EErrors.INVALID_CREDENTIALS
       })
     }
+    await userService.updateLastConection(email)
     const tokenUser = new userDTO(user)
     const access_token = generateJWToken(tokenUser)
-    res.cookie('jwtCookieToken', access_token, { maxAge: 600000, httpOnly: false }) // 10 minutos
+    res.cookie('jwtCookieToken', access_token, { maxAge: 1800000, httpOnly: false }) // 30 minutos
     res.status(201).send({ status: 'Success', message: 'Login successful!', jwt: access_token })
   } catch (error) {
     req.logger.error(error.message)

@@ -32,6 +32,26 @@ const userSchema = new mongoose.Schema({
   cartId: {
     type: String,
     default: null
+  },
+  status: {
+    type: Boolean,
+    default: false
+  },
+  documents: {
+    type: [
+      {
+        name: { 
+          type: String
+        },
+        reference: {
+          type: String
+        }
+      }
+    ],
+    default: []
+  },
+  last_conection: {
+    type: String
   }
 })
 
