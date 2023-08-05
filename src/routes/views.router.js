@@ -23,7 +23,7 @@ router.get('/products', passportCall('login'), authorization(['user', 'premium',
   req.user.role = user.role
   let data = { products: products , user: req.user }
   if (environment === 'testing') {
-    res.status(200).send({ status: 'Success', payload: data})
+    res.status(200).send({ status: 'Success', payload: data })
   } else {
     res.render('products', data)
   }  
@@ -33,7 +33,11 @@ router.get('/products', passportCall('login'), authorization(['user', 'premium',
 router.get('/carts/:cid', passportCall('login'), authorization(['user', 'premium', 'admin']), async (req, res) => {
   let cart = await cartService.getCartById(req.params.cid)
   let data = { cart: cart, user: req.user }
-  res.render('cart', data )
+  if (environment === 'testing') {
+    res.status(200).send({ status: 'Success', payload: data })
+  } else {
+    res.render('cart', data )
+  }
 })
 
 // Route to current user:

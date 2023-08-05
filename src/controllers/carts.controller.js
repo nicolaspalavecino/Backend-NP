@@ -16,7 +16,7 @@ export const getCartById = async (req, res) => {
 
 export const addProductToCart = async (req, res) => {
   let result = await cartService.addProductToCart(req.params.cid, req.params.pid)
-  res.status(201).send(result)
+  res.status(201).json({ status: 'Success', payload: result })
 }
 
 export const updateProductQuantity = async (req, res) => {
@@ -31,7 +31,7 @@ export const updateProductQuantity = async (req, res) => {
 
 export const deleteProductFromCart = async (req, res) => {
   let result = await cartService.deleteProductFromCart(req.params.cid, req.params.pid)
-  res.status(201).send(result)
+  res.status(201).json({ status: 'Success', payload: result })
 }
 
 export const deleteAllFromCart = async (req, res) => {
