@@ -1,4 +1,3 @@
-import e from 'express'
 import userModel from './models/users.models.js'
 import { timeNow } from '../utils.js'
 
@@ -10,6 +9,15 @@ export default class UserService {
       return result
     } catch (error) {
       `An error has occurred by creating a new user. Error detail: ${error}`
+    }
+  }
+
+  getAllUsers = async () => {
+    try {
+      let result = await userModel.find().lean()
+      return result
+    } catch (error) {
+      `An error has occurred by consulting user database. Error detail: ${error}`
     }
   }
 

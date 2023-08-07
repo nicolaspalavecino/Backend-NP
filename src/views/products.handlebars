@@ -4,11 +4,20 @@
     {{#if user}}
       <div class='nav-buttons'>
       {{#isClient user.role}}
-        <button class="nav-button"><a href="/carts/{{../user.cartId}}" style="color: white"> CART </a></button>
+        <button class="nav-button">
+          <a href="/carts/{{../user.cartId}}" style="color: white"> CART </a>
+        </button>
       {{/isClient}}
       {{#isBasic user.role}}
-        <button class="nav-button"><a href='/premium' style="color: white"> PREMIUM </a></button>
+        <button class="nav-button">
+          <a href='/premium' style="color: white"> PREMIUM </a>
+        </button>
       {{/isBasic}}
+      {{#isAdmin user.role}}
+        <button class="nav-button">
+          <a href="/users" style="color: white"> USERS </a>
+        </button>
+      {{/isAdmin}}
         <button id="logoutBtn"> LOGOUT </button>
       </div>
     {{/if}}

@@ -181,3 +181,29 @@ h3 {
   border-radius: 0.5rem;
   padding: 1%
 }
+
+/* Users */
+
+.body-users h2 {
+  background-color: rgb(163, 151, 151);
+  padding-left: 1%;
+}
+
+.user-card {
+  background-color: rgba(198, 188, 188, 0.853);
+  border-radius: 0.5rem;
+  padding: 1%;
+  width: 320px;
+  height: 125px;
+}
+
+.user-card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-card h3 {
+  border: 0;
+}

@@ -14,9 +14,9 @@ router.get('/register', (req, res) => {
   res.render('register')
 })
 
-router.get('/', (req, res) => {
-  res.render('profile', { user: req.session.user})
-})
+// router.get('/', (req, res) => {
+//   res.render('profile', { user: req.session.user})
+// })
 
 router.post('/:email/documents', uploader.any(), uploadDocuments)
 

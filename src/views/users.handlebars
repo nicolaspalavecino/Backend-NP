@@ -1,0 +1,33 @@
+<div>
+  <nav>
+    <h1>Proyecto Backend NP</h1>
+      <div class='nav-buttons'>
+        <button class="nav-button">
+          <a href="/products" id="viewCart" style="color: white"> PRODUCTS </a>
+        </button>
+        <button id="logoutBtn"> LOGOUT </button>
+      </div>
+  </nav>
+
+  <div class='body-users'>
+    <h2> Listado de usuarios registrados: </h2>
+    <section class='users-container'>
+      {{#each users}}
+        <div class='user-card'>
+          <div class='user-card-header'>
+            <h3>{{this.email}}</h3>
+            {{#isClient this.role}}
+            <button>X</button>
+            {{/isClient}}
+          </div>
+          <ul>
+            <li>{{this.first_name}} {{this.last_name}}</li>
+            <li>Rol: {{this.role}}</li>
+            <li>Última conexión: {{this.last_conection}}</li>
+          </ul>
+        </div>
+    {{/each}}
+    </section>
+  </div>
+
+</div>
