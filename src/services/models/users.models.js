@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
     ],
     default: []
   },
-  last_conection: {
+  last_connection: {
     type: String
   }
 })

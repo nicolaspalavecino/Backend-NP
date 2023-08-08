@@ -1,8 +1,8 @@
 
 import { Router } from 'express'
 import { authToken, passportCall, authorization, uploader } from '../utils.js'
-import { upgradeUser, restorePassword, uploadDocuments } from '../controllers/users.controller.js'
-import { sendRestorePassword } from '../controllers/emails.controller.js'
+import { upgradeUser, restorePassword, uploadDocuments, getAndDeleteIdleUsers } from '../controllers/users.controller.js'
+import { sendDeletedNotification, sendRestorePassword } from '../controllers/emails.controller.js'
 
 const router = Router()
 
@@ -13,6 +13,8 @@ router.get('/login', (req, res) => {
 router.get('/register', (req, res) => {
   res.render('register')
 })
+
+router.delete('/', getAndDeleteIdleUsers, sendDeletedNotification)
 
 // router.get('/', (req, res) => {
 //   res.render('profile', { user: req.session.user})

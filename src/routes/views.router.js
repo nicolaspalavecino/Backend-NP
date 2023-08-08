@@ -66,7 +66,7 @@ router.get('/premium', passportCall('login'), authorization(['user']), async (re
 // Route to see all users:
 router.get('/users', passportCall('login'), authorization(['admin']), async (req, res) => {
   let users = await userService.getAllUsers()
-  let data = { users: users, admin: req.user}
+  let data = { users: users, admin: req.user }
   res.render('users', data)
 })
 

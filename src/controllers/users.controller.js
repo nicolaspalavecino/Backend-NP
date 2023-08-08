@@ -7,6 +7,20 @@ import EErrors from "../services/errors/error-enum.js"
 
 const userService = new UserService()
 
+export const getAndDeleteIdleUsers = async (req, res, next) => {
+  try {
+    let idleUsers = await userService.getIdleUsers()
+    if (idleUsers.length < 1) {
+      res.status(201).json({ status: 'Success', message: 'No user has been inactive for two or more days.'})
+    } else {
+      await userService.deleteIdleUsers(idleUsers)
+      next()
+    }
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: error.message, detail: error.cause })
+  }
+}
+
 export const upgradeUser = async (req, res) => {
   try {
     let email = req.params.email

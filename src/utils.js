@@ -94,8 +94,17 @@ export const authorization = (roles) => {
 export const timeNow = () => {
   let currentLocalDate = new Date()
   currentLocalDate.setHours(currentLocalDate.getHours() - 3)
-  let dateNow = currentLocalDate.toISOString().slice(0, 19) + ' GMT-3'
+  let dateNow = currentLocalDate.toISOString()
   return dateNow
+}
+
+// Get difference between actual time & last conection:
+export const periodTime = (lastTime, nowTime) => {
+  let msPerHour = 1000 * 60 * 60
+  let last = Date.parse(lastTime)
+  let now = Date.parse(nowTime)
+  let result = ((now - last) / msPerHour).toFixed(1)
+  return result
 }
 
 // Multer configuration:

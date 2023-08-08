@@ -68,4 +68,33 @@ export default class EmailService {
       return { message: 'Email could not be sent to: ' + email, detail: error }
     }
   }
+
+  sendDeletedNotification = async (users) => {
+    try {
+      let mailing = []
+      users.forEach((user, index) => {
+        const mailOptions = {
+          from: 'Coder TEST' + config.gmailAccount,
+          to: user.email,
+          subject: 'Account DELETED',
+          html: 
+            `<div>
+              <h2> Your account has been deleted </h2>
+              <p> Dear user, we are sorry to inform you that your account has been removed from 'Proyecto NP' due to a period of 48hs or more of inactivity.</p>
+              <p> We hope to see you again soon! </p>
+            </div>`,
+        }
+        transporter.sendMail(mailOptions, (error, info) => {
+          if(error) {
+            return {message: 'Error', payload: error}
+          }
+          return {message: 'Success', payload: info}
+        })
+        mailing.push(user.email)
+      })
+      return mailing
+    } catch (error) {
+      return { message: 'An error ocurred while trying to send the email!', detail: error }
+    }
+  }
 }
