@@ -1,14 +1,25 @@
-# Documentar API
+# ÚLTIMA PRÁCTICA INTEGRADORA
 
-## Configuración de Swagger
-Dentro de app.js se realizó la configuración de Swagger para poder iniciar con la documentación. Se designnó la ruta: '/apidocs' para visualizar los documentos correspondientes al módulo de 'products' y 'carts'.
+## USERS
 
-## Carpeta DOCS
-Contiene todos los archivos .yaml que se muestran a través de Swagger.
-### Routes
-Cuenta con los módulos de carts y products junto con un archivo de tags para poder referenciar las rutas correspondientes a cada uno de los módulos. 
+### User Model
+Se modificó el modelo y se agregaron las propiedades:
+- Documents: Array. Contiene objetos con propiedades 'name' y 'reference'.
+- status: Boolean.
+- last_connection: String | Se actualiza cada vez que el usuario se logea (Función timeNow en 'utils.js')
 
-### Schemas
-Contiene los esquemas correspondientes a los modelos de BD de cart y product. Además, existe un archivo .yaml denominado 'productInCart.yaml' que esquematiza la estructura del producto dentro del array correspondiente al modelo de cart.
+### Users Docs - POST '/users/:email/documents'
+- Multer configuration: Dentro de 'utils.js' se configuró multer para que se pueda almacenar X tipo de documento en una carpeta distinta dependiendo el nombre del input al cual es cargado el archivo.
+- Se modificó la lógica del cambio de rol para que luego de cargar estos documentos (3 según la consigna) el usuario se convierta en premium. El endpoint de la vista es 'premium/:email'. Allí se encuentra el formulario cuya función está linkeada con el js llamado 'upgradePremium.js' dentro de 'public'. Dentro del service de 'uploadDocuments' se agregan los documentos al usuario y se modifica el status de false a true.
 
-Adicionalmente, en los casos donde se utiliza req.body dentro de la ruta, se creó un esquema que corresponde a la información que se pasa mediante el body. Por ejemplo, las propiedades que el usuario debe definir para crear un producto mediante la ruta 'addProduct'.
+# ENTREGA FINAL (Parcial)
+
+## ELIMINAR USUARIOS INACTIVOS
+
+### Vista USERS
+Cuando te logeas con el admin en la barra de navegación hay una vista que trae todos los usuarios de la BD. Eventualmente en esa misma vista voy a aplicar lo de eliminar usuarios inactivos (Lo probé con POSTMAN)
+
+### Delete usuarios inactivos - DELETE '/users'
+- periodTime: Es una función dentro de 'utils.js' que compara la fecha/hora actual con la de last_connection de cada usuario y obtiene la diferencia en horas.
+- Service de USERS: Agregué dos métodos. 'getIdleUsers' que trae todos los usuarios cuya última conexión fue hace 48hs o más y 'deleteIdleUsers' que elimina a esos usuarios (hay una modificación que tras eliminarlos los agrega nuevamente a la BD, lo hice solo para no tener que estar agregando un usuario nuevo cada vez que lo probaba, así que eso se va a borrar eventualmente).
+- Service de EMAIL: Método 'sendDeletedNotification' que envía un email a aquellos usuarios eliminados.
