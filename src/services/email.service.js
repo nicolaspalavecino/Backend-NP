@@ -97,4 +97,31 @@ export default class EmailService {
       return { message: 'An error ocurred while trying to send the email!', detail: error }
     }
   }
+
+  sendDeleteProduct = async (email, product) => {
+    try {
+      const mailOptions = {
+        from: 'Coder TEST' + config.gmailAccount,
+        to: email,
+        subject: 'Su producto ha sido eliminado!',
+        html: 
+          `<div>
+            <p> Hola! Nos comunicamos con usted para informarle que su poducto con el nombre ${product} ha sido eliminado </p>
+            </br>
+            <p> Saludos cordiales, </p>
+            <p> La administración <3 </p>
+          </div>`,
+      }
+      transporter.sendMail(mailOptions, (error, info) => {
+        if(error) {
+          return {message: 'Error', payload: error}
+        }
+        return {message: 'Success', payload: info}
+      })
+      return email
+    } catch (error) {
+      return { message: 'An error ocurred while trying to send the email!', detail: error }
+    }
+  }
+
 }

@@ -101,12 +101,19 @@
               <li>Stock: {{this.stock}}</li>
           </ul>
           {{#isOwner ../user.email this.owner}}
-            <p>MI PRODUCTO</p>
+            <button>DELETE</button>
           {{else}}
+            {{#isAdmin ../../user.role }}
+              <button
+                onclick="deleteProduct('{{../this.id}}', '{{../this.owner}}')">
+                DELETE
+              </button>
+            {{else}}
             <button 
               onclick="addItem('{{../../user.cartId}}', '{{../this._id}}', '{{../this.title}}')"> 
               ADD TO CART
             </button>
+            {{/isAdmin}}
           {{/isOwner}}
         </div>
     {{/each}}
@@ -131,3 +138,4 @@
 <script src="/js/uploadProduct.js"></script>
 <script src="/js/messages.js"></script>
 <script src="/js/users.js"></script>
+<script src="/js/products.js"></script>

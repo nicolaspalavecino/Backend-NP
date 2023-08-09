@@ -31,3 +31,18 @@ export const sendDeletedNotification = async (req, res) => {
     res.status(500).send({ status: 'Error', message: `The user/s account/s were successfully deleted, but email could not be sent: ${result}`})
   }
 }
+
+export const sendDeleteProduct = async (req, res) => {
+  try {
+    let email = req.params.email
+    let product = req.params.product
+    let result = await emailService.sendDeleteProduct(email, product)
+    if (typeof(result) == 'string') {
+      res.status(201).json({ status: 'Success', message: `The product ${product} was successfully deleted and a notification was sent to its onwer: ${result}`})
+    } else {
+      res.status(404).send(result)
+    }
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: `The product ${product} was successfully deleted, but email could not be sent: ${result}`})
+  }
+}

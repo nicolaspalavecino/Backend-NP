@@ -2,14 +2,14 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import { __dirname } from './utils.js'
-import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerMessages, routerMocks } from './routes/index.router.js'
+import { routerProducts, routerCarts, routerViews, routerSessions, routerUsers, routerMessages, routerMocks, routerEmails } from './routes/index.router.js'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import Handlebars from 'handlebars'
-import { isAdmin, isBasic, isClient, isCreator, isOwner, isPremium } from './helpers/handlebars.helpers.js'
+import { isAdmin, isBasic, isClient, isCreator, isIdle, isOwner, isPremium } from './helpers/handlebars.helpers.js'
 import config from './config/config.js'
 import { addLogger } from './config/logger.js'
 import MongoSingleton from './config/mongodb-singleton.js'
@@ -31,6 +31,7 @@ Handlebars.registerHelper('isAdmin', isAdmin)
 Handlebars.registerHelper('isPremium', isPremium)
 Handlebars.registerHelper('isBasic', isBasic)
 Handlebars.registerHelper('isOwner', isOwner)
+Handlebars.registerHelper('isIdle', isIdle)
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + "/views/")
@@ -90,6 +91,7 @@ app.use('/api/sessions', routerSessions)
 app.use('/users', routerUsers)
 app.use('/api/messages', routerMessages)
 app.use('/mockingproducts', routerMocks)
+app.use('/api/emails', routerEmails)
 
 const httpServer = app.listen(PORT, () => {
 	console.log('Server listening on port: ' + PORT)

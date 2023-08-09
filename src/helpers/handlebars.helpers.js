@@ -1,3 +1,5 @@
+import { periodTime, timeNow } from "../utils.js"
+
 export const isCreator = (role, options) => {
   if (role === 'admin' || role === 'premium') {
     return options.fn(this)
@@ -40,6 +42,15 @@ export const isBasic = (role, options) => {
 
 export const isOwner = (email, owner, options) => {
   if (email === owner) {
+    return options.fn(this)
+  } else {
+    return options.inverse(this)
+  }
+}
+
+export const isIdle = (last_connection, options) => {
+  let period = periodTime(last_connection, timeNow())
+  if (period >= 48) {
     return options.fn(this)
   } else {
     return options.inverse(this)

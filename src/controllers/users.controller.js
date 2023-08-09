@@ -21,6 +21,15 @@ export const getAndDeleteIdleUsers = async (req, res, next) => {
   }
 }
 
+export const deleteUser = async (req, res) => {
+  try {
+    let result = await userService.deleteUser(req.params.email)
+    res.status(201).json({ status: 'Success', message: `User with email: ${result.email} was successfully deleted`})
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: 'User could not be deleted from de BD', detail: error})
+  }
+}
+
 export const upgradeUser = async (req, res) => {
   try {
     let email = req.params.email
@@ -92,6 +101,19 @@ export const uploadDocuments = async (req, res) => {
       })
     let upload = await userService.uploadDocuments(files, email)
     res.status(201).json({ status: 'Success', message: 'Documents were successfully uploaded!', payload: upload})
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: 'Documents could not be uploaded', detail: error})
+  }
+}
+
+export const updateRole = async (req, res) => {
+  try {
+    let result = await userService.updateRole(req.body.email, req.body.role)
+    if (typeof(result) == 'object') {
+      res.status(201).json({ status: 'Success', message: `User role was successfully updated! Now ${result.email} is ${result.role}`})
+    } else {
+      res.status(400).json({ status: 'Error', message: result })
+    }
   } catch (error) {
     res.status(500).json({ status: 'Error', message: 'Documents could not be uploaded', detail: error})
   }

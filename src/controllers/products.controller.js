@@ -63,9 +63,9 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   let productId = req.params.pid
   let deletedProduct = await productService.deleteProduct(productId)
-  if (!deletedProduct.status) {
-    res.send(deletedProduct)
+  if(typeof(deletedProduct) == 'object') {
+    res.status(201).json({ status: 'Success', message: 'The product was successfully deleted!', payload: deletedProduct})
   } else {
-    res.send({status: 'Success', message: `Product with ID: ${productId} was successfully deleted`})
+    res.status(500).json({ status: 'Error', message: 'An error ocurred while trying to delete product'})
   }
 }

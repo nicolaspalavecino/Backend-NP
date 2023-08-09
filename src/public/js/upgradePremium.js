@@ -9,7 +9,6 @@ form.addEventListener('submit', e => {
     body: data
   }).then(result => {
     if(result.ok) {
-      console.log(result)
       alert('Your files were successfully uploaded!')
       fetch(`/users/premium/${userEmail}`, {
         method: 'POST',

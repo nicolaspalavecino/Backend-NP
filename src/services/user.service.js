@@ -37,23 +37,26 @@ export default class UserService {
 
   getIdleUsers = async () => {
     try {
-      console.log('GET IDLE USERS - SERVICE')
       let users = await userModel.find({'role':{$not:{$eq: 'admin'}}}, {'_id': 0, 'email': 1, 'last_connection': 1, 'cartId': 1})
       let idleUsers = []
-      console.log(users)
       let nowTime = timeNow()
-      console.log(nowTime)
       users.forEach((user) => {
-        console.log('DENTRO DEL FOREACH')
         let difference = periodTime(user.last_connection, nowTime)
-        console.log(difference)
         if (difference >= 48) {
           idleUsers.push(user)
         }
       })
-      console.log('HOLA')
-      console.log(idleUsers)
       return idleUsers
+    } catch (error) {
+      `An error has occurred by consulting user database. Error detail: ${error}`
+    }
+  }
+
+  deleteUser = async (email) => {
+    try {
+      let deletedUser = await userModel.findOneAndDelete({ email: email }) //Delete retorna doc eliminado
+      await userModel.insertMany(deletedUser) // AGREGA EL USUARIO ELIMINADO! BORRAR LÍNEA
+      return deletedUser
     } catch (error) {
       `An error has occurred by consulting user database. Error detail: ${error}`
     }
@@ -63,7 +66,6 @@ export default class UserService {
     try {
       users.forEach(async (user) => {
         let deletedUser = await userModel.findOneAndRemove({ email: user.email })
-        console.log(deletedUser)
         await userModel.insertMany(deletedUser) // AGREGA EL USUARIO ELIMINADO! BORRAR LÍNEA
       })
       return
@@ -108,8 +110,27 @@ export default class UserService {
   updateLastConection = async (email) => {
     try {
       await userModel.findOneAndUpdate({ email: email }, { last_connection: timeNow() })
-      let updatedUser = await userModel.findOnE({ email: email })
+      let updatedUser = await userModel.findOne({ email: email })
       return updatedUser
+    } catch (error) {
+      return `An error has ocurred by consulting user database. Error detail: ${error}`
+    }
+  }
+
+  updateRole = async (email, role) => {
+    try {
+      let user = await userModel.findOne({ email: email })
+      if (user) {
+        if (role === 'user' || role === 'premium') {
+          await userModel.findOneAndUpdate({ email: email }, { role: role })
+          let updatedUser = await userModel.findOne({ email: email })
+          return updatedUser
+        } else {
+          return 'The role you selected does not exist, Please choose USER or PREMIUM'
+        }
+      } else {
+        return 'The user your selected does not exist'
+      }
     } catch (error) {
       return `An error has ocurred by consulting user database. Error detail: ${error}`
     }

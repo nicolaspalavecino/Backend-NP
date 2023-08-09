@@ -10,24 +10,56 @@
   </nav>
 
   <div class='body-users'>
-    <h2> Listado de usuarios registrados: </h2>
+    <h2> PANEL DE CONTROL DE USUARIOS </h2>
+    <div class="panel-users-container">
+      <form id="roleForm" class="user-form">
+        <h4>MODIFICAR ROL DE USUARIOS</h4>
+        </br>
+        <label>Ingrese el email del usuario:</label>
+        <input type="text" name="email" required="true">
+        <br/>
+        <label>Ingrese el rol que le quiere asignar al usuario (user o premium):</label>
+        <input type="text" name="role" required="true">
+        <div class="send">
+          <input type="submit">
+        </div>
+      </form>
+      <div class='user-panel-2'>
+        <h4>ELIMINAR USUARIOS INACTIVOS</h4>
+        <p>Aquellos usuarios con una última conexión igual o mayor a 48hs serán eliminados y notificados vía email al tocar el botón.</p>
+        <p>En la sección de abajo puede visualizar todos los usuarios registrados. Aquellos con color ROJO son los considerados INACTIVOS.</p>
+        <button class="send" onclick="deleteIdleUsers()">ELIMINAR INACTIVOS</button>
+      </div>
+    </div>
+    <h3> Listado de usuarios registrados: </h3>
     <section class='users-container'>
       {{#each users}}
-        <div class='user-card'>
+        {{#isClient this.role}}
+        <div {{#isIdle ../this.last_connection}}
+          class='idle-user-card'
+          {{else}}
+          class='user-card'
+        {{/isIdle}}>
           <div class='user-card-header'>
-            <h3>{{this.email}}</h3>
-            {{#isClient this.role}}
-            <button>X</button>
-            {{/isClient}}
+            <h3>{{../this.email}}</h3>
+            <button 
+              onclick="deleteUser('{{../this.email}}')"
+            >
+              X
+            </button>
           </div>
           <ul>
-            <li>{{this.first_name}} {{this.last_name}}</li>
-            <li>Rol: {{this.role}}</li>
-            <li>Última conexión: {{this.last_connection}}</li>
+            <li>{{../this.first_name}} {{../this.last_name}}</li>
+            <li>Rol: {{../this.role}}</li>
+            <li>Última conexión: {{../this.last_connection}}</li>
           </ul>
         </div>
+        {{/isClient}}
     {{/each}}
     </section>
   </div>
 
 </div>
+
+<script src="/js/updateRole.js"></script>
+<script src="/js/users.js"></script>
