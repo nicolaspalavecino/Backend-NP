@@ -50,13 +50,16 @@ export const getProductById = async (req, res) => {
 }
 
 export const updateProduct = async (req, res) => {
-  let productId = req.params.pid
-  let update = await productService.updateProduct(productId, req.body)
-  req.logger.info('Producto actualizado: ' + update)
-  if (!update.status) {
-    res.status(501).send(update)
-  } else {
-    res.send({status: 'Success', message: `Product with ID: ${productId} was successfully updated`})
+  try {
+    let productId = req.params.pid
+    let updatedInfo = { [req.body.property]: req.body.value }
+    let update = await productService.updateProduct(productId, updatedInfo)
+    if (typeof(update) == 'object') {
+      req.logger.info('Producto actualizado: ' + update)
+      res.status(201).json({ status: 'Success', message: `The product '${update.title}' was successfully updated!`})
+    }
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: `An error ocurred while trying to update a product: ${error}`})
   }
 }
 

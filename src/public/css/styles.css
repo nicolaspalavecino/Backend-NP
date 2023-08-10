@@ -106,6 +106,13 @@ h3 {
   width: 50%;
 }
 
+.admin-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10%;
+}
+
 /* Login & Register styles: */
 
 .login {

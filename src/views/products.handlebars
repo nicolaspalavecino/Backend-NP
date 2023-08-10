@@ -104,10 +104,16 @@
             <button>DELETE</button>
           {{else}}
             {{#isAdmin ../../user.role }}
-              <button
-                onclick="deleteProduct('{{../this.id}}', '{{../this.owner}}')">
-                DELETE
-              </button>
+              <div class='admin-buttons'>
+                <button
+                  onclick="deleteProduct('{{../this.id}}', '{{../this.title}}', '{{../this.owner}}')">
+                  DELETE
+                </button>
+                <button
+                  onclick="updateProduct('{{../this.id}}')">
+                  UPDATE
+                </button>
+              </div>
             {{else}}
             <button 
               onclick="addItem('{{../../user.cartId}}', '{{../this._id}}', '{{../this.title}}')"> 
