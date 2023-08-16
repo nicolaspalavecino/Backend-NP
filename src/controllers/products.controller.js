@@ -15,7 +15,7 @@ export const getProducts = async (req, res) => {
     products.status = products ? "success" : "error"
     res.status(201).send(products)
   } catch (error) {
-    res.status(500).send({error: 'No se pueden obtener productos con Mongoose', message: error})
+    res.status(500).send({ status: 'Error', message: 'An error ocurred while trying to get BD products', detail: error })
   }
 }
 
@@ -41,11 +41,15 @@ export const addProduct = async (req, res) => {
 }
 
 export const getProductById = async (req, res) => {
-  let result = await productService.getProductById(req.params.pid)
-  if(!result.status) {
-    res.status(501).send(result)
-  } else {
-    res.send(result)
+  try {
+    let result = await productService.getProductById(req.params.pid)
+    if(!result.status) {
+      res.status(501).send(result)
+    } else {
+      res.send(result)
+    }
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: 'An error ocurred while trying to get a product', detail: error })
   }
 }
 
@@ -55,20 +59,22 @@ export const updateProduct = async (req, res) => {
     let updatedInfo = { [req.body.property]: req.body.value }
     let update = await productService.updateProduct(productId, updatedInfo)
     if (typeof(update) == 'object') {
-      req.logger.info('Producto actualizado: ' + update)
-      res.status(201).json({ status: 'Success', message: `The product '${update.title}' was successfully updated!`})
+      req.logger.info('Product updated: ' + update)
+      res.status(201).json({ status: 'Success', message: `The product '${update.title}' was successfully updated!` })
     }
   } catch (error) {
-    res.status(500).json({ status: 'Error', message: `An error ocurred while trying to update a product: ${error}`})
+    res.status(500).json({ status: 'Error', message: `An error ocurred while trying to update a product: ${error}` })
   }
 }
 
 export const deleteProduct = async (req, res) => {
-  let productId = req.params.pid
-  let deletedProduct = await productService.deleteProduct(productId)
-  if(typeof(deletedProduct) == 'object') {
-    res.status(201).json({ status: 'Success', message: 'The product was successfully deleted!', payload: deletedProduct})
-  } else {
-    res.status(500).json({ status: 'Error', message: 'An error ocurred while trying to delete product'})
+  try {
+    let productId = req.params.pid
+    let deletedProduct = await productService.deleteProduct(productId)
+    if(typeof(deletedProduct) == 'object') {
+      res.status(201).json({ status: 'Success', message: 'The product was successfully deleted!', payload: deletedProduct})
+    }
+  } catch (error) {
+    res.status(500).json({ status: 'Error', message: 'An error ocurred while trying to delete product', detail: error })
   }
 }

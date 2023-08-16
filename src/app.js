@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import Handlebars from 'handlebars'
-import { isAdmin, isBasic, isClient, isCreator, isIdle, isOwner, isPremium } from './helpers/handlebars.helpers.js'
+import { hasProfilePic, isAdmin, isBasic, isClient, isCreator, isIdle, isOwner, isPremium } from './helpers/handlebars.helpers.js'
 import config from './config/config.js'
 import { addLogger } from './config/logger.js'
 import MongoSingleton from './config/mongodb-singleton.js'
@@ -32,6 +32,7 @@ Handlebars.registerHelper('isPremium', isPremium)
 Handlebars.registerHelper('isBasic', isBasic)
 Handlebars.registerHelper('isOwner', isOwner)
 Handlebars.registerHelper('isIdle', isIdle)
+Handlebars.registerHelper('hasProfilePic', hasProfilePic)
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + "/views/")

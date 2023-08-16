@@ -6,23 +6,24 @@
         <button id="logoutBtn"> LOGOUT </button>
       </div>
   </nav>
-  <h1>Carrito de compras:</h1>
+  <div class='cart-container'>
+  <h2> Carrito de compras:</h2>
   {{#if cart.products.length }}
-    <table>
+    <table class='cart-list'>
       <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
+        <tr class='cart-title-row'>
+          <th>PRODUCTO</th>
+          <th>PRECIO</th>
+          <th>CANTIDAD</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         {{#each cart.products}}
-          <tr>
+          <tr class= 'cart-item-row'>
             <td>{{this.product.title}}</td>
-            <td>{{this.product.price}}</td>
-            <td>{{this.quantity}}</td>
+            <td>$ {{this.product.price}}</td>
+            <td>{{this.quantity}} </td>
             <td>
               <button 
                 onclick="deleteItem('{{../cart._id}}', '{{this.product._id}}')"> 
@@ -37,11 +38,39 @@
         {{/each}}
       </tbody>
     </table>
-    <button onclick="emptyCart('{{cart._id}}')"> EMPTY CART </button>
-    <button onclick="purchaseCart('{{cart._id}}')"> COMPRAR </button>
+    <div class='cart-bottom-container'>
+      <button onclick="emptyCart('{{cart._id}}')"> EMPTY CART </button>
+      <button onclick="purchaseCart('{{cart._id}}')"> COMPRAR </button>
+    </div>
   {{else}}
     <p>NO HAY PRODUCTOS EN EL CARRITO</p>
   {{/if}}
+  </div>
+
+  {{#if tickets.length }}
+    <div class='ticket-container'>
+      <h2>Mis compras:</h2>
+      <table class='ticket-list'>
+        <thead>
+          <tr class='ticket-title-row'>
+            <th>CÓDIGO</th>
+            <th>MONTO</th>
+            <th>FECHA DE COMPRA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each tickets }}
+            <tr class= 'ticket-item-row'>
+              <td>#{{this.code}}</td>
+              <td>$ {{this.amount}}</td>
+              <td>{{this.purchase_datetime}} </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{/if}}
+  
 </div>
 
 <script src="/js/carts.js"></script>

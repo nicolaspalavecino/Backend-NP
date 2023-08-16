@@ -48,7 +48,7 @@ const deleteUser = (email) => {
 }
 
 const deleteIdleUsers = () => {
-  fetch('/users', {
+  fetch('/users/', {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'
@@ -64,4 +64,3 @@ const deleteIdleUsers = () => {
     }
   })
 }
-

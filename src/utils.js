@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import config from './config/config.js'
-import multer from 'multer'
+import multer, { memoryStorage } from 'multer'
 
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
@@ -71,7 +71,8 @@ export const passportCall = (strategy) => {
     passport.authenticate(strategy, function (err, user, info) {
       if (err) return next(err)
       if (!user) {
-        return res.status(401).send({error: info.messages?info.messages:info.toString()})
+        return res.render('login')
+        // return res.status(401).send({error: info.messages?info.messages:info.toString()})
       }
       req.user = user
       next()
@@ -84,7 +85,8 @@ export const authorization = (roles) => {
   return async (req, res, next) => {
     if (!req.user) return res.status(401).send('Unauthorized: User not found in JWT')
     if (!roles.includes(req.user.role)) {
-      return res.status(403).send('Forbidden: User has not permissions')
+      req.logger.warning('Forbidden: User has not permissions')
+      return res.render('error', { error: 'Forbidden: User has not permissions'})
     }
     next()
   }
@@ -131,3 +133,7 @@ export const uploader = multer({
     next()
   }
 })
+
+export const getExtension = (filename) => {
+  return filename.substring(filename.lastIndexOf('.')).toLowerCase()
+}

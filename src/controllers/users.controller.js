@@ -118,3 +118,18 @@ export const updateRole = async (req, res) => {
     res.status(500).json({ status: 'Error', message: 'Documents could not be uploaded', detail: error})
   }
 }
+
+export const uploadProfilePic = async (req, res) => {
+  try {
+    let email = req.params.email
+    let document = { name: req.file.originalname, reference: req.file.path }
+    if (document) {
+      let upload = await userService.uploadProfilePic(email, document)
+      res.status(201).json({ status: 'Success', message: 'Profile pic was successfully uploaded!', payload: upload })
+    } else {
+      res.status(400).json({ status: 'Error', message: 'No profile pic uploaded!'})
+    }
+} catch (error) {
+  res.status(500).json({ status: 'Error', message: 'Documents could not be uploaded', detail: error})
+}
+}

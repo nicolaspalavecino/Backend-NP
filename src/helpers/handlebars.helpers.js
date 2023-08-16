@@ -1,4 +1,5 @@
-import { periodTime, timeNow } from "../utils.js"
+import { periodTime, timeNow, __dirname, getExtension } from "../utils.js"
+import path from 'path'
 
 export const isCreator = (role, options) => {
   if (role === 'admin' || role === 'premium') {
@@ -55,4 +56,22 @@ export const isIdle = (last_connection, options) => {
   } else {
     return options.inverse(this)
   }
+}
+
+export const hasProfilePic = (documents) => {
+  let imageExtensions = ['.jpg', '.jpeg', '.png']
+  
+  if (documents && documents.length > 0) {
+    const reversedDocuments = documents.slice().reverse()
+    for (const doc of reversedDocuments) {
+      const extension = getExtension(doc.reference)
+      if (imageExtensions.includes(extension)) {
+        const fullPath = doc.reference
+        const relativePath = path.relative(path.join(__dirname, 'public'), fullPath)
+        return `${relativePath}`
+      }
+    }
+  } 
+  
+  return 'https://i.ibb.co/HHhsxsM/b204f7111f4f039f6f65871b8992fbb3-t.jpg'
 }

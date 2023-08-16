@@ -23,6 +23,7 @@ const initializePassport = () => {
       try {
         if (!first_name || !last_name || !email || !age || !password) {
           req.logger.warning('Please, complete all the fields!')
+          console.log('Complete all fields!')
           return done(null, false, { message: 'Please, complete all the fields!'})
         } else {
           let exists = await userService.getUser(email)
@@ -72,7 +73,6 @@ const initializePassport = () => {
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log('Profile obtenido del usuario: ' + profile)
-      console.log(profile)
       try {
         const user = await userService.getUser(profile._json.email)
         console.log('User was found to login with GITHUB (passport.config.js):')

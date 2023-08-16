@@ -1,3 +1,4 @@
+import { timeNow } from "../utils.js"
 import cartModel from "./models/carts.models.js"
 import productModel from './models/products.models.js'
 import ticketModel from "./models/tickets.model.js"
@@ -90,7 +91,7 @@ export default class CartService {
   deleteAllFromCart = async (cartId) => {
     try {
       await cartModel.findByIdAndUpdate({ _id: cartId }, { products: [] })
-      return `All products were successfully deleted from cart (ID: ${cartId})`
+      return 'All products were successfully deleted from cart!'
     } catch (error) {
       return (`An error ocurred deleting all products from cart. Error detail: ${error}`)
     }
@@ -181,7 +182,7 @@ export default class CartService {
     let newAmount = this.#totalAmount(cart)
       let newTicket = {
         code: Math.floor(Math.random()*200000+1).toString(),
-        purchase_datetime: Date.now(),
+        purchase_datetime: `${timeNow().slice(0,10)} - ${timeNow().slice(11,16)} hs.`,
         amount: newAmount,
         purchaser: user.email,
         products: cart.products

@@ -25,16 +25,24 @@
 
   {{#if user}}
     <div class='user-container'>
-      <h2>USUARIO: {{user.name}}</h2>
-      <div class="welcome-user">
-        <ul>
-          <li>EDAD: {{user.age}} años</li>
-          <li>EMAIL: {{user.email}}</li>
-          <li>ROL: {{user.role}}</li>
-        </ul>
-        {{#isClient user.role}}
-        <button onclick="sendRestorePassword('{{../user.email}}')"> Reestablecer Contraseña </button>
-        {{/isClient}}
+      <div class='profile-pic-container'>
+        <label for='profile-pic-input' style="cursor: pointer">
+          <img src="{{hasProfilePic user.documents}}" id="profile-pic-img"/ >
+          <input type='file' id='profile-pic-input' name='profile-pic' data-email={{user.email}} style="display: none; visibility: none" accept="image/jpeg, image/jpg, image/png"/>
+        </label>
+      </div>
+      <div class='profile-info-container'>
+        <h2>USUARIO: {{user.name}}</h2>
+        <div class="welcome-user">
+          <ul>
+            <li>EDAD: {{user.age}} años</li>
+            <li>EMAIL: {{user.email}}</li>
+            <li>ROL: {{user.role}}</li>
+          </ul>
+          {{#isClient user.role}}
+          <button onclick="sendRestorePassword('{{../user.email}}')"> Reestablecer Contraseña </button>
+          {{/isClient}}
+        </div>
       </div>
     </div>
   {{/if}}
@@ -144,4 +152,5 @@
 <script src="/js/uploadProduct.js"></script>
 <script src="/js/messages.js"></script>
 <script src="/js/users.js"></script>
+<script src="/js/uploadProfilePic.js"></script>
 <script src="/js/products.js"></script>

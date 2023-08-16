@@ -51,7 +51,10 @@ const emptyCart = (cartId) => {
     }
   }).then((response) => {
     if(response.ok) {
-      window.location.reload()
+      response.json().then(result => {
+        alert(result.message)
+        window.location.reload()
+      })
     } else {
       console.error('error vaciando producto!')
     }

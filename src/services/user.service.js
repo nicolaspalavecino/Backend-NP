@@ -135,4 +135,14 @@ export default class UserService {
       return `An error has ocurred by consulting user database. Error detail: ${error}`
     }
   }
+
+  uploadProfilePic = async (email, document) => {
+    try {
+      await userModel.findOneAndUpdate({ email: email }, { $push: { documents: document }})
+      let updatedUser = await userModel.findOne({ email: email})
+      return updatedUser
+    } catch (error) {
+      return `An error has ocurred by consulting user database. Error detail: ${error}`
+    }
+  }
 }
