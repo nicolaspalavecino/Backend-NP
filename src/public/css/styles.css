@@ -183,18 +183,63 @@ h3 {
   padding: 2%;
 }
 
-/* Add products form */
+/* Add products form & chat*/
+
+.second-container {
+  margin: 1% 0;
+  background-color: #e5e3e363;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+  }
+}
 
 .upload-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 1% 1%;
-  margin: 1% 0;
   font-family: 'Nunito', sans-serif;
   background-color: rgb(216, 199, 199);
 }
+
+.upload-container form, .chat-container form {
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.upload-container .send input {
+  width: 100px;
+}
+
+.upload-container input {
+  width: 90%;
+  margin-bottom: px;
+}
+
+.chat-container {
+  background-color: rgb(216, 199, 199)
+}
+
+.chat-container h2, .upload-container h2 {
+  background-color: rgb(75, 68, 68);
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+
+.logs-container {
+  width: 300px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
 
 /* Profile & current */
 

@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['ciencia', 'fantasia', 'cocina', 'novela periodistica', 'ciencia ficcion', 'novela', 'terror'],
+    enum: ['ciencia', 'fantasia', 'cocina', 'novela periodistica', 'ciencia ficcion', 'novela', 'terror', 'crimen y misterio', 'romance', 'thriller'],
   },
   description: {
     type: String,
