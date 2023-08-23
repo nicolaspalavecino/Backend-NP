@@ -87,12 +87,13 @@ app.get('/loggerTest', (req, res) => {
 //Routes: 
 app.use('/api/products', routerProducts)
 app.use('/api/carts', routerCarts)
-app.use('/', routerViews)
 app.use('/api/sessions', routerSessions)
-app.use('/users', routerUsers)
+app.use('/api/users', routerUsers)
 app.use('/api/messages', routerMessages)
-app.use('/mockingproducts', routerMocks)
 app.use('/api/emails', routerEmails)
+app.use('/mockingproducts', routerMocks)
+app.use('/', routerViews)
+
 
 const httpServer = app.listen(PORT, () => {
 	console.log('Server listening on port: ' + PORT)

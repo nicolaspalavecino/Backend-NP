@@ -1,5 +1,5 @@
 const upgradeUser = (email) => {
-  fetch(`/users/premium/${email}`, {
+  fetch(`/api/users/premium/${email}`, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json'
@@ -15,7 +15,7 @@ const upgradeUser = (email) => {
 }
 
 const sendRestorePassword = (email) => {
-  fetch(`/users/restore/${email}`, {
+  fetch(`/api/users/restore/${email}`, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json'
@@ -30,7 +30,7 @@ const sendRestorePassword = (email) => {
 }
 
 const deleteUser = (email) => {
-  fetch(`/users/${email}`, {
+  fetch(`/api/users/${email}`, {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'
@@ -48,7 +48,7 @@ const deleteUser = (email) => {
 }
 
 const deleteIdleUsers = () => {
-  fetch('/users/', {
+  fetch('/api/users/', {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'

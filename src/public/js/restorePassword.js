@@ -8,7 +8,7 @@ form.addEventListener('submit', e => {
   const data = new FormData(form)
   const obj = {}
   data.forEach((value, key) => obj[key] = value)
-  fetch(`/users/restore/password?token=${token}`, {
+  fetch(`/api/users/restore/password?token=${token}`, {
     method: 'PUT',
     body: JSON.stringify(obj),
     headers: {

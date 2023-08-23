@@ -6,7 +6,7 @@ profilePicInput.addEventListener('change', e => {
   e.preventDefault()
   let form = new FormData()
   form.append('profile-pic', profilePicInput.files[0])
-  fetch(`/users/${userEmail}/profilepic`, {
+  fetch(`/api/users/${userEmail}/profilepic`, {
     method: 'POST',
     body: form
   }).then(result => {

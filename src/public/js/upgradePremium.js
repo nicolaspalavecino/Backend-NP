@@ -4,13 +4,13 @@ form.addEventListener('submit', e => {
   e.preventDefault()
   const userEmail = form.name
   const data = new FormData(form)
-  fetch(`/users/${userEmail}/documents`, {
+  fetch(`/api/users/${userEmail}/documents`, {
     method: 'POST',
     body: data
   }).then(result => {
     if(result.ok) {
       alert('Your files were successfully uploaded!')
-      fetch(`/users/premium/${userEmail}`, {
+      fetch(`/api/users/premium/${userEmail}`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
