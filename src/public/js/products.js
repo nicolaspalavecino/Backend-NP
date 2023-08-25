@@ -7,6 +7,7 @@ const updateProduct = (productId) => {
       if (value !== null) {
         if (value !== '') {
           const data = { property: property, value: value }
+          console.log(data)
           fetch(`/api/products/${productId}`, {
             method: 'PUT',
             body: JSON.stringify(data),
@@ -71,6 +72,6 @@ const deleteProduct = (productId, productTitle, ownerEmail) => {
       }
     })
   } else {
-    alert('Delete opertation was canceled, no changes were made!')
+    alert('Delete operation was canceled, no changes were made!')
   }
 }

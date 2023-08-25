@@ -55,7 +55,7 @@ export default class UserService {
   deleteUser = async (email) => {
     try {
       let deletedUser = await userModel.findOneAndDelete({ email: email }) //Delete retorna doc eliminado
-      await userModel.insertMany(deletedUser) // AGREGA EL USUARIO ELIMINADO! BORRAR LÍNEA
+      // await userModel.insertMany(deletedUser) // AGREGA EL USUARIO ELIMINADO! BORRAR LÍNEA
       return deletedUser
     } catch (error) {
       `An error has occurred by consulting user database. Error detail: ${error}`
@@ -66,7 +66,7 @@ export default class UserService {
     try {
       users.forEach(async (user) => {
         let deletedUser = await userModel.findOneAndRemove({ email: user.email })
-        await userModel.insertMany(deletedUser) // AGREGA EL USUARIO ELIMINADO! BORRAR LÍNEA
+        // await userModel.insertMany(deletedUser) // AGREGA EL USUARIO ELIMINADO! BORRAR LÍNEA
       })
       return
     } catch (error) {

@@ -49,7 +49,11 @@ export const updateProductQuantity = async (req, res) => {
 export const deleteProductFromCart = async (req, res) => {
   try {
     let result = await cartService.deleteProductFromCart(req.params.cid, req.params.pid)
-    res.status(201).json({ status: 'Success', payload: result })
+    if (typeof(result) == 'object') {
+      res.status(201).json({ status: 'Success', payload: result })
+    } else {
+      res.status(404).json({ status: 'Error', message: result })
+    }
   } catch (error) {
     res.status(500).json({ status: 'Error', message: 'An error ocurred while trying to delete the product from cart', detail: error })
   }

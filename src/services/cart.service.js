@@ -187,7 +187,9 @@ export default class CartService {
         purchaser: user.email,
         products: cart.products
       }
-      let ticket = await ticketModel.create(newTicket)
-      return ticket
+      if (newTicket.amount !== 0) {
+        let ticket = await ticketModel.create(newTicket)
+        return ticket
+      }
   }
 }
