@@ -1,25 +1,20 @@
-# ÚLTIMA PRÁCTICA INTEGRADORA
+# ENTREGA FINAL
 
-## USERS
+## ARCHIVOS ADJUNTOS
+Adjunta a la entrega hay un archivo zip que contiene:
+### ARCHIVOS .ENV
+  Carpeta que comprime los archivos .env con las variables de entorno correspondientes para el funcionamiento de la app.
+### POSTMAN REQUESTS
+  Archivo .json con las requests de postman que pude recopilar de las rutas que son utilizasas en la app.
 
-### User Model
-Se modificó el modelo y se agregaron las propiedades:
-- Documents: Array. Contiene objetos con propiedades 'name' y 'reference'.
-- status: Boolean.
-- last_connection: String | Se actualiza cada vez que el usuario se logea (Función timeNow en 'utils.js')
+## VISTAS
+La app cuenta con vistas para el funcionamiento de las distintas rutas:
+- Para poder tener acceso hay que correr el proyecto y en el navegador ingresar a 'http://localhost:8080/users/login' donde el usuario puede loguearse.
+  Al acceder con el usuario, redirige a /current donde pueden verse los datos del mismo y hay un link que lleva a /products (página principal).
+- Dependiendo el tipo de usuario la vista va a diferir, lo cual se logró a través de helpers de handlebars basándome en el tipo de rol:
+  - USER: Puede ver el listado de productos, agregarlos al carrito, ver el carrito, acceder a la vista para subir los archivos y convertirse premium y además, el chat.
+  - PREMIUM: Mismas vistas que user, sin acceso a la vista para convertirse premium y cuenta con un formulario para crear productos. Con respecto a la compra, sólo puede comprar los productos ajenos. Sus productos pueden ser eliminados/editados tanto por el admin como por él mismo.
+  - ADMIN: Puede ver todos los productos, no puede comprarlos (no cuenta con vista de carrito), puede editarlos y elimianrlos. Además cuenta con una vista de users donde se renderizan todos los usuarios de la BD. Allí puede eliminarlos o cambair su rol.
 
-### Users Docs - POST '/users/:email/documents'
-- Multer configuration: Dentro de 'utils.js' se configuró multer para que se pueda almacenar X tipo de documento en una carpeta distinta dependiendo el nombre del input al cual es cargado el archivo.
-- Se modificó la lógica del cambio de rol para que luego de cargar estos documentos (3 según la consigna) el usuario se convierta en premium. El endpoint de la vista es 'premium/:email'. Allí se encuentra el formulario cuya función está linkeada con el js llamado 'upgradePremium.js' dentro de 'public'. Dentro del service de 'uploadDocuments' se agregan los documentos al usuario y se modifica el status de false a true.
-
-# ENTREGA FINAL (Parcial)
-
-## ELIMINAR USUARIOS INACTIVOS
-
-### Vista USERS
-Cuando te logeas con el admin en la barra de navegación hay una vista que trae todos los usuarios de la BD. Eventualmente en esa misma vista voy a aplicar lo de eliminar usuarios inactivos (Lo probé con POSTMAN)
-
-### Delete usuarios inactivos - DELETE '/users'
-- periodTime: Es una función dentro de 'utils.js' que compara la fecha/hora actual con la de last_connection de cada usuario y obtiene la diferencia en horas.
-- Service de USERS: Agregué dos métodos. 'getIdleUsers' que trae todos los usuarios cuya última conexión fue hace 48hs o más y 'deleteIdleUsers' que elimina a esos usuarios (hay una modificación que tras eliminarlos los agrega nuevamente a la BD, lo hice solo para no tener que estar agregando un usuario nuevo cada vez que lo probaba, así que eso se va a borrar eventualmente).
-- Service de EMAIL: Método 'sendDeletedNotification' que envía un email a aquellos usuarios eliminados.
+## DEPLOY
+No pude realizar el deploy de la app. Intenté hacerlo en Railway, pero por lo que entendí y hablé con algunos compañeros que les pasó lo mismo, ya no es posible realizarlo sin pagar. De hecho intenté hacer el deploy con la app de la clase (AdoptMe) siguiendo el paso a paso con el video del zoom, principalmente para independizarme de cualquier problema de mi app. Sin embargo, llegué al mismo resultado, no se pudo. Como alternativa intenté hacerlo en Netlify, considerando que el deploy de las apps de los cursos previos los realicé en esta plataforma. Lamentablemente, tampoco pude hacerlo. Por algún motivo no puede hacer el build, probé muchas cosas, lo charlé con compañeros y leí bastante buscando una solución, pero no fue posible.
