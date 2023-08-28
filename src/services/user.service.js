@@ -54,7 +54,7 @@ export default class UserService {
 
   deleteUser = async (email) => {
     try {
-      let deletedUser = await userModel.findOneAndDelete({ email: email }) //Delete retorna doc eliminado
+      let deletedUser = await userModel.findOneAndDelete({ email: email }) 
       // await userModel.insertMany(deletedUser) // AGREGA EL USUARIO ELIMINADO! BORRAR LÍNEA
       return deletedUser
     } catch (error) {

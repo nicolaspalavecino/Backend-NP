@@ -14,7 +14,6 @@ form.addEventListener('submit', e => {
   }).then(result => {
     if(result.ok) {
       result.json()
-      console.log(result)
       alert('Product was successfully created!')
       form.reset()
     } else {

@@ -2,7 +2,6 @@ import productModel from './models/products.models.js'
 
 export default class ProductService {
 
-  // GET PRODUCTS:
   getProducts = async (query) => {
     try {
       let limit = query.limit ? parseInt(query.limit) : 10
@@ -32,7 +31,6 @@ export default class ProductService {
     else if (stock == 'false') {s=null; n_s=1}
   }
 
-  // CREATE PRODUCT: 
   addProduct = async (newProduct) => {
     try {
       let result = await productModel.create(newProduct)
@@ -42,7 +40,6 @@ export default class ProductService {
     }
   }
 
-  // GET PRODUCT BY ID:
   getProductById = async (id) => {
     try {
       const productById = await productModel.findOne({ _id: id })??null
@@ -54,7 +51,6 @@ export default class ProductService {
     }
   }
 
-// UPDATE PRODUCT
   updateProduct = async (id, updatedInfo) => {
     try {
       await productModel.findOneAndUpdate({ _id: id }, updatedInfo)
@@ -65,7 +61,6 @@ export default class ProductService {
     }
   }
 
-// DELETE PRODUCT
   deleteProduct = async (id) => {
     try {
       let deletedProduct = await productModel.findOneAndDelete({ _id: id })
@@ -77,5 +72,4 @@ export default class ProductService {
       return `An error has occurred by deleting a product. Error detail: ${error}`
     }
   }
-
 }

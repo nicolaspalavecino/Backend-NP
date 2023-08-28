@@ -17,7 +17,6 @@ form.addEventListener('submit', e => {
   }).then(result => {
     if(result.ok) {
       result.json()
-      console.log(result)
       alert('Password was successfully restored!')
       window.location.replace('/users/login')
   } else {

@@ -43,7 +43,6 @@ export const upgradeUser = async (req, res) => {
 export const restorePassword = async (req, res) => {
   try {
     let token = req.query.token
-    console.log(token)
     if ( !token ) {
       CustomError.createError({
         name: 'Expired link error',

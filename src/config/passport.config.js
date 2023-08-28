@@ -23,7 +23,6 @@ const initializePassport = () => {
       try {
         if (!first_name || !last_name || !email || !age || !password) {
           req.logger.warning('Please, complete all the fields!')
-          console.log('Complete all fields!')
           return done(null, false, { message: 'Please, complete all the fields!'})
         } else {
           let exists = await userService.getUser(email)
